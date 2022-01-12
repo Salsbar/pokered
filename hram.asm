@@ -1,402 +1,324 @@
-SECTION "HRAM", HRAM
-
+hSoftReset EQU $FF8A
 ; Initialized to 16.
 ; Decremented each input iteration if the player
 ; presses the reset sequence (A+B+SEL+START).
 ; Soft reset when 0 is reached.
-hSoftReset:: db
 
-UNION
-hBaseTileID:: ; base tile ID to which offsets are added
-hDexWeight::
-hWarpDestinationMap::
-hOAMTile::
-hROMBankTemp::
-hPreviousTileset::
-hRLEByteValue::
-	db
+; base tile ID to which offsets are added
+hBaseTileID EQU $FF8B
 
-hSpriteIndexOrTextID:: ; DisplayTextID's argument
-hPartyMonIndex::
-	db
+; 3-byte BCD number
+hItemPrice EQU $FF8B
 
-hVRAMSlot::
-	db
+hDexWeight EQU $FF8B
 
-hFourTileSpriteCount::
-hHalveItemPrices::
-	db
+hWarpDestinationMap EQU $FF8B
 
-NEXTU
-hItemPrice:: ds 3 ; BCD number
+hOAMTile EQU $FF8B
 
-NEXTU
-hSlideAmount:: db
+hROMBankTemp EQU $FF8B
+
+hPreviousTileset EQU $FF8B
+
+hEastWestConnectedMapWidth EQU $FF8B
+
+hSlideAmount EQU $FF8B
+
+hRLEByteValue EQU $FF8B
+
+H_SPRITEWIDTH            EQU $FF8B ; in tiles
+H_SPRITEINTERLACECOUNTER EQU $FF8B
+H_SPRITEHEIGHT           EQU $FF8C ; in tiles
+H_SPRITEOFFSET           EQU $FF8D
+
+; counters for blinking down arrow
+H_DOWNARROWBLINKCNT1 EQU $FF8B
+H_DOWNARROWBLINKCNT2 EQU $FF8C
+
+H_SPRITEDATAOFFSET EQU $FF8B
+H_SPRITEINDEX      EQU $FF8C
+
+hMapStride EQU $FF8B
+hMapWidth  EQU $FF8C
+
+hNorthSouthConnectionStripWidth EQU $FF8B
+hNorthSouthConnectedMapWidth    EQU $FF8C
+
+; DisplayTextID's argument
+hSpriteIndexOrTextID EQU $FF8C
+
+hPartyMonIndex EQU $FF8C
 
 ; the total number of tiles being shifted each time the pic slides by one tile
-hSlidingRegionSize:: db
+hSlidingRegionSize EQU $FF8C
+
+; 2 bytes
+hEnemySpeed EQU $FF8D
+
+hVRAMSlot EQU $FF8D
+
+hFourTileSpriteCount EQU $FF8E
 
 ; -1 = left
 ;  0 = right
-hSlideDirection:: db
+hSlideDirection EQU $FF8D
 
-NEXTU
-hSpriteInterlaceCounter::
-hSpriteWidth::  db ; in tiles
-hSpriteHeight:: db ; in tiles
-hSpriteOffset:: db
+hSpriteFacingDirection EQU $FF8D
 
-NEXTU
-; counters for blinking down arrow
-hDownArrowBlinkCount1:: db
-hDownArrowBlinkCount2:: db
+hSpriteMovementByte2 EQU $FF8D
 
-NEXTU
-hMapStride::
-hEastWestConnectedMapWidth::
-hNorthSouthConnectionStripWidth::
-	db
-hMapWidth::
-hNorthSouthConnectedMapWidth::
-	db
+hSpriteImageIndex EQU $FF8D
 
-NEXTU
-hSpriteDataOffset:: db
-hSpriteIndex:: db
-hSpriteImageIndex::
-hSpriteFacingDirection::
-hSpriteMovementByte2::
-	db
+hLoadSpriteTemp1 EQU $FF8D
+hLoadSpriteTemp2 EQU $FF8E
 
-NEXTU
-	ds 2
-hLoadSpriteTemp1:: db
-hLoadSpriteTemp2:: db
+hHalveItemPrices EQU $FF8E
 
-NEXTU
-	ds 2
-hEnemySpeed:: dw
-ENDU
+hSpriteOffset2 EQU $FF8F
 
-UNION
-hSpriteOffset2:: db
-hOAMBufferOffset:: db
-hSpriteScreenX:: db
-hSpriteScreenY:: db
+hOAMBufferOffset EQU $FF90
 
-NEXTU
-hFF8F:: db
-hFF90:: db
-hFF91:: db
-hFF92:: db
-ENDU
+hSpriteScreenX EQU $FF91
+hSpriteScreenY EQU $FF92
 
-hTilePlayerStandingOn:: db
+hTilePlayerStandingOn EQU $FF93
 
-hSpritePriority:: db
+hSpritePriority EQU $FF94
 
-UNION
+; 2 bytes
+hSignCoordPointer EQU $FF95
+
+hNPCMovementDirections2Index EQU $FF95
+
+; CalcPositionOfPlayerRelativeToNPC
+hNPCSpriteOffset EQU $FF95
+
+; temp value used when swapping bytes
+hSwapTemp EQU $FF95
+
+hExperience EQU $FF96 ; 3 bytes, big endian
+
 ; Multiplication and division variables are meant
 ; to overlap for back-to-back usage. Big endian.
-UNION
-	ds 1
-hMultiplicand:: ds 3
-hMultiplier:: db
-	ds 1
-hMultiplyBuffer:: ds 4
-NEXTU
-hProduct:: ds 4
-NEXTU
-hDividend:: ds 4
-hDivisor:: db
-hDivideBuffer:: ds 5
-NEXTU
-hQuotient:: ds 4
-hRemainder:: db
-ENDU
 
-NEXTU
+H_MULTIPLICAND EQU $FF96 ; 3 bytes
+H_MULTIPLIER   EQU $FF99 ; 1 byte
+H_PRODUCT      EQU $FF95 ; 4 bytes
+
+H_DIVIDEND     EQU $FF95 ; 4 bytes
+H_DIVISOR      EQU $FF99 ; 1 byte
+H_QUOTIENT     EQU $FF95 ; 4 bytes
+H_REMAINDER    EQU $FF99 ; 1 byte
+
+H_DIVIDEBUFFER EQU $FF9A
+
+H_MULTIPLYBUFFER EQU $FF9B
+
 ; PrintNumber (big endian).
-hPastLeadingZeros:: db ; last char printed
-hNumToPrint:: ds 3
-hPowerOf10:: ds 3
-hSavedNumToPrint:: ds 3
+H_PASTLEADINGZEROES EQU $FF95 ; last char printed
+H_NUMTOPRINT        EQU $FF96 ; 3 bytes
+H_POWEROFTEN        EQU $FF99 ; 3 bytes
+H_SAVEDNUMTOPRINT   EQU $FF9C ; 3 bytes
 
-NEXTU
-hNPCMovementDirections2Index::
-hNPCSpriteOffset::
 ; distance in steps between NPC and player
-hNPCPlayerYDistance::
-	db
-hNPCPlayerXDistance::
-	db
-hFindPathNumSteps:: db
+hNPCPlayerYDistance EQU $FF95
+hNPCPlayerXDistance EQU $FF96
+
+hFindPathNumSteps EQU $FF97
+
 ; bit 0: set when the end of the path's Y coordinate matches the target's
 ; bit 1: set when the end of the path's X coordinate matches the target's
 ; When both bits are set, the end of the path is at the target's position
 ; (i.e. the path has been found).
-hFindPathFlags:: db
-hFindPathYProgress:: db
-hFindPathXProgress:: db
+hFindPathFlags EQU $FF98
+
+hFindPathYProgress EQU $FF99
+hFindPathXProgress EQU $FF9A
+
 ; 0 = from player to NPC
 ; 1 = from NPC to player
-hNPCPlayerRelativePosPerspective:: db
-	ds 1
+hNPCPlayerRelativePosPerspective EQU $FF9B
+
 ; bit 0:
 ; 0 = target is to the south or aligned
 ; 1 = target is to the north
 ; bit 1:
 ; 0 = target is to the east or aligned
 ; 1 = target is to the west
-hNPCPlayerRelativePosFlags:: db
+hNPCPlayerRelativePosFlags EQU $FF9D
 
-NEXTU
-hSwapItemID:: db
-hSwapItemQuantity:: db
-
-NEXTU
-hSignCoordPointer:: dw
-
-NEXTU
-	ds 1
-hMutateWY:: db
-hMutateWX:: db
-
-NEXTU
-; temp value used when swapping bytes or words
-hSwapTemp:: db
-hExperience:: ds 3 ; big endian
-ENDU
-
-UNION
-hMoney:: ds 3 ; BCD number
-NEXTU
 ; some code zeroes this for no reason when writing a coin amount
-hUnusedCoinsByte:: db
-hCoins:: ds 2 ; BCD number
-ENDU
+hUnusedCoinsByte EQU $FF9F
 
-hDivideBCDDivisor::
-hDivideBCDQuotient::
-	ds 3 ; BCD number
-hDivideBCDBuffer::
-	ds 3 ; BCD number
+hMoney EQU $FF9F ; 3-byte BCD number
+hCoins EQU $FFA0 ; 2-byte BCD number
 
-	ds 1
+hDivideBCDDivisor  EQU $FFA2 ; 3-byte BCD number
+hDivideBCDQuotient EQU $FFA2 ; 3-byte BCD number
+hDivideBCDBuffer   EQU $FFA5 ; 3-byte BCD number
 
-hSerialReceivedNewData:: db
+hSerialReceivedNewData EQU $FFA9
+
 ; $01 = using external clock
 ; $02 = using internal clock
 ; $ff = establishing connection
-hSerialConnectionStatus:: db
-hSerialIgnoringInitialData:: db
-hSerialSendData:: db
-hSerialReceiveData:: db
+hSerialConnectionStatus EQU $FFAA
 
-; these values are copied to rSCX, rSCY, and rWY during V-blank
-hSCX:: db
-hSCY:: db
-hWY::  db
+hSerialIgnoringInitialData EQU $FFAB
 
-hJoyLast::     db
-hJoyReleased:: db
-hJoyPressed::  db
-hJoyHeld::     db
-hJoy5::        db
-hJoy6::        db
-hJoy7::        db
+hSerialSendData EQU $FFAC
 
-hLoadedROMBank:: db
-hSavedROMBank::  db
+hSerialReceiveData EQU $FFAD
+
+; these values are copied to SCX, SCY, and WY during V-blank
+hSCX EQU $FFAE
+hSCY EQU $FFAF
+hWY  EQU $FFB0
+
+hJoyLast     EQU $FFB1
+hJoyReleased EQU $FFB2
+hJoyPressed  EQU $FFB3
+hJoyHeld     EQU $FFB4
+hJoy5        EQU $FFB5
+hJoy6        EQU $FFB6
+hJoy7        EQU $FFB7
+
+H_LOADEDROMBANK EQU $FFB8
+
+hSavedROMBank EQU $FFB9
 
 ; is automatic background transfer during V-blank enabled?
 ; if nonzero, yes
 ; if zero, no
-hAutoBGTransferEnabled:: db
+H_AUTOBGTRANSFERENABLED EQU $FFBA
+
+TRANSFERTOP    EQU 0
+TRANSFERMIDDLE EQU 1
+TRANSFERBOTTOM EQU 2
 
 ; 00 = top third of background
 ; 01 = middle third of background
 ; 02 = bottom third of background
-hAutoBGTransferPortion:: db
+H_AUTOBGTRANSFERPORTION EQU $FFBB
 
 ; the destination address of the automatic background transfer
-hAutoBGTransferDest:: dw
-
-hRedrawMapViewRowOffset:: db
+H_AUTOBGTRANSFERDEST EQU $FFBC ; 2 bytes
 
 ; temporary storage for stack pointer during memory transfers that use pop
 ; to increase speed
-hSPTemp:: dw
+H_SPTEMP EQU $FFBF ; 2 bytes
 
 ; source address for VBlankCopyBgMap function
 ; the first byte doubles as the byte that enabled the transfer.
 ; if it is 0, the transfer is disabled
 ; if it is not 0, the transfer is enabled
 ; this means that XX00 is not a valid source address
-hVBlankCopyBGSource:: dw
+H_VBCOPYBGSRC EQU $FFC1 ; 2 bytes
 
 ; destination address for VBlankCopyBgMap function
-hVBlankCopyBGDest:: dw
+H_VBCOPYBGDEST EQU $FFC3 ; 2 bytes
 
 ; number of rows for VBlankCopyBgMap to copy
-hVBlankCopyBGNumRows:: db
+H_VBCOPYBGNUMROWS EQU $FFC5
 
 ; size of VBlankCopy transfer in 16-byte units
-hVBlankCopySize:: db
+H_VBCOPYSIZE EQU $FFC6
 
 ; source address for VBlankCopy function
-hVBlankCopySource:: dw
+H_VBCOPYSRC EQU $FFC7
 
 ; destination address for VBlankCopy function
-hVBlankCopyDest:: dw
+H_VBCOPYDEST EQU $FFC9
 
 ; size of source data for VBlankCopyDouble in 8-byte units
-hVBlankCopyDoubleSize:: db
+H_VBCOPYDOUBLESIZE EQU $FFCB
 
 ; source address for VBlankCopyDouble function
-hVBlankCopyDoubleSource:: dw
+H_VBCOPYDOUBLESRC EQU $FFCC
 
 ; destination address for VBlankCopyDouble function
-hVBlankCopyDoubleDest:: dw
+H_VBCOPYDOUBLEDEST EQU $FFCE
 
 ; controls whether a row or column of 2x2 tile blocks is redrawn in V-blank
 ; 00 = no redraw
 ; 01 = redraw column
 ; 02 = redraw row
-hRedrawRowOrColumnMode:: db
+hRedrawRowOrColumnMode EQU $FFD0
 
-hRedrawRowOrColumnDest:: dw
+REDRAW_COL EQU 1
+REDRAW_ROW EQU 2
 
-hRandomAdd:: db
-hRandomSub:: db
+hRedrawRowOrColumnDest EQU $FFD1
 
-hFrameCounter:: db ; decremented every V-blank (used for delays)
+hRandomAdd EQU $FFD3
+hRandomSub EQU $FFD4
+
+H_FRAMECOUNTER EQU $FFD5 ; decremented every V-blank (used for delays)
 
 ; V-blank sets this to 0 each time it runs.
 ; So, by setting it to a nonzero value and waiting for it to become 0 again,
 ; you can detect that the V-blank handler has run since then.
-hVBlankOccurred:: db
+H_VBLANKOCCURRED EQU $FFD6
 
-; Controls which tiles are animated.
-; 0 = no animations (breaks Surf)
-; 1 = water tile $14 is animated
-; 2 = water tile $14 and flower tile $03 are animated
-hTileAnimations:: db
+; 00 = indoor
+; 01 = cave
+; 02 = outdoor
+; this is often set to 00 in order to turn off water and flower BG tile animations
+hTilesetType EQU $FFD7
 
-hMovingBGTilesCounter1:: db
+hMovingBGTilesCounter1 EQU $FFD8
 
-	ds 1
+H_CURRENTSPRITEOFFSET EQU $FFDA ; multiple of $10
 
-hCurrentSpriteOffset:: db ; multiple of $10
+hItemCounter EQU $FFDB
 
-UNION
-hPlayerFacing:: db
-hPlayerYCoord:: db
-hPlayerXCoord:: db
+hGymGateIndex EQU $FFDB
 
-NEXTU
+hGymTrashCanRandNumMask EQU $FFDB
+
+hDexRatingNumMonsSeen  EQU $FFDB
+hDexRatingNumMonsOwned EQU $FFDC
 
 ; $00 = bag full
 ; $01 = got item
 ; $80 = didn't meet required number of owned mons
 ; $FF = player cancelled
-hOaksAideResult::
-hOaksAideRequirement:: ; required number of owned mons
-	db
-hOaksAideRewardItem:: db
-hOaksAideNumMonsOwned:: db
+hOaksAideResult       EQU $FFDB
 
-NEXTU
-hVendingMachineItem:: db
-hVendingMachinePrice:: ds 3 ; BCD number
+hOaksAideRequirement  EQU $FFDB ; required number of owned mons
+hOaksAideRewardItem   EQU $FFDC
+hOaksAideNumMonsOwned EQU $FFDD
 
-NEXTU
-hGymGateIndex:: db
-hGymGateAnswer:: db
+hItemToRemoveID    EQU $FFDB
+hItemToRemoveIndex EQU $FFDC
 
-NEXTU
-hDexRatingNumMonsSeen:: db
-hDexRatingNumMonsOwned:: db
-
-NEXTU
-hItemToRemoveID:: db
-hItemToRemoveIndex:: db
-
-NEXTU
-hItemCounter::
-hSavedCoordIndex::
-hMissableObjectIndex::
-hGymTrashCanRandNumMask::
-	db
-
-NEXTU
-hFFDB:: db
-hFFDC:: db
-ENDU
-
-	ds 1
-
-hBackupGymGateIndex::
-hUnlockedSilphCoDoors::
-	db
+hVendingMachineItem  EQU $FFDB
+hVendingMachinePrice EQU $FFDC ; 3-byte BCD number
 
 ; the first tile ID in a sequence of tile IDs that increase by 1 each step
-hStartTileID:: db
+hStartTileID EQU $FFE1
 
-	ds 2
+hNewPartyLength EQU $FFE4
 
-hNewPartyLength:: db
+hDividend2 EQU $FFE5
+hDivisor2  EQU $FFE6
+hQuotient2 EQU $FFE7
 
-UNION
-hDividend2:: db
-hDivisor2::  db
-hQuotient2:: db
+hSpriteVRAMSlotAndFacing EQU $FFE9
 
-NEXTU
-hIsHiddenMissableObject:: db
-ENDU
+hCoordsInFrontOfPlayerMatch EQU $FFEA
 
-hMapROMBank:: db
+hSpriteAnimFrameCounter EQU $FFEA
 
-hSpriteVRAMSlotAndFacing:: db
-
-hCoordsInFrontOfPlayerMatch::
-hSpriteAnimFrameCounter::
-	db
-
-UNION
-hSpriteScreenYCoord:: db
-hSpriteScreenXCoord:: db
-hSpriteMapYCoord::    db
-hSpriteMapXCoord::    db
-
-NEXTU
-hItemAlreadyFound:: db
-	ds 2
-hDidntFindAnyHiddenObject:: db
-
-NEXTU
-	ds 1
-hSavedMapTextPtr:: dw
-	ds 1
-ENDU
-
-	ds 4
-
-hWhoseTurn:: db ; 0 on player's turn, 1 on enemy's turn
-
-hClearLetterPrintingDelayFlags:: db
-
-	ds 1
+H_WHOSETURN EQU $FFF3 ; 0 on player’s turn, 1 on enemy’s turn
 
 ; bit 0: draw HP fraction to the right of bar instead of below (for party menu)
 ; bit 1: menu is double spaced
-hUILayoutFlags:: db
+hFlags_0xFFF6 EQU $FFF6
 
-hFieldMoveMonMenuTopMenuItemX:: db
+hFieldMoveMonMenuTopMenuItemX EQU $FFF7
 
-hJoyInput:: db
+hDisableJoypadPolling EQU $FFF9
 
-hDisableJoypadPolling:: db
+hJoyInput EQU $FFF8
 
-	ds 5

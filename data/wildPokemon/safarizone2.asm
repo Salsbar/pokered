@@ -1,0 +1,13 @@
+ZoneMons2:
+	db $1E
+	db 22,MINCCINO
+	db 26,DWEBBLE
+	db 23,FERROSEED
+	db 25,FOONGUS
+	db 30,CUBCHOO
+	db 27,GOLETT
+	db 30,AXEW
+	db 32,EMOLGA
+	db 26,PAWNIARD
+	db 28,BOUFFALANT
+	db $00

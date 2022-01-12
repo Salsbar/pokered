@@ -1,0 +1,13 @@
+Route15Mons:
+	db $0F
+		db 24,KARRABLAST
+		db 26,SHELMET
+		db 23,FOONGUS
+		db 24,DUCKLETT
+		db 22,SHELMET
+		db 26,KARRABLAST
+		db 26,FERROSEED
+		db 30,TRANQUILL
+		db 28,DRUDDIGON
+		db 30,ZORUA
+	db $00

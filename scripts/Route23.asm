@@ -1,7 +1,7 @@
-Route23_Script:
+Route23Script:
 	call Route23Script_511e9
 	call EnableAutoTextBoxDrawing
-	ld hl, Route23_ScriptPointers
+	ld hl, Route23ScriptPointers
 	ld a, [wRoute23CurScript]
 	jp CallFunctionInTable
 
@@ -12,14 +12,14 @@ Route23Script_511e9:
 	ret z
 	ResetEvents EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH1, EVENT_VICTORY_ROAD_2_BOULDER_ON_SWITCH2
 	ResetEvents EVENT_VICTORY_ROAD_3_BOULDER_ON_SWITCH1, EVENT_VICTORY_ROAD_3_BOULDER_ON_SWITCH2
-	ld a, HS_VICTORY_ROAD_3F_BOULDER
+	ld a, HS_VICTORY_ROAD_3_BOULDER
 	ld [wMissableObjectIndex], a
 	predef ShowObject
-	ld a, HS_VICTORY_ROAD_2F_BOULDER
+	ld a, HS_VICTORY_ROAD_2_BOULDER
 	ld [wMissableObjectIndex], a
 	predef_jump HideObject
 
-Route23_ScriptPointers:
+Route23ScriptPointers:
 	dw Route23Script0
 	dw Route23Script1
 	dw Route23Script2
@@ -32,20 +32,20 @@ Route23Script0:
 	EventFlagBit c, EVENT_PASSED_EARTHBADGE_CHECK + 1, EVENT_PASSED_CASCADEBADGE_CHECK
 .asm_51224
 	ld a, [hli]
-	cp -1
+	cp $ff
 	ret z
 	inc e
 	dec c
 	cp b
 	jr nz, .asm_51224
-	cp 35
+	cp $23
 	jr nz, .asm_51237
 	ld a, [wXCoord]
-	cp 14
+	cp $e
 	ret nc
 .asm_51237
 	ld a, e
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	ld a, c
 	ld [wWhichBadge], a
 	ld b, FLAG_TEST
@@ -57,18 +57,11 @@ Route23Script0:
 	call Route23Script_5125d
 	call DisplayTextID
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ret
 
 YCoordsData_51255:
-	db 35
-	db 56
-	db 85
-	db 96
-	db 105
-	db 119
-	db 136
-	db -1 ; end
+	db $23,$38,$55,$60,$69,$77,$88,$FF
 
 Route23Script_5125d:
 	ld hl, BadgeTextPointers
@@ -125,7 +118,7 @@ Route23Script_512d8:
 	ld a, D_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
 	xor a
-	ld [wSpritePlayerStateData1FacingDirection], a
+	ld [wSpriteStateData1 + 9], a
 	ld [wJoyIgnore], a
 	jp StartSimulatingJoypadStates
 
@@ -138,7 +131,7 @@ Route23Script2:
 	ld [wRoute23CurScript], a
 	ret
 
-Route23_TextPointers:
+Route23TextPointers:
 	dw Route23Text1
 	dw Route23Text2
 	dw Route23Text3
@@ -149,43 +142,43 @@ Route23_TextPointers:
 	dw Route23Text8
 
 Route23Text1:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_EARTHBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text2:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_VOLCANOBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text3:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_MARSHBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text4:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_SOULBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text5:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_RAINBOWBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text6:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_THUNDERBADGE_CHECK, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
 
 Route23Text7:
-	text_asm
+	TX_ASM
 	EventFlagBit a, EVENT_PASSED_CASCADEBADGE_CHECK
 	call Route23Script_51346
 	jp TextScriptEnd
@@ -225,19 +218,19 @@ Route23Script_51388:
 	jp PrintText
 
 VictoryRoadGuardText1:
-	text_far _VictoryRoadGuardText1
-	text_asm
+	TX_FAR _VictoryRoadGuardText1
+	TX_ASM
 	ld a, SFX_DENIED
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
 	jp TextScriptEnd
 
 VictoryRoadGuardText2:
-	text_far _VictoryRoadGuardText2
-	sound_get_item_1
-	text_far _VictoryRoadGuardText_513a3
-	text_end
+	TX_FAR _VictoryRoadGuardText2
+	TX_SFX_ITEM_1
+	TX_FAR _VictoryRoadGuardText_513a3
+	db "@"
 
 Route23Text8:
-	text_far _Route23Text8
-	text_end
+	TX_FAR _Route23Text8
+	db "@"

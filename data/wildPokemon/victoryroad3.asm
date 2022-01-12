@@ -1,0 +1,13 @@
+PlateauMons3:
+	db $0F
+	db 34,ROGGENROLA
+	db 36,TIMBURR
+	db 32,DWEBBLE
+	db 36,BOLDORE
+	db 39,GURDURR
+	db 42,KROKOROK
+	db 41,CRUSTLE
+	db 41,DRUDDIGON
+	db 42,DEINO
+	db 43,SWOOBAT
+	db $00

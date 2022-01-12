@@ -1,0 +1,13 @@
+MansionMons3:
+	db $0A
+		db 32,DARUMAKA
+		db 30,TRUBBISH
+		db 34,LITWICK
+		db 30,KLINK
+		db 34,PAWNIARD
+		db 32,WATCHOG
+		db 30,HEATMOR
+		db 28,LARVESTA
+		db 37,ZORUA
+		db 39,GARBODOR
+	db $00

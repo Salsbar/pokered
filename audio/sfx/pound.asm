@@ -1,3 +1,3 @@
-SFX_Pound_Ch8:
-	noise_note 2, 10, 1, 34
-	sound_ret
+SFX_Pound_Ch7:
+	unknownnoise0x20 2, 161, 34
+	endchannel

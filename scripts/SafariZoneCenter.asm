@@ -1,15 +1,15 @@
-SafariZoneCenter_Script:
+SafariZoneCenterScript:
 	jp EnableAutoTextBoxDrawing
 
-SafariZoneCenter_TextPointers:
+SafariZoneCenterTextPointers:
 	dw PickUpItemText
 	dw SafariZoneCenterText2
 	dw SafariZoneCenterText3
 
 SafariZoneCenterText2:
-	text_far _SafariZoneCenterText2
-	text_end
+	TX_FAR _SafariZoneCenterText2
+	db "@"
 
 SafariZoneCenterText3:
-	text_far _SafariZoneCenterText3
-	text_end
+	TX_FAR _SafariZoneCenterText3
+	db "@"

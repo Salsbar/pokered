@@ -1,7 +1,7 @@
-SaffronCity_Script:
+SaffronCityScript:
 	jp EnableAutoTextBoxDrawing
 
-SaffronCity_TextPointers:
+SaffronCityTextPointers:
 	dw SaffronCityText1
 	dw SaffronCityText2
 	dw SaffronCityText3
@@ -29,94 +29,94 @@ SaffronCity_TextPointers:
 	dw SaffronCityText25
 
 SaffronCityText1:
-	text_far _SaffronCityText1
-	text_end
+	TX_FAR _SaffronCityText1
+	db "@"
 
 SaffronCityText2:
-	text_far _SaffronCityText2
-	text_end
+	TX_FAR _SaffronCityText2
+	db "@"
 
 SaffronCityText3:
-	text_far _SaffronCityText3
-	text_end
+	TX_FAR _SaffronCityText3
+	db "@"
 
 SaffronCityText4:
-	text_far _SaffronCityText4
-	text_end
+	TX_FAR _SaffronCityText4
+	db "@"
 
 SaffronCityText5:
-	text_far _SaffronCityText5
-	text_end
+	TX_FAR _SaffronCityText5
+	db "@"
 
 SaffronCityText6:
-	text_far _SaffronCityText6
-	text_end
+	TX_FAR _SaffronCityText6
+	db "@"
 
 SaffronCityText7:
-	text_far _SaffronCityText7
-	text_end
+	TX_FAR _SaffronCityText7
+	db "@"
 
 SaffronCityText8:
-	text_far _SaffronCityText8
-	text_end
+	TX_FAR _SaffronCityText8
+	db "@"
 
 SaffronCityText9:
-	text_far _SaffronCityText9
-	text_end
+	TX_FAR _SaffronCityText9
+	db "@"
 
 SaffronCityText10:
-	text_far _SaffronCityText10
-	text_end
+	TX_FAR _SaffronCityText10
+	db "@"
 
 SaffronCityText11:
-	text_far _SaffronCityText11
-	text_end
+	TX_FAR _SaffronCityText11
+	db "@"
 
 SaffronCityText12:
-	text_far _SaffronCityText12
-	sound_cry_pidgeot
-	text_end
+	TX_FAR _SaffronCityText12
+	TX_CRY_PIDGEOT
+	db "@"
 
 SaffronCityText13:
-	text_far _SaffronCityText13
-	text_end
+	TX_FAR _SaffronCityText13
+	db "@"
 
 SaffronCityText14:
-	text_far _SaffronCityText14
-	text_end
+	TX_FAR _SaffronCityText14
+	db "@"
 
 SaffronCityText15:
-	text_far _SaffronCityText15
-	text_end
+	TX_FAR _SaffronCityText15
+	db "@"
 
 SaffronCityText16:
-	text_far _SaffronCityText16
-	text_end
+	TX_FAR _SaffronCityText16
+	db "@"
 
 SaffronCityText17:
-	text_far _SaffronCityText17
-	text_end
+	TX_FAR _SaffronCityText17
+	db "@"
 
 SaffronCityText18:
-	text_far _SaffronCityText18
-	text_end
+	TX_FAR _SaffronCityText18
+	db "@"
 
 SaffronCityText20:
-	text_far _SaffronCityText20
-	text_end
+	TX_FAR _SaffronCityText20
+	db "@"
 
 SaffronCityText21:
-	text_far _SaffronCityText21
-	text_end
+	TX_FAR _SaffronCityText21
+	db "@"
 
 SaffronCityText22:
-	text_far _SaffronCityText22
-	text_end
+	TX_FAR _SaffronCityText22
+	db "@"
 
 SaffronCityText24:
-	text_far _SaffronCityText24
-	text_end
+	TX_FAR _SaffronCityText24
+	db "@"
 
 SaffronCityText25:
-	text_far _SaffronCityText25
-	text_end
+	TX_FAR _SaffronCityText25
+	db "@"

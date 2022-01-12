@@ -1,0 +1,13 @@
+ZoneMonsCenter:
+	db $1E
+		db 22,MINCCINO
+		db 25,FERROSEED
+		db 22,KARRABLAST
+		db 24,SHELMET
+		db 31,MIENFOO
+		db 25,WHIRLIPEDE
+		db 31,EMOLGA
+		db 30,AMOONGUSS
+		db 23,DURANT
+		db 23,BOUFFALANT
+	db $00

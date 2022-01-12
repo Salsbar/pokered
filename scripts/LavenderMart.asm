@@ -1,17 +1,17 @@
-LavenderMart_Script:
+LavenderMartScript:
 	jp EnableAutoTextBoxDrawing
 
-LavenderMart_TextPointers:
+LavenderMartTextPointers:
 	dw LavenderCashierText
 	dw LavenderMartText2
 	dw LavenderMartText3
 
 LavenderMartText2:
-	text_far _LavenderMartText2
-	text_end
+	TX_FAR _LavenderMartText2
+	db "@"
 
 LavenderMartText3:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_RESCUED_MR_FUJI
 	jr nz, .Nugget
 	ld hl, .ReviveText
@@ -24,9 +24,9 @@ LavenderMartText3:
 	jp TextScriptEnd
 
 .ReviveText
-	text_far _LavenderMartReviveText
-	text_end
+	TX_FAR _LavenderMartReviveText
+	db "@"
 
 .NuggetText
-	text_far _LavenderMartNuggetText
-	text_end
+	TX_FAR _LavenderMartNuggetText
+	db "@"

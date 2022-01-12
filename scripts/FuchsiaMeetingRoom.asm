@@ -1,20 +1,20 @@
-FuchsiaMeetingRoom_Script:
+FuchsiaMeetingRoomScript:
 	call EnableAutoTextBoxDrawing
 	ret
 
-FuchsiaMeetingRoom_TextPointers:
+FuchsiaMeetingRoomTextPointers:
 	dw FuchsiaMeetingRoomText1
 	dw FuchsiaMeetingRoomText2
 	dw FuchsiaMeetingRoomText3
 
 FuchsiaMeetingRoomText1:
-	text_far _FuchsiaMeetingRoomText1
-	text_end
+	TX_FAR _FuchsiaMeetingRoomText1
+	db "@"
 
 FuchsiaMeetingRoomText2:
-	text_far _FuchsiaMeetingRoomText2
-	text_end
+	TX_FAR _FuchsiaMeetingRoomText2
+	db "@"
 
 FuchsiaMeetingRoomText3:
-	text_far _FuchsiaMeetingRoomText3
-	text_end
+	TX_FAR _FuchsiaMeetingRoomText3
+	db "@"

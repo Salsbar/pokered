@@ -1,0 +1,13 @@
+Route6Mons:
+	db $0F
+		db 13,PIDOVE
+		db 13,PIDOVE
+		db 15,TYMPOLE
+		db 10,SEWADDLE
+		db 12,VENIPEDE
+		db 15,COTTONEE
+		db 16,PETILIL
+		db 16,PIDOVE
+		db 14,MINCCINO
+		db 16,MINCCINO
+	db $00

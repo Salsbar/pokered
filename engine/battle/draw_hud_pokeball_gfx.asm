@@ -12,7 +12,7 @@ DrawEnemyPokeballs:
 
 LoadPartyPokeballGfx:
 	ld de, PokeballTileGraphics
-	ld hl, vSprites tile $31
+	ld hl, vSprites + $310
 	lb bc, BANK(PokeballTileGraphics), (PokeballTileGraphicsEnd - PokeballTileGraphics) / $10
 	jp CopyVideoData
 
@@ -121,7 +121,7 @@ PlacePlayerHUDTiles:
 	ld de, wHUDGraphicsTiles
 	ld bc, $3
 	call CopyData
-	hlcoord 18, 10
+	coord hl, 18, 10
 	ld de, -1
 	jr PlaceHUDTiles
 
@@ -136,7 +136,7 @@ PlaceEnemyHUDTiles:
 	ld de, wHUDGraphicsTiles
 	ld bc, $3
 	call CopyData
-	hlcoord 1, 2
+	coord hl, 1, 2
 	ld de, $1
 	jr PlaceHUDTiles
 
@@ -188,5 +188,5 @@ SetupPlayerAndEnemyPokeballs:
 
 ; four tiles: pokeball, black pokeball (status ailment), crossed out pokeball (fainted) and pokeball slot (no mon)
 PokeballTileGraphics::
-	INCBIN "gfx/battle/balls.2bpp"
+	INCBIN "gfx/pokeball.2bpp"
 PokeballTileGraphicsEnd:

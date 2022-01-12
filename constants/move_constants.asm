@@ -1,17 +1,11 @@
-; move ids
-; indexes for:
-; - Moves (see data/moves/moves.asm)
-; - MoveNames (see data/moves/names.asm)
-; - AttackAnimationPointers (see data/moves/animations.asm)
-; - MoveSoundTable (see data/moves/sfx.asm)
-	const_def
-	const NO_MOVE      ; 00
+const_value = 1
+
 	const POUND        ; 01
 	const KARATE_CHOP  ; 02
 	const DOUBLESLAP   ; 03
 	const COMET_PUNCH  ; 04
 	const MEGA_PUNCH   ; 05
-	const PAY_DAY      ; 06
+	const TAIL_SLAP    ; 06
 	const FIRE_PUNCH   ; 07
 	const ICE_PUNCH    ; 08
 	const THUNDERPUNCH ; 09
@@ -32,7 +26,7 @@
 	const DOUBLE_KICK  ; 18
 	const MEGA_KICK    ; 19
 	const JUMP_KICK    ; 1a
-	const ROLLING_KICK ; 1b
+	const STORM_THROW  ; 1b
 	const SAND_ATTACK  ; 1c
 	const HEADBUTT     ; 1d
 	const HORN_ATTACK  ; 1e
@@ -54,7 +48,7 @@
 	const ROAR         ; 2e
 	const SING         ; 2f
 	const SUPERSONIC   ; 30
-	const SONICBOOM    ; 31
+	const SHADOW_BALL  ; 31
 	const DISABLE      ; 32
 	const ACID         ; 33
 	const EMBER        ; 34
@@ -113,11 +107,11 @@
 	const RECOVER      ; 69
 	const HARDEN       ; 6a
 	const MINIMIZE     ; 6b
-	const SMOKESCREEN  ; 6c
+	const DRAGON_CLAW  ; 6c
 	const CONFUSE_RAY  ; 6d
 	const WITHDRAW     ; 6e
 	const DEFENSE_CURL ; 6f
-	const BARRIER      ; 70
+	const QUIVER_DANCE ; 70
 	const LIGHT_SCREEN ; 71
 	const HAZE         ; 72
 	const REFLECT      ; 73
@@ -126,52 +120,54 @@
 	const METRONOME    ; 76
 	const MIRROR_MOVE  ; 77
 	const SELFDESTRUCT ; 78
-	const EGG_BOMB     ; 79
+	const HEAD_CHARGE  ; 79
 	const LICK         ; 7a
 	const SMOG         ; 7b
 	const SLUDGE       ; 7c
-	const BONE_CLUB    ; 7d
+	const MUD_SHOT     ; 7d
 	const FIRE_BLAST   ; 7e
 	const WATERFALL    ; 7f
-	const CLAMP        ; 80
+	const GIGA_DRAIN   ; 80
 	const SWIFT        ; 81
 	const SKULL_BASH   ; 82
-	const SPIKE_CANNON ; 83
-	const CONSTRICT    ; 84
+	const METAL_CLAW   ; 83
+	const IRON_HEAD    ; 84
 	const AMNESIA      ; 85
-	const KINESIS      ; 86
-	const SOFTBOILED   ; 87
+	const CRUNCH       ; 86
+	const FAINT_ATTACK ; 87
 	const HI_JUMP_KICK ; 88
 	const GLARE        ; 89
 	const DREAM_EATER  ; 8a
 	const POISON_GAS   ; 8b
-	const BARRAGE      ; 8c
+	const BUG_BITE     ; 8c
 	const LEECH_LIFE   ; 8d
-	const LOVELY_KISS  ; 8e
+	const HURRICANE    ; 8e
 	const SKY_ATTACK   ; 8f
-	const TRANSFORM    ; 90
+	const SACRED_SWORD ; 90
 	const BUBBLE       ; 91
 	const DIZZY_PUNCH  ; 92
 	const SPORE        ; 93
 	const FLASH        ; 94
 	const PSYWAVE      ; 95
-	const SPLASH       ; 96
+	const NIGHT_SLASH  ; 96
 	const ACID_ARMOR   ; 97
-	const CRABHAMMER   ; 98
+	const GEAR_GRIND   ; 98
 	const EXPLOSION    ; 99
 	const FURY_SWIPES  ; 9a
-	const BONEMERANG   ; 9b
+	const SHIFT_GEAR   ; 9b
 	const REST         ; 9c
 	const ROCK_SLIDE   ; 9d
 	const HYPER_FANG   ; 9e
 	const SHARPEN      ; 9f
-	const CONVERSION   ; a0
+	const NIGHT_DAZE   ; a0
 	const TRI_ATTACK   ; a1
 	const SUPER_FANG   ; a2
 	const SLASH        ; a3
 	const SUBSTITUTE   ; a4
-	const STRUGGLE     ; a5
-NUM_ATTACKS EQU const_value - 1
+
+NUM_ATTACKS EQU const_value + -1
+
+	const STRUGGLE
 
 	; Moves do double duty as animation identifiers.
 
@@ -212,5 +208,3 @@ NUM_ATTACKS EQU const_value - 1
 	const HIDEPIC_ANIM ; monster disappears
 	const ROCK_ANIM ; throw rock
 	const BAIT_ANIM ; throw bait
-
-NUM_ATTACK_ANIMS EQU const_value - 1

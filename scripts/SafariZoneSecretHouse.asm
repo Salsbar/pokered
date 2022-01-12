@@ -1,45 +1,45 @@
-SafariZoneSecretHouse_Script:
+SafariZoneSecretHouseScript:
 	jp EnableAutoTextBoxDrawing
 
-SafariZoneSecretHouse_TextPointers:
+SafariZoneSecretHouseTextPointers:
 	dw SafariZoneSecretHouseText1
 
 SafariZoneSecretHouseText1:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_HM03
-	jr nz, .got_item
+	jr nz, .asm_20a9b
 	ld hl, SafariZoneSecretHouseText_4a350
 	call PrintText
-	lb bc, HM_SURF, 1
+	lb bc, HM_03, 1
 	call GiveItem
-	jr nc, .bag_full
+	jr nc, .BagFull
 	ld hl, ReceivedHM03Text
 	call PrintText
 	SetEvent EVENT_GOT_HM03
-	jr .done
-.bag_full
+	jr .asm_8f1fc
+.BagFull
 	ld hl, HM03NoRoomText
 	call PrintText
-	jr .done
-.got_item
+	jr .asm_8f1fc
+.asm_20a9b
 	ld hl, HM03ExplanationText
 	call PrintText
-.done
+.asm_8f1fc
 	jp TextScriptEnd
 
 SafariZoneSecretHouseText_4a350:
-	text_far _SecretHouseText_4a350
-	text_end
+	TX_FAR _SecretHouseText_4a350
+	db "@"
 
 ReceivedHM03Text:
-	text_far _ReceivedHM03Text
-	sound_get_item_1
-	text_end
+	TX_FAR _ReceivedHM03Text
+	TX_SFX_ITEM_1
+	db "@"
 
 HM03ExplanationText:
-	text_far _HM03ExplanationText
-	text_end
+	TX_FAR _HM03ExplanationText
+	db "@"
 
 HM03NoRoomText:
-	text_far _HM03NoRoomText
-	text_end
+	TX_FAR _HM03NoRoomText
+	db "@"

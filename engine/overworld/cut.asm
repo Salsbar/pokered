@@ -22,8 +22,8 @@ UsedCut:
 	jp PrintText
 
 .NothingToCutText
-	text_far _NothingToCutText
-	text_end
+	TX_FAR _NothingToCutText
+	db "@"
 
 .canCut
 	ld [wCutTile], a
@@ -37,15 +37,15 @@ UsedCut:
 	call GBPalWhiteOutWithDelay3
 	call ClearSprites
 	call RestoreScreenTilesAndReloadTilePatterns
-	ld a, SCREEN_HEIGHT_PX
-	ldh [hWY], a
+	ld a, SCREEN_HEIGHT_PIXELS
+	ld [hWY], a
 	call Delay3
 	call LoadGBPal
 	call LoadCurrentMapView
 	call SaveScreenTilesToBuffer2
 	call Delay3
 	xor a
-	ldh [hWY], a
+	ld [hWY], a
 	ld hl, UsedCutText
 	call PrintText
 	call LoadScreenTilesFromBuffer2
@@ -57,46 +57,46 @@ UsedCut:
 	ld de, CutTreeBlockSwaps
 	call ReplaceTreeTileBlock
 	call RedrawMapView
-	farcall AnimCut
+	callba AnimCut
 	ld a, $1
 	ld [wUpdateSpritesEnabled], a
 	ld a, SFX_CUT
 	call PlaySound
 	ld a, $90
-	ldh [hWY], a
+	ld [hWY], a
 	call UpdateSprites
 	jp RedrawMapView
 
 UsedCutText:
-	text_far _UsedCutText
-	text_end
+	TX_FAR _UsedCutText
+	db "@"
 
 InitCutAnimOAM:
 	xor a
 	ld [wWhichAnimationOffsets], a
 	ld a, %11100100
-	ldh [rOBP1], a
+	ld [rOBP1], a
 	ld a, [wCutTile]
 	cp $52
 	jr z, .grass
 ; tree
-	ld de, Overworld_GFX tile $2d ; cuttable tree sprite top row
-	ld hl, vChars1 tile $7c
-	lb bc, BANK(Overworld_GFX), 2
+	ld de, Overworld_GFX + $2d0 ; cuttable tree sprite top row
+	ld hl, vChars1 + $7c0
+	lb bc, BANK(Overworld_GFX), $02
 	call CopyVideoData
-	ld de, Overworld_GFX tile $3d ; cuttable tree sprite bottom row
-	ld hl, vChars1 tile $7e
-	lb bc, BANK(Overworld_GFX), 2
+	ld de, Overworld_GFX + $3d0 ; cuttable tree sprite bottom row
+	ld hl, vChars1 + $7e0
+	lb bc, BANK(Overworld_GFX), $02
 	call CopyVideoData
 	jr WriteCutOrBoulderDustAnimationOAMBlock
 .grass
-	ld hl, vChars1 tile $7c
+	ld hl, vChars1 + $7c0
 	call LoadCutGrassAnimationTilePattern
-	ld hl, vChars1 tile $7d
+	ld hl, vChars1 + $7d0
 	call LoadCutGrassAnimationTilePattern
-	ld hl, vChars1 tile $7e
+	ld hl, vChars1 + $7e0
 	call LoadCutGrassAnimationTilePattern
-	ld hl, vChars1 tile $7f
+	ld hl, vChars1 + $7f0
 	call LoadCutGrassAnimationTilePattern
 	call WriteCutOrBoulderDustAnimationOAMBlock
 	ld hl, wOAMBuffer + $93
@@ -112,8 +112,8 @@ InitCutAnimOAM:
 	ret
 
 LoadCutGrassAnimationTilePattern:
-	ld de, AnimationTileset2 tile 6 ; tile depicting a leaf
-	lb bc, BANK(AnimationTileset2), 1
+	ld de, AnimationTileset2 + $60 ; tile depicting a leaf
+	lb bc, BANK(AnimationTileset2), $01
 	jp CopyVideoData
 
 WriteCutOrBoulderDustAnimationOAMBlock:
@@ -123,11 +123,11 @@ WriteCutOrBoulderDustAnimationOAMBlock:
 	jp WriteOAMBlock
 
 CutOrBoulderDustAnimationTilesAndAttributes:
-	dbsprite  2, -1,  0,  4, $fd, OAM_OBP1
-	dbsprite  2, -1,  0,  6, $ff, OAM_OBP1
+	db $FC,$10,$FD,$10
+	db $FE,$10,$FF,$10
 
 GetCutOrBoulderDustAnimationOffsets:
-	ld hl, wSpritePlayerStateData1YPixels
+	ld hl, wSpriteStateData1 + 4
 	ld a, [hli] ; player's sprite screen Y position
 	ld b, a
 	inc hl
@@ -187,7 +187,7 @@ ReplaceTreeTileBlock:
 	ld h, [hl]
 	ld l, a
 	add hl, bc
-	ld a, [wSpritePlayerStateData1FacingDirection]
+	ld a, [wSpriteStateData1 + 9] ; player sprite's facing direction
 	and a
 	jr z, .down
 	cp SPRITE_FACING_UP
@@ -248,4 +248,16 @@ ReplaceTreeTileBlock:
 	ld [hl], a
 	ret
 
-INCLUDE "data/tilesets/cut_tree_blocks.asm"
+CutTreeBlockSwaps:
+; first byte = tileset block containing the cut tree
+; second byte = corresponding tileset block after the cut animation happens
+	db $32, $6D
+	db $33, $6C
+	db $34, $6F
+	db $35, $4C
+	db $60, $6E
+	db $0B, $0A
+	db $3C, $35
+	db $3F, $35
+	db $3D, $36
+	db $FF ; list terminator

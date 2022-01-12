@@ -1,0 +1,13 @@
+Route13Mons:
+		db $14
+		db 24,COTTONEE
+		db 25,PETILIL
+		db 27,DUCKLETT
+		db 24,PETILIL
+		db 22,COTTONEE
+		db 26,MARACTUS
+		db 26,FERROSEED
+		db 25,TRANQUILL
+		db 28,GOLETT
+		db 30,ZORUA
+	db $00

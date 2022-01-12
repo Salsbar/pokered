@@ -1,10 +1,10 @@
-Route22Gate_Script:
+Route22GateScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, Route22Gate_ScriptPointers
+	ld hl, Route22GateScriptPointers
 	ld a, [wRoute22GateCurScript]
 	call CallFunctionInTable
 	ld a, [wYCoord]
-	cp 4
+	cp $4
 	ld a, ROUTE_23
 	jr c, .asm_1e69a
 	ld a, ROUTE_22
@@ -12,7 +12,7 @@ Route22Gate_Script:
 	ld [wLastMap], a
 	ret
 
-Route22Gate_ScriptPointers:
+Route22GateScriptPointers:
 	dw Route22GateScript0
 	dw Route22GateScript1
 	dw Route22GateScript2
@@ -22,22 +22,22 @@ Route22GateScript0:
 	call ArePlayerCoordsInArray
 	ret nc
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld a, $1
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	jp DisplayTextID
 
 Route22GateScriptCoords:
-	dbmapcoord  4,  2
-	dbmapcoord  5,  2
-	db -1 ; end
+	db 2,4
+	db 2,5
+	db $ff
 
 Route22GateScript_1e6ba:
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
 	ld a, D_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
-	ld [wSpritePlayerStateData1FacingDirection], a
+	ld [wSpriteStateData1 + 9], a
 	ld [wJoyIgnore], a
 	jp StartSimulatingJoypadStates
 
@@ -53,13 +53,13 @@ Route22GateScript1:
 Route22GateScript2:
 	ret
 
-Route22Gate_TextPointers:
+Route22GateTextPointers:
 	dw Route22GateText1
 
 Route22GateText1:
-	text_asm
+	TX_ASM
 	ld a, [wObtainedBadges]
-	bit BIT_BOULDERBADGE, a
+	bit 0, a
 	jr nz, .asm_1e6f6
 	ld hl, Route22GateText_1e704
 	call PrintText
@@ -75,8 +75,8 @@ Route22GateText1:
 	jp TextScriptEnd
 
 Route22GateText_1e704:
-	text_far _Route22GateText_1e704
-	text_asm
+	TX_FAR _Route22GateText_1e704
+	TX_ASM
 	ld a, SFX_DENIED
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
@@ -84,10 +84,10 @@ Route22GateText_1e704:
 	ret
 
 Route22GateText_1e715:
-	text_far _Route22GateText_1e715
-	text_end
+	TX_FAR _Route22GateText_1e715
+	db "@"
 
 Route22GateText_1e71a:
-	text_far _Route22GateText_1e71a
-	sound_get_item_1
-	text_end
+	TX_FAR _Route22GateText_1e71a
+	TX_SFX_ITEM_1
+	db "@"

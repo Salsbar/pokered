@@ -1,0 +1,7 @@
+[submodule "extras"]
+	path = extras
+	url = git://github.com/kanzure/pokemon-reverse-engineering-tools.git
+
+[submodule "rgbds"]
+	path = rgbds
+	url = git://github.com/gbdev/rgbds.git

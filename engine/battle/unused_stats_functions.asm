@@ -1,6 +1,6 @@
 ; does nothing since no stats are ever selected (barring glitches)
 DoubleSelectedStats:
-	ldh a, [hWhoseTurn]
+	ld a, [H_WHOSETURN]
 	and a
 	ld a, [wPlayerStatsToDouble]
 	ld hl, wBattleMonAttack + 1
@@ -30,7 +30,7 @@ DoubleSelectedStats:
 
 ; does nothing since no stats are ever selected (barring glitches)
 HalveSelectedStats:
-	ldh a, [hWhoseTurn]
+	ld a, [H_WHOSETURN]
 	and a
 	ld a, [wPlayerStatsToHalve]
 	ld hl, wBattleMonAttack

@@ -1,9 +1,9 @@
-Route7_Script:
+Route7Script:
 	jp EnableAutoTextBoxDrawing
 
-Route7_TextPointers:
+Route7TextPointers:
 	dw Route7Text1
 
 Route7Text1:
-	text_far _Route7Text1
-	text_end
+	TX_FAR _Route7Text1
+	db "@"

@@ -1,10 +1,10 @@
-CeladonCity_Script:
+CeladonCityScript:
 	call EnableAutoTextBoxDrawing
 	ResetEvents EVENT_1B8, EVENT_1BF
 	ResetEvent EVENT_67F
 	ret
 
-CeladonCity_TextPointers:
+CeladonCityTextPointers:
 	dw CeladonCityText1
 	dw CeladonCityText2
 	dw CeladonCityText3
@@ -25,28 +25,28 @@ CeladonCity_TextPointers:
 	dw CeladonCityText18
 
 CeladonCityText1:
-	text_far _CeladonCityText1
-	text_end
+	TX_FAR _CeladonCityText1
+	db "@"
 
 CeladonCityText2:
-	text_far _CeladonCityText2
-	text_end
+	TX_FAR _CeladonCityText2
+	db "@"
 
 CeladonCityText3:
-	text_far _CeladonCityText3
-	text_end
+	TX_FAR _CeladonCityText3
+	db "@"
 
 CeladonCityText4:
-	text_far _CeladonCityText4
-	text_end
+	TX_FAR _CeladonCityText4
+	db "@"
 
 CeladonCityText5:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_TM41
 	jr nz, .asm_7053f
 	ld hl, TM41PreText
 	call PrintText
-	lb bc, TM_SOFTBOILED, 1
+	lb bc, TM_37, 1
 	call GiveItem
 	jr c, .Success
 	ld hl, TM41NoRoomText
@@ -64,69 +64,69 @@ CeladonCityText5:
 	jp TextScriptEnd
 
 TM41PreText:
-	text_far _TM41PreText
-	text_end
+	TX_FAR _TM41PreText
+	db "@"
 
 ReceivedTM41Text:
-	text_far _ReceivedTM41Text
-	sound_get_item_1
-	text_end
+	TX_FAR _ReceivedTM41Text
+	TX_SFX_ITEM_1
+	db "@"
 
 TM41ExplanationText:
-	text_far _TM41ExplanationText
-	text_end
+	TX_FAR _TM41ExplanationText
+	db "@"
 
 TM41NoRoomText:
-	text_far _TM41NoRoomText
-	text_end
+	TX_FAR _TM41NoRoomText
+	db "@"
 
 CeladonCityText6:
-	text_far _CeladonCityText6
-	text_end
+	TX_FAR _CeladonCityText6
+	db "@"
 
 CeladonCityText7:
-	text_far _CeladonCityText7
-	text_asm
-	ld a, POLIWRATH
+	TX_FAR _CeladonCityText7
+	TX_ASM
+	ld a, SIMIPOUR
 	call PlayCry
 	jp TextScriptEnd
 
 CeladonCityText8:
-	text_far _CeladonCityText8
-	text_end
+	TX_FAR _CeladonCityText8
+	db "@"
 
 CeladonCityText9:
-	text_far _CeladonCityText9
-	text_end
+	TX_FAR _CeladonCityText9
+	db "@"
 
 CeladonCityText10:
-	text_far _CeladonCityText10
-	text_end
+	TX_FAR _CeladonCityText10
+	db "@"
 
 CeladonCityText11:
-	text_far _CeladonCityText11
-	text_end
+	TX_FAR _CeladonCityText11
+	db "@"
 
 CeladonCityText13:
-	text_far _CeladonCityText13
-	text_end
+	TX_FAR _CeladonCityText13
+	db "@"
 
 CeladonCityText14:
-	text_far _CeladonCityText14
-	text_end
+	TX_FAR _CeladonCityText14
+	db "@"
 
 CeladonCityText15:
-	text_far _CeladonCityText15
-	text_end
+	TX_FAR _CeladonCityText15
+	db "@"
 
 CeladonCityText16:
-	text_far _CeladonCityText16
-	text_end
+	TX_FAR _CeladonCityText16
+	db "@"
 
 CeladonCityText17:
-	text_far _CeladonCityText17
-	text_end
+	TX_FAR _CeladonCityText17
+	db "@"
 
 CeladonCityText18:
-	text_far _CeladonCityText18
-	text_end
+	TX_FAR _CeladonCityText18
+	db "@"

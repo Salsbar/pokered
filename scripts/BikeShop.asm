@@ -1,13 +1,13 @@
-BikeShop_Script:
+BikeShopScript:
 	jp EnableAutoTextBoxDrawing
 
-BikeShop_TextPointers:
+BikeShopTextPointers:
 	dw BikeShopText1
 	dw BikeShopText2
 	dw BikeShopText3
 
 BikeShopText1:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_BICYCLE
 	jr z, .asm_260d4
 	ld hl, BikeShopText_1d82f
@@ -23,8 +23,8 @@ BikeShopText1:
 	call GiveItem
 	jr nc, .BagFull
 	ld a, BIKE_VOUCHER
-	ldh [hItemToRemoveID], a
-	farcall RemoveItemByID
+	ld [$ffdb], a
+	callba RemoveItemByID
 	SetEvent EVENT_GOT_BICYCLE
 	ld hl, BikeShopText_1d824
 	call PrintText
@@ -49,21 +49,21 @@ BikeShopText1:
 	ld [wTopMenuItemX], a
 	ld hl, wd730
 	set 6, [hl]
-	hlcoord 0, 0
-	ld b, 4
-	ld c, 15
+	coord hl, 0, 0
+	ld b, $4
+	ld c, $f
 	call TextBoxBorder
 	call UpdateSprites
-	hlcoord 2, 2
+	coord hl, 2, 2
 	ld de, BikeShopMenuText
 	call PlaceString
-	hlcoord 8, 3
+	coord hl, 8, 3
 	ld de, BikeShopMenuPrice
 	call PlaceString
 	ld hl, BikeShopText_1d815
 	call PrintText
 	call HandleMenuInput
-	bit BIT_B_BUTTON, a
+	bit 1, a
 	jr nz, .cancel
 	ld hl, wd730
 	res 6, [hl]
@@ -86,50 +86,50 @@ BikeShopMenuPrice:
 	db "¥1000000@"
 
 BikeShopText_1d810:
-	text_far _BikeShopText_1d810
-	text_end
+	TX_FAR _BikeShopText_1d810
+	db "@"
 
 BikeShopText_1d815:
-	text_far _BikeShopText_1d815
-	text_end
+	TX_FAR _BikeShopText_1d815
+	db "@"
 
 BikeShopCantAffordText:
-	text_far _BikeShopCantAffordText
-	text_end
+	TX_FAR _BikeShopCantAffordText
+	db "@"
 
 BikeShopText_1d81f:
-	text_far _BikeShopText_1d81f
-	text_end
+	TX_FAR _BikeShopText_1d81f
+	db "@"
 
 BikeShopText_1d824:
-	text_far _BikeShopText_1d824
-	sound_get_key_item
-	text_end
+	TX_FAR _BikeShopText_1d824
+	TX_SFX_KEY_ITEM
+	db "@"
 
 BikeShopComeAgainText:
-	text_far _BikeShopComeAgainText
-	text_end
+	TX_FAR _BikeShopComeAgainText
+	db "@"
 
 BikeShopText_1d82f:
-	text_far _BikeShopText_1d82f
-	text_end
+	TX_FAR _BikeShopText_1d82f
+	db "@"
 
 BikeShopText_1d834:
-	text_far _BikeShopText_1d834
-	text_end
+	TX_FAR _BikeShopText_1d834
+	db "@"
 
 BikeShopText2:
-	text_asm
+	TX_ASM
 	ld hl, BikeShopText_1d843
 	call PrintText
 	jp TextScriptEnd
 
 BikeShopText_1d843:
-	text_far _BikeShopText_1d843
-	text_end
+	TX_FAR _BikeShopText_1d843
+	db "@"
 
 BikeShopText3:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_BICYCLE
 	ld hl, BikeShopText_1d861
 	jr nz, .asm_34d2d
@@ -139,9 +139,9 @@ BikeShopText3:
 	jp TextScriptEnd
 
 BikeShopText_1d85c:
-	text_far _BikeShopText_1d85c
-	text_end
+	TX_FAR _BikeShopText_1d85c
+	db "@"
 
 BikeShopText_1d861:
-	text_far _BikeShopText_1d861
-	text_end
+	TX_FAR _BikeShopText_1d861
+	db "@"

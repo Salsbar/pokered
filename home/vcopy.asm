@@ -10,27 +10,27 @@ GetRowColAddressBgMap::
 	srl h
 	rr a
 	or l
-	ld l, a
-	ld a, b
+	ld l,a
+	ld a,b
 	or h
-	ld h, a
+	ld h,a
 	ret
 
 ; clears a VRAM background map with blank space tiles
 ; INPUT: h - high byte of background tile map address in VRAM
 ClearBgMap::
-	ld a, " "
+	ld a," "
 	jr .next
-	ld a, l
+	ld a,l
 .next
-	ld de, BG_MAP_WIDTH * BG_MAP_HEIGHT
-	ld l, e
+	ld de,$400 ; size of VRAM background map
+	ld l,e
 .loop
-	ld [hli], a
+	ld [hli],a
 	dec e
-	jr nz, .loop
+	jr nz,.loop
 	dec d
-	jr nz, .loop
+	jr nz,.loop
 	ret
 
 ; This function redraws a BG row of height 2 or a BG column of width 2.
@@ -40,76 +40,76 @@ ClearBgMap::
 ; However, this function is also called repeatedly to redraw the whole screen
 ; when necessary. It is also used in trade animation and elevator code.
 RedrawRowOrColumn::
-	ldh a, [hRedrawRowOrColumnMode]
+	ld a,[hRedrawRowOrColumnMode]
 	and a
 	ret z
-	ld b, a
+	ld b,a
 	xor a
-	ldh [hRedrawRowOrColumnMode], a
+	ld [hRedrawRowOrColumnMode],a
 	dec b
-	jr nz, .redrawRow
+	jr nz,.redrawRow
 .redrawColumn
-	ld hl, wRedrawRowOrColumnSrcTiles
-	ldh a, [hRedrawRowOrColumnDest]
-	ld e, a
-	ldh a, [hRedrawRowOrColumnDest + 1]
-	ld d, a
-	ld c, SCREEN_HEIGHT
+	ld hl,wRedrawRowOrColumnSrcTiles
+	ld a,[hRedrawRowOrColumnDest]
+	ld e,a
+	ld a,[hRedrawRowOrColumnDest + 1]
+	ld d,a
+	ld c,SCREEN_HEIGHT
 .loop1
-	ld a, [hli]
-	ld [de], a
+	ld a,[hli]
+	ld [de],a
 	inc de
-	ld a, [hli]
-	ld [de], a
-	ld a, BG_MAP_WIDTH - 1
+	ld a,[hli]
+	ld [de],a
+	ld a,BG_MAP_WIDTH - 1
 	add e
-	ld e, a
-	jr nc, .noCarry
+	ld e,a
+	jr nc,.noCarry
 	inc d
 .noCarry
 ; the following 4 lines wrap us from bottom to top if necessary
-	ld a, d
-	and $3
-	or $98
-	ld d, a
+	ld a,d
+	and a,$03
+	or a,$98
+	ld d,a
 	dec c
-	jr nz, .loop1
+	jr nz,.loop1
 	xor a
-	ldh [hRedrawRowOrColumnMode], a
+	ld [hRedrawRowOrColumnMode],a
 	ret
 .redrawRow
-	ld hl, wRedrawRowOrColumnSrcTiles
-	ldh a, [hRedrawRowOrColumnDest]
-	ld e, a
-	ldh a, [hRedrawRowOrColumnDest + 1]
-	ld d, a
+	ld hl,wRedrawRowOrColumnSrcTiles
+	ld a,[hRedrawRowOrColumnDest]
+	ld e,a
+	ld a,[hRedrawRowOrColumnDest + 1]
+	ld d,a
 	push de
 	call .DrawHalf ; draw upper half
 	pop de
-	ld a, BG_MAP_WIDTH ; width of VRAM background map
+	ld a,BG_MAP_WIDTH ; width of VRAM background map
 	add e
-	ld e, a
+	ld e,a
 	; fall through and draw lower half
 
 .DrawHalf
-	ld c, SCREEN_WIDTH / 2
+	ld c,SCREEN_WIDTH / 2
 .loop2
-	ld a, [hli]
-	ld [de], a
+	ld a,[hli]
+	ld [de],a
 	inc de
-	ld a, [hli]
-	ld [de], a
-	ld a, e
+	ld a,[hli]
+	ld [de],a
+	ld a,e
 	inc a
 ; the following 6 lines wrap us from the right edge to the left edge if necessary
-	and $1f
-	ld b, a
-	ld a, e
-	and $e0
+	and a,$1f
+	ld b,a
+	ld a,e
+	and a,$e0
 	or b
-	ld e, a
+	ld e,a
 	dec c
-	jr nz, .loop2
+	jr nz,.loop2
 	ret
 
 ; This function automatically transfers tile number data from the tile map at
@@ -120,68 +120,70 @@ RedrawRowOrColumn::
 ; the above function, RedrawRowOrColumn, is used when walking to
 ; improve efficiency.
 AutoBgMapTransfer::
-	ldh a, [hAutoBGTransferEnabled]
+	ld a,[H_AUTOBGTRANSFERENABLED]
 	and a
 	ret z
-	ld hl, sp + 0
-	ld a, h
-	ldh [hSPTemp], a
-	ld a, l
-	ldh [hSPTemp + 1], a ; save stack pointer
-	ldh a, [hAutoBGTransferPortion]
+	ld hl,[sp + 0]
+	ld a,h
+	ld [H_SPTEMP],a
+	ld a,l
+	ld [H_SPTEMP + 1],a ; save stack pinter
+	ld a,[H_AUTOBGTRANSFERPORTION]
 	and a
-	jr z, .transferTopThird
+	jr z,.transferTopThird
 	dec a
-	jr z, .transferMiddleThird
+	jr z,.transferMiddleThird
 .transferBottomThird
-	hlcoord 0, 12
-	ld sp, hl
-	ldh a, [hAutoBGTransferDest + 1]
-	ld h, a
-	ldh a, [hAutoBGTransferDest]
-	ld l, a
-	ld de, (12 * 32)
-	add hl, de
+	coord hl, 0, 12
+	ld sp,hl
+	ld a,[H_AUTOBGTRANSFERDEST + 1]
+	ld h,a
+	ld a,[H_AUTOBGTRANSFERDEST]
+	ld l,a
+	ld de,(12 * 32)
+	add hl,de
 	xor a ; TRANSFERTOP
 	jr .doTransfer
 .transferTopThird
-	hlcoord 0, 0
-	ld sp, hl
-	ldh a, [hAutoBGTransferDest + 1]
-	ld h, a
-	ldh a, [hAutoBGTransferDest]
-	ld l, a
-	ld a, TRANSFERMIDDLE
+	coord hl, 0, 0
+	ld sp,hl
+	ld a,[H_AUTOBGTRANSFERDEST + 1]
+	ld h,a
+	ld a,[H_AUTOBGTRANSFERDEST]
+	ld l,a
+	ld a,TRANSFERMIDDLE
 	jr .doTransfer
 .transferMiddleThird
-	hlcoord 0, 6
-	ld sp, hl
-	ldh a, [hAutoBGTransferDest + 1]
-	ld h, a
-	ldh a, [hAutoBGTransferDest]
-	ld l, a
-	ld de, (6 * 32)
-	add hl, de
-	ld a, TRANSFERBOTTOM
+	coord hl, 0, 6
+	ld sp,hl
+	ld a,[H_AUTOBGTRANSFERDEST + 1]
+	ld h,a
+	ld a,[H_AUTOBGTRANSFERDEST]
+	ld l,a
+	ld de,(6 * 32)
+	add hl,de
+	ld a,TRANSFERBOTTOM
 .doTransfer
-	ldh [hAutoBGTransferPortion], a ; store next portion
-	ld b, 6
+	ld [H_AUTOBGTRANSFERPORTION],a ; store next portion
+	ld b,6
 
 TransferBgRows::
 ; unrolled loop and using pop for speed
-REPT SCREEN_WIDTH / 2 - 1
+
+	rept 20 / 2 - 1
 	pop de
 	ld [hl], e
 	inc l
 	ld [hl], d
 	inc l
-ENDR
+	endr
+
 	pop de
 	ld [hl], e
 	inc l
 	ld [hl], d
 
-	ld a, BG_MAP_WIDTH - (SCREEN_WIDTH - 1)
+	ld a, 32 - (20 - 1)
 	add l
 	ld l, a
 	jr nc, .ok
@@ -190,76 +192,76 @@ ENDR
 	dec b
 	jr nz, TransferBgRows
 
-	ldh a, [hSPTemp]
+	ld a, [H_SPTEMP]
 	ld h, a
-	ldh a, [hSPTemp + 1]
+	ld a, [H_SPTEMP + 1]
 	ld l, a
 	ld sp, hl
 	ret
 
-; Copies [hVBlankCopyBGNumRows] rows from hVBlankCopyBGSource to hVBlankCopyBGDest.
-; If hVBlankCopyBGSource is XX00, the transfer is disabled.
+; Copies [H_VBCOPYBGNUMROWS] rows from H_VBCOPYBGSRC to H_VBCOPYBGDEST.
+; If H_VBCOPYBGSRC is XX00, the transfer is disabled.
 VBlankCopyBgMap::
-	ldh a, [hVBlankCopyBGSource] ; doubles as enabling byte
+	ld a,[H_VBCOPYBGSRC] ; doubles as enabling byte
 	and a
 	ret z
-	ld hl, sp + 0
-	ld a, h
-	ldh [hSPTemp], a
-	ld a, l
-	ldh [hSPTemp + 1], a ; save stack pointer
-	ldh a, [hVBlankCopyBGSource]
-	ld l, a
-	ldh a, [hVBlankCopyBGSource + 1]
-	ld h, a
-	ld sp, hl
-	ldh a, [hVBlankCopyBGDest]
-	ld l, a
-	ldh a, [hVBlankCopyBGDest + 1]
-	ld h, a
-	ldh a, [hVBlankCopyBGNumRows]
-	ld b, a
+	ld hl,[sp + 0]
+	ld a,h
+	ld [H_SPTEMP],a
+	ld a,l
+	ld [H_SPTEMP + 1],a ; save stack pointer
+	ld a,[H_VBCOPYBGSRC]
+	ld l,a
+	ld a,[H_VBCOPYBGSRC + 1]
+	ld h,a
+	ld sp,hl
+	ld a,[H_VBCOPYBGDEST]
+	ld l,a
+	ld a,[H_VBCOPYBGDEST + 1]
+	ld h,a
+	ld a,[H_VBCOPYBGNUMROWS]
+	ld b,a
 	xor a
-	ldh [hVBlankCopyBGSource], a ; disable transfer so it doesn't continue next V-blank
+	ld [H_VBCOPYBGSRC],a ; disable transfer so it doesn't continue next V-blank
 	jr TransferBgRows
 
 
 VBlankCopyDouble::
-; Copy [hVBlankCopyDoubleSize] 1bpp tiles
-; from hVBlankCopyDoubleSource to hVBlankCopyDoubleDest.
+; Copy [H_VBCOPYDOUBLESIZE] 1bpp tiles
+; from H_VBCOPYDOUBLESRC to H_VBCOPYDOUBLEDEST.
 
 ; While we're here, convert to 2bpp.
 ; The process is straightforward:
 ; copy each byte twice.
 
-	ldh a, [hVBlankCopyDoubleSize]
+	ld a, [H_VBCOPYDOUBLESIZE]
 	and a
 	ret z
 
-	ld hl, sp + 0
+	ld hl, [sp + 0]
 	ld a, h
-	ldh [hSPTemp], a
+	ld [H_SPTEMP], a
 	ld a, l
-	ldh [hSPTemp + 1], a
+	ld [H_SPTEMP + 1], a
 
-	ldh a, [hVBlankCopyDoubleSource]
+	ld a, [H_VBCOPYDOUBLESRC]
 	ld l, a
-	ldh a, [hVBlankCopyDoubleSource + 1]
+	ld a, [H_VBCOPYDOUBLESRC + 1]
 	ld h, a
 	ld sp, hl
 
-	ldh a, [hVBlankCopyDoubleDest]
+	ld a, [H_VBCOPYDOUBLEDEST]
 	ld l, a
-	ldh a, [hVBlankCopyDoubleDest + 1]
+	ld a, [H_VBCOPYDOUBLEDEST + 1]
 	ld h, a
 
-	ldh a, [hVBlankCopyDoubleSize]
+	ld a, [H_VBCOPYDOUBLESIZE]
 	ld b, a
 	xor a ; transferred
-	ldh [hVBlankCopyDoubleSize], a
+	ld [H_VBCOPYDOUBLESIZE], a
 
 .loop
-REPT LEN_2BPP_TILE / 4 - 1
+	rept 3
 	pop de
 	ld [hl], e
 	inc l
@@ -269,7 +271,8 @@ REPT LEN_2BPP_TILE / 4 - 1
 	inc l
 	ld [hl], d
 	inc l
-ENDR
+	endr
+
 	pop de
 	ld [hl], e
 	inc l
@@ -283,19 +286,19 @@ ENDR
 	jr nz, .loop
 
 	ld a, l
-	ldh [hVBlankCopyDoubleDest], a
+	ld [H_VBCOPYDOUBLEDEST], a
 	ld a, h
-	ldh [hVBlankCopyDoubleDest + 1], a
+	ld [H_VBCOPYDOUBLEDEST + 1], a
 
-	ld hl, sp + 0
+	ld hl, [sp + 0]
 	ld a, l
-	ldh [hVBlankCopyDoubleSource], a
+	ld [H_VBCOPYDOUBLESRC], a
 	ld a, h
-	ldh [hVBlankCopyDoubleSource + 1], a
+	ld [H_VBCOPYDOUBLESRC + 1], a
 
-	ldh a, [hSPTemp]
+	ld a, [H_SPTEMP]
 	ld h, a
-	ldh a, [hSPTemp + 1]
+	ld a, [H_SPTEMP + 1]
 	ld l, a
 	ld sp, hl
 
@@ -303,46 +306,47 @@ ENDR
 
 
 VBlankCopy::
-; Copy [hVBlankCopySize] 2bpp tiles (or 16 * [hVBlankCopySize] tile map entries)
-; from hVBlankCopySource to hVBlankCopyDest.
+; Copy [H_VBCOPYSIZE] 2bpp tiles (or 16 * [H_VBCOPYSIZE] tile map entries)
+; from H_VBCOPYSRC to H_VBCOPYDEST.
 
 ; Source and destination addresses are updated,
 ; so transfer can continue in subsequent calls.
 
-	ldh a, [hVBlankCopySize]
+	ld a, [H_VBCOPYSIZE]
 	and a
 	ret z
 
-	ld hl, sp + 0
+	ld hl, [sp + 0]
 	ld a, h
-	ldh [hSPTemp], a
+	ld [H_SPTEMP], a
 	ld a, l
-	ldh [hSPTemp + 1], a
+	ld [H_SPTEMP + 1], a
 
-	ldh a, [hVBlankCopySource]
+	ld a, [H_VBCOPYSRC]
 	ld l, a
-	ldh a, [hVBlankCopySource + 1]
+	ld a, [H_VBCOPYSRC + 1]
 	ld h, a
 	ld sp, hl
 
-	ldh a, [hVBlankCopyDest]
+	ld a, [H_VBCOPYDEST]
 	ld l, a
-	ldh a, [hVBlankCopyDest + 1]
+	ld a, [H_VBCOPYDEST + 1]
 	ld h, a
 
-	ldh a, [hVBlankCopySize]
+	ld a, [H_VBCOPYSIZE]
 	ld b, a
 	xor a ; transferred
-	ldh [hVBlankCopySize], a
+	ld [H_VBCOPYSIZE], a
 
 .loop
-REPT LEN_2BPP_TILE / 2 - 1
+	rept 7
 	pop de
 	ld [hl], e
 	inc l
 	ld [hl], d
 	inc l
-ENDR
+	endr
+
 	pop de
 	ld [hl], e
 	inc l
@@ -352,19 +356,19 @@ ENDR
 	jr nz, .loop
 
 	ld a, l
-	ldh [hVBlankCopyDest], a
+	ld [H_VBCOPYDEST], a
 	ld a, h
-	ldh [hVBlankCopyDest + 1], a
+	ld [H_VBCOPYDEST + 1], a
 
-	ld hl, sp + 0
+	ld hl, [sp + 0]
 	ld a, l
-	ldh [hVBlankCopySource], a
+	ld [H_VBCOPYSRC], a
 	ld a, h
-	ldh [hVBlankCopySource + 1], a
+	ld [H_VBCOPYSRC + 1], a
 
-	ldh a, [hSPTemp]
+	ld a, [H_SPTEMP]
 	ld h, a
-	ldh a, [hSPTemp + 1]
+	ld a, [H_SPTEMP + 1]
 	ld l, a
 	ld sp, hl
 
@@ -375,13 +379,13 @@ UpdateMovingBgTiles::
 ; Animate water and flower
 ; tiles in the overworld.
 
-	ldh a, [hTileAnimations]
+	ld a, [hTilesetType]
 	and a
-	ret z
+	ret z ; no animations if indoors (or if a menu set this to 0)
 
-	ldh a, [hMovingBGTilesCounter1]
+	ld a, [hMovingBGTilesCounter1]
 	inc a
-	ldh [hMovingBGTilesCounter1], a
+	ld [hMovingBGTilesCounter1], a
 	cp 20
 	ret c
 	cp 21
@@ -389,7 +393,7 @@ UpdateMovingBgTiles::
 
 ; water
 
-	ld hl, vTileset tile $14
+	ld hl, vTileset + $14 * $10
 	ld c, $10
 
 	ld a, [wMovingBGTilesCounter2]
@@ -413,17 +417,17 @@ UpdateMovingBgTiles::
 	dec c
 	jr nz, .left
 .done
-	ldh a, [hTileAnimations]
+	ld a, [hTilesetType]
 	rrca
 	ret nc
-
+; if in a cave, no flower animations
 	xor a
-	ldh [hMovingBGTilesCounter1], a
+	ld [hMovingBGTilesCounter1], a
 	ret
 
 .flower
 	xor a
-	ldh [hMovingBGTilesCounter1], a
+	ld [hMovingBGTilesCounter1], a
 
 	ld a, [wMovingBGTilesCounter2]
 	and 3
@@ -434,7 +438,7 @@ UpdateMovingBgTiles::
 	jr z, .copy
 	ld hl, FlowerTile3
 .copy
-	ld de, vTileset tile $03
+	ld de, vTileset + $3 * $10
 	ld c, $10
 .loop
 	ld a, [hli]

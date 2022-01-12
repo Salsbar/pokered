@@ -1,0 +1,13 @@
+Route8Mons:
+	db $0F
+		db 19,PURRLOIN
+		db 19,DEERLING
+		db 17,SANDILE
+		db 22,DEERLING
+		db 22,PURRLOIN
+		db 18,SANDILE
+		db 18,DARUMAKA
+		db 20,DARUMAKA
+		db 19,SCRAGGY
+		db 20,SOLOSIS
+	db $00

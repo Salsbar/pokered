@@ -1,15 +1,15 @@
-CeruleanMart_Script:
+CeruleanMartScript:
 	jp EnableAutoTextBoxDrawing
 
-CeruleanMart_TextPointers:
+CeruleanMartTextPointers:
 	dw CeruleanCashierText
 	dw CeruleanMartText2
 	dw CeruleanMartText3
 
 CeruleanMartText2:
-	text_far _CeruleanMartText2
-	text_end
+	TX_FAR _CeruleanMartText2
+	db "@"
 
 CeruleanMartText3:
-	text_far _CeruleanMartText3
-	text_end
+	TX_FAR _CeruleanMartText3
+	db "@"

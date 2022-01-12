@@ -1,8 +1,8 @@
-MtMoonPokecenter_Script:
+MtMoonPokecenterScript:
 	call Serial_TryEstablishingExternallyClockedConnection
 	jp EnableAutoTextBoxDrawing
 
-MtMoonPokecenter_TextPointers:
+MtMoonPokecenterTextPointers:
 	dw MtMoonHealNurseText
 	dw MtMoonPokecenterText2
 	dw MtMoonPokecenterText3
@@ -11,18 +11,18 @@ MtMoonPokecenter_TextPointers:
 	dw MtMoonTradeNurseText
 
 MtMoonHealNurseText:
-	script_pokecenter_nurse
+	db $ff
 
 MtMoonPokecenterText2:
-	text_far _MtMoonPokecenterText1
-	text_end
+	TX_FAR _MtMoonPokecenterText1
+	db "@"
 
 MtMoonPokecenterText3:
-	text_far _MtMoonPokecenterText3
-	text_end
+	TX_FAR _MtMoonPokecenterText3
+	db "@"
 
 MagikarpSalesmanText:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_BOUGHT_MAGIKARP, 1
 	jp c, .alreadyBoughtMagikarp
 	ld hl, .Text1
@@ -34,16 +34,17 @@ MagikarpSalesmanText:
 	ld a, [wCurrentMenuItem]
 	and a
 	jp nz, .choseNo
-	ldh [hMoney], a
-	ldh [hMoney + 2], a
+	ld [hMoney], a
+	ld [hMoney + 2], a
 	ld a, $5
-	ldh [hMoney + 1], a
+	ld [hMoney + 1], a
 	call HasEnoughMoney
 	jr nc, .enoughMoney
+	jr nc, .choseNo
 	ld hl, .NoMoneyText
 	jr .printText
 .enoughMoney
-	lb bc, MAGIKARP, 5
+	lb bc, TYNAMO, 5
 	call GivePokemon
 	jr nc, .done
 	xor a
@@ -71,24 +72,24 @@ MagikarpSalesmanText:
 	jp TextScriptEnd
 
 .Text1
-	text_far _MagikarpSalesmanText1
-	text_end
+	TX_FAR _MagikarpSalesmanText1
+	db "@"
 
 .RefuseText
-	text_far _MagikarpSalesmanNoText
-	text_end
+	TX_FAR _MagikarpSalesmanNoText
+	db "@"
 
 .NoMoneyText
-	text_far _MagikarpSalesmanNoMoneyText
-	text_end
+	TX_FAR _MagikarpSalesmanNoMoneyText
+	db "@"
 
 .Text2
-	text_far _MagikarpSalesmanText2
-	text_end
+	TX_FAR _MagikarpSalesmanText2
+	db "@"
 
 MtMoonPokecenterText5:
-	text_far _MtMoonPokecenterText5
-	text_end
+	TX_FAR _MtMoonPokecenterText5
+	db "@"
 
 MtMoonTradeNurseText:
-	script_cable_club_receptionist
+	db $f6

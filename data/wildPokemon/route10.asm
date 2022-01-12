@@ -1,0 +1,13 @@
+Route10Mons:
+	db $0F
+		db 16,BLITZLE
+		db 16,JOLTIK
+		db 14,JOLTIK
+		db 11,TIMBURR
+		db 13,TIMBURR
+		db 15,BLITZLE
+		db 17,DWEBBLE
+		db 17,MARACTUS
+		db 13,EMOLGA
+		db 17,EMOLGA
+	db $00

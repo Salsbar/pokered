@@ -1,0 +1,13 @@
+MoonMonsB1:
+	db $0A
+	db 8,WOOBAT
+	db 7,WOOBAT
+	db 7,ROGGENROLA
+	db 8,ROGGENROLA
+	db 9,WOOBAT
+	db 10,AUDINO
+	db 10,WOOBAT
+	db 11,WOOBAT
+	db 9,MUNNA
+	db 9,ROGGENROLA
+	db $00

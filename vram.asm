@@ -1,31 +1,21 @@
-SECTION "VRAM", VRAM
+vChars0 EQU $8000
+vChars1 EQU $8800
+vChars2 EQU $9000
+vBGMap0 EQU $9800
+vBGMap1 EQU $9c00
 
-UNION
-; generic
-vChars0:: ds $80 tiles
-vChars1:: ds $80 tiles
-vChars2:: ds $80 tiles
-vBGMap0:: ds BG_MAP_WIDTH * BG_MAP_HEIGHT
-vBGMap1:: ds BG_MAP_WIDTH * BG_MAP_HEIGHT
+; Battle/Menu
+vSprites  EQU vChars0
+vFont     EQU vChars1
+vFrontPic EQU vChars2
+vBackPic  EQU vFrontPic + 7 * 7 * $10
 
-NEXTU
-; battle/menu
-vSprites::  ds $80 tiles
-vFont::     ds $80 tiles
-vFrontPic:: ds 7 * 7 tiles
-vBackPic::  ds 7 * 7 tiles
+; Overworld
+vNPCSprites  EQU vChars0
+vNPCSprites2 EQU vChars1
+vTileset     EQU vChars2
 
-NEXTU
-; overworld
-vNPCSprites::  ds $80 tiles
-vNPCSprites2:: ds $80 tiles
-vTileset::     ds $80 tiles
+; Title
+vTitleLogo  EQU vChars1
+vTitleLogo2 EQU vFrontPic + 7 * 7 * $10
 
-NEXTU
-; title
-	ds $80 tiles
-vTitleLogo::  ds $80 tiles
-	ds 7 * 7 tiles
-vTitleLogo2:: ds 30 tiles
-
-ENDU

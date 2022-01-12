@@ -1,0 +1,13 @@
+Route3Mons:
+	db $14
+	db 6,PIDOVE
+	db 5,LILLIPUP
+	db 7,PIDOVE
+	db 6,PURRLOIN
+	db 7,PATRAT
+	db 8,PIDOVE
+	db 8,LILLIPUP
+	db 3,PURRLOIN
+	db 5,AUDINO
+	db 7,AUDINO
+	db $00

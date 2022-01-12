@@ -1,9 +1,9 @@
-Colosseum_Script:
-	jp TradeCenter_Script
+ColosseumScript:
+	jp TradeCenterScript
 
-Colosseum_TextPointers:
+ColosseumTextPointers:
 	dw ColosseumText1
 
 ColosseumText1:
-	text_far _ColosseumText1
-	text_end
+	TX_FAR _ColosseumText1
+	db "@"

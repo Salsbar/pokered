@@ -1,10 +1,10 @@
-Route22_Script:
+Route22Script:
 	call EnableAutoTextBoxDrawing
-	ld hl, Route22_ScriptPointers
+	ld hl, Route22ScriptPointers
 	ld a, [wRoute22CurScript]
 	jp CallFunctionInTable
 
-Route22_ScriptPointers:
+Route22ScriptPointers:
 	dw Route22Script0
 	dw Route22Script1
 	dw Route22Script2
@@ -44,7 +44,7 @@ Route22MoveRivalSprite:
 .asm_50ef1
 	call MoveSprite
 	ld a, SPRITE_FACING_RIGHT
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	jp SetSpriteFacingDirectionAndDelay
 
 Route22RivalMovementData:
@@ -52,7 +52,7 @@ Route22RivalMovementData:
 	db NPC_MOVEMENT_RIGHT
 	db NPC_MOVEMENT_RIGHT
 	db NPC_MOVEMENT_RIGHT
-	db -1 ; end
+	db $FF
 
 Route22Script0:
 	CheckEvent EVENT_ROUTE22_RIVAL_WANTS_BATTLE
@@ -63,7 +63,7 @@ Route22Script0:
 	ld a, [wCoordIndex]
 	ld [wcf0d], a
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld a, $f0
 	ld [wJoyIgnore], a
 	ld a, PLAYER_DIR_LEFT
@@ -75,9 +75,9 @@ Route22Script0:
 	ret
 
 .Route22RivalBattleCoords
-	dbmapcoord 29,  4
-	dbmapcoord 29,  5
-	db -1 ; end
+	db $04, $1D
+	db $05, $1D
+	db $FF
 
 .firstRivalBattle
 	ld a, $1
@@ -88,7 +88,7 @@ Route22Script0:
 	ld a, [wWalkBikeSurfState]
 	and a
 	jr z, .asm_50f4e
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
 .asm_50f4e
@@ -96,7 +96,7 @@ Route22Script0:
 	ld a, MUSIC_MEET_RIVAL
 	call PlayMusic
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	call Route22MoveRivalSprite
 	ld a, $1
 	ld [wRoute22CurScript], a
@@ -116,14 +116,14 @@ Route22Script1:
 .asm_50f78
 	ld a, SPRITE_FACING_RIGHT
 .asm_50f7a
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	call SetSpriteFacingDirectionAndDelay
 	xor a
 	ld [wJoyIgnore], a
 	ld a, $1
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	ld hl, wd72d
 	set 6, [hl]
@@ -131,7 +131,7 @@ Route22Script1:
 	ld hl, Route22RivalDefeatedText1
 	ld de, Route22Text_511bc
 	call SaveEndBattleTextPointers
-	ld a, OPP_RIVAL1
+	ld a, OPP_SONY1
 	ld [wCurOpponent], a
 	ld hl, StarterMons_50faf
 	call Route22Script_50ed6
@@ -141,15 +141,15 @@ Route22Script1:
 
 StarterMons_50faf:
 ; starter the rival picked, rival trainer number
-	db STARTER2, 4
-	db STARTER3, 5
-	db STARTER1, 6
+	db STARTER2,$04
+	db STARTER3,$05
+	db STARTER1,$06
 
 Route22Script2:
 	ld a, [wIsInBattle]
 	cp $ff
 	jp z, Route22Script_50ece
-	ld a, [wSpritePlayerStateData1FacingDirection]
+	ld a, [wSpriteStateData1 + 9]
 	and a ; cp SPRITE_FACING_DOWN
 	jr nz, .notDown
 	ld a, SPRITE_FACING_UP
@@ -157,20 +157,20 @@ Route22Script2:
 .notDown
 	ld a, SPRITE_FACING_RIGHT
 .done
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	call SetSpriteFacingDirectionAndDelay
 	ld a, $f0
 	ld [wJoyIgnore], a
 	SetEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
 	ld a, $1
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
-	farcall Music_RivalAlternateStart
+	callba Music_RivalAlternateStart
 	ld a, [wcf0d]
 	cp $1
 	jr nz, .asm_50fff
@@ -191,7 +191,7 @@ Route22Script_5100d:
 	ld de, Route22RivalExitMovementData2
 Route22MoveRival1:
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	jp MoveSprite
 
 Route22RivalExitMovementData1:
@@ -202,7 +202,7 @@ Route22RivalExitMovementData1:
 	db NPC_MOVEMENT_DOWN
 	db NPC_MOVEMENT_DOWN
 	db NPC_MOVEMENT_DOWN
-	db -1 ; end
+	db $FF
 
 Route22RivalExitMovementData2:
 	db NPC_MOVEMENT_UP
@@ -215,7 +215,7 @@ Route22RivalExitMovementData2:
 	db NPC_MOVEMENT_DOWN
 	db NPC_MOVEMENT_DOWN
 	db NPC_MOVEMENT_DOWN
-	db -1 ; end
+	db $FF
 
 Route22Script3:
 	ld a, [wd730]
@@ -241,16 +241,16 @@ Route22Script_5104e:
 	ld a, [wWalkBikeSurfState]
 	and a
 	jr z, .skipYVisibilityTesta
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
 .skipYVisibilityTesta
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
-	farcall Music_RivalAlternateTempo
+	callba Music_RivalAlternateTempo
 	ld a, $2
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	call Route22MoveRivalSprite
 	ld a, $4
 	ld [wRoute22CurScript], a
@@ -261,7 +261,7 @@ Route22Script4:
 	bit 0, a
 	ret nz
 	ld a, $2
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	ld a, [wcf0d]
 	cp $1
 	jr nz, .asm_510a1
@@ -274,12 +274,12 @@ Route22Script4:
 	ld [wPlayerMovingDirection], a
 	ld a, SPRITE_FACING_RIGHT
 .asm_510a8
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
 	xor a
 	ld [wJoyIgnore], a
 	ld a, $2
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	ld hl, wd72d
 	set 6, [hl]
@@ -287,7 +287,7 @@ Route22Script4:
 	ld hl, Route22RivalDefeatedText2
 	ld de, Route22Text_511d0
 	call SaveEndBattleTextPointers
-	ld a, OPP_RIVAL2
+	ld a, OPP_SONY2
 	ld [wCurOpponent], a
 	ld hl, StarterMons_510d9
 	call Route22Script_50ed6
@@ -296,16 +296,16 @@ Route22Script4:
 	ret
 
 StarterMons_510d9:
-	db STARTER2, 10
-	db STARTER3, 11
-	db STARTER1, 12
+	db STARTER2,$0a
+	db STARTER3,$0b
+	db STARTER1,$0c
 
 Route22Script5:
 	ld a, [wIsInBattle]
 	cp $ff
 	jp z, Route22Script_50ece
 	ld a, $2
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	ld a, [wcf0d]
 	cp $1
 	jr nz, .asm_510fb
@@ -318,18 +318,18 @@ Route22Script5:
 	ld [wPlayerMovingDirection], a
 	ld a, SPRITE_FACING_RIGHT
 .asm_51102
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
 	ld a, $f0
 	ld [wJoyIgnore], a
 	SetEvent EVENT_BEAT_ROUTE22_RIVAL_2ND_BATTLE
 	ld a, $2
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	ld [wNewSoundID], a
 	call PlaySound
-	farcall Music_RivalAlternateStartAndTempo
+	callba Music_RivalAlternateStartAndTempo
 	ld a, [wcf0d]
 	cp $1
 	jr nz, .asm_51134
@@ -350,16 +350,17 @@ Route22Script_51142:
 	ld de, MovementData_5114d
 Route22MoveRival2:
 	ld a, $2
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	jp MoveSprite
 
 MovementData_5114c:
 	db NPC_MOVEMENT_LEFT
+
 MovementData_5114d:
 	db NPC_MOVEMENT_LEFT
 	db NPC_MOVEMENT_LEFT
 	db NPC_MOVEMENT_LEFT
-	db -1 ; end
+	db $FF
 
 Route22Script6:
 	ld a, [wd730]
@@ -376,13 +377,13 @@ Route22Script6:
 	ld [wRoute22CurScript], a
 	ret
 
-Route22_TextPointers:
+Route22TextPointers:
 	dw Route22Text1
 	dw Route22Text2
 	dw Route22FrontGateText
 
 Route22Text1:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_BEAT_ROUTE22_RIVAL_1ST_BATTLE
 	jr z, .asm_5118b
 	ld hl, Route22RivalAfterBattleText1
@@ -395,7 +396,7 @@ Route22Text1:
 	jp TextScriptEnd
 
 Route22Text2:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_BEAT_ROUTE22_RIVAL_2ND_BATTLE
 	jr z, .asm_511a4
 	ld hl, Route22RivalAfterBattleText2
@@ -408,37 +409,37 @@ Route22Text2:
 	jp TextScriptEnd
 
 Route22RivalBeforeBattleText1:
-	text_far _Route22RivalBeforeBattleText1
-	text_end
+	TX_FAR _Route22RivalBeforeBattleText1
+	db "@"
 
 Route22RivalAfterBattleText1:
-	text_far _Route22RivalAfterBattleText1
-	text_end
+	TX_FAR _Route22RivalAfterBattleText1
+	db "@"
 
 Route22RivalDefeatedText1:
-	text_far _Route22RivalDefeatedText1
-	text_end
+	TX_FAR _Route22RivalDefeatedText1
+	db "@"
 
 Route22Text_511bc:
-	text_far _Route22Text_511bc
-	text_end
+	TX_FAR _Route22Text_511bc
+	db "@"
 
 Route22RivalBeforeBattleText2:
-	text_far _Route22RivalBeforeBattleText2
-	text_end
+	TX_FAR _Route22RivalBeforeBattleText2
+	db "@"
 
 Route22RivalAfterBattleText2:
-	text_far _Route22RivalAfterBattleText2
-	text_end
+	TX_FAR _Route22RivalAfterBattleText2
+	db "@"
 
 Route22RivalDefeatedText2:
-	text_far _Route22RivalDefeatedText2
-	text_end
+	TX_FAR _Route22RivalDefeatedText2
+	db "@"
 
 Route22Text_511d0:
-	text_far _Route22Text_511d0
-	text_end
+	TX_FAR _Route22Text_511d0
+	db "@"
 
 Route22FrontGateText:
-	text_far _Route22FrontGateText
-	text_end
+	TX_FAR _Route22FrontGateText
+	db "@"

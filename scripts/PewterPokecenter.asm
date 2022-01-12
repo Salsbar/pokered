@@ -1,54 +1,50 @@
-PewterPokecenter_Script:
+PewterPokecenterScript:
 	call Serial_TryEstablishingExternallyClockedConnection
 	jp EnableAutoTextBoxDrawing
 
-PewterPokecenter_TextPointers:
+PewterPokecenterTextPointers:
 	dw PewterHealNurseText
 	dw PewterPokecenterText2
 	dw PewterJigglypuffText
 	dw PewterTradeNurseText
 
 PewterHealNurseText:
-	script_pokecenter_nurse
+	TX_POKECENTER_NURSE
 
 PewterPokecenterText2:
-	text_far _PewterPokecenterText2
-	text_end
+	TX_FAR _PewterPokecenterText2
+	db "@"
 
 PewterJigglypuffText:
-	text_asm
-	ld a, TRUE
+	TX_ASM
+	ld a, $1
 	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
-	ld hl, .JigglypuffText
+	ld hl, .Text
 	call PrintText
-
-	ld a, SFX_STOP_ALL_MUSIC
-	call PlaySound
+	StopAllMusic
 	ld c, 32
 	call DelayFrames
-
 	ld hl, JigglypuffFacingDirections
 	ld de, wJigglypuffFacingDirections
 	ld bc, JigglypuffFacingDirectionsEnd - JigglypuffFacingDirections
 	call CopyData
 
-	ld a, [wSprite03StateData1ImageIndex]
+	ld a, [Sprite03SpriteImageIdx]
 	ld hl, wJigglypuffFacingDirections
 .findMatchingFacingDirectionLoop
 	cp [hl]
 	inc hl
 	jr nz, .findMatchingFacingDirectionLoop
 	dec hl
-
 	push hl
 	ld c, BANK(Music_JigglypuffSong)
 	ld a, MUSIC_JIGGLYPUFF_SONG
 	call PlayMusic
 	pop hl
-
-.spinMovementLoop
+.loop
 	ld a, [hl]
-	ld [wSprite03StateData1ImageIndex], a
+	ld [Sprite03SpriteImageIdx], a
+
 ; rotate the array
 	push hl
 	ld hl, wJigglypuffFacingDirections
@@ -58,22 +54,24 @@ PewterJigglypuffText:
 	ld a, [wJigglypuffFacingDirections - 1]
 	ld [wJigglypuffFacingDirections + 3], a
 	pop hl
+
 	ld c, 24
 	call DelayFrames
+
 	ld a, [wChannelSoundIDs]
 	ld b, a
-	ld a, [wChannelSoundIDs + Ch2]
+	ld a, [wChannelSoundIDs + Ch1]
 	or b
-	jr nz, .spinMovementLoop
+	jr nz, .loop
 
 	ld c, 48
 	call DelayFrames
 	call PlayDefaultMusic
 	jp TextScriptEnd
 
-.JigglypuffText:
-	text_far _PewterJigglypuffText
-	text_end
+.Text
+	TX_FAR _PewterJigglypuffText
+	db "@"
 
 JigglypuffFacingDirections:
 	db $30 | SPRITE_FACING_DOWN
@@ -83,4 +81,4 @@ JigglypuffFacingDirections:
 JigglypuffFacingDirectionsEnd:
 
 PewterTradeNurseText:
-	script_cable_club_receptionist
+	TX_CABLE_CLUB_RECEPTIONIST

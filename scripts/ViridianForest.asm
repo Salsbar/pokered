@@ -1,18 +1,18 @@
-ViridianForest_Script:
+ViridianForestScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, ViridianForestTrainerHeaders
-	ld de, ViridianForest_ScriptPointers
+	ld hl, ViridianForestTrainerHeader0
+	ld de, ViridianForestScriptPointers
 	ld a, [wViridianForestCurScript]
 	call ExecuteCurMapScriptInTable
 	ld [wViridianForestCurScript], a
 	ret
 
-ViridianForest_ScriptPointers:
+ViridianForestScriptPointers:
 	dw CheckFightingMapTrainers
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
 
-ViridianForest_TextPointers:
+ViridianForestTextPointers:
 	dw ViridianForestText1
 	dw ViridianForestText2
 	dw ViridianForestText3
@@ -28,98 +28,117 @@ ViridianForest_TextPointers:
 	dw ViridianForestText13
 	dw ViridianForestText14
 
-ViridianForestTrainerHeaders:
-	def_trainers 2
 ViridianForestTrainerHeader0:
-	trainer EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_0, 4, ViridianForestBattleText1, ViridianForestEndBattleText1, ViridianForestAfterBattleText1
+	dbEventFlagBit EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_0
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_0
+	dw ViridianForestBattleText1 ; TextBeforeBattle
+	dw ViridianForestAfterBattleText1 ; TextAfterBattle
+	dw ViridianForestEndBattleText1 ; TextEndBattle
+	dw ViridianForestEndBattleText1 ; TextEndBattle
+
 ViridianForestTrainerHeader1:
-	trainer EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_1, 4, ViridianForestBattleText2, ViridianForestEndBattleText2, ViridianForestAfterBattleText2
+	dbEventFlagBit EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_1
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_1
+	dw ViridianForestBattleText2 ; TextBeforeBattle
+	dw ViridianForestAfterBattleText2 ; TextAfterBattle
+	dw ViridianForestEndBattleText2 ; TextEndBattle
+	dw ViridianForestEndBattleText2 ; TextEndBattle
+
 ViridianForestTrainerHeader2:
-	trainer EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_2, 1, ViridianForestBattleText3, ViridianForestEndBattleText3, ViridianForestAfterBattleText3
-	db -1 ; end
+	dbEventFlagBit EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_2
+	db ($1 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_VIRIDIAN_FOREST_TRAINER_2
+	dw ViridianForestBattleText3 ; TextBeforeBattle
+	dw ViridianForestAfterBattleText3 ; TextAfterBattle
+	dw ViridianForestEndBattleText3 ; TextEndBattle
+	dw ViridianForestEndBattleText3 ; TextEndBattle
+
+	db $ff
 
 ViridianForestText1:
-	text_far _ViridianForestText1
-	text_end
+	TX_FAR _ViridianForestText1
+	db "@"
 
 ViridianForestText2:
-	text_asm
+	TX_ASM
 	ld hl, ViridianForestTrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
 
 ViridianForestText3:
-	text_asm
+	TX_ASM
 	ld hl, ViridianForestTrainerHeader1
 	call TalkToTrainer
 	jp TextScriptEnd
 
 ViridianForestText4:
-	text_asm
+	TX_ASM
 	ld hl, ViridianForestTrainerHeader2
 	call TalkToTrainer
 	jp TextScriptEnd
 
 ViridianForestBattleText1:
-	text_far _ViridianForestBattleText1
-	text_end
+	TX_FAR _ViridianForestBattleText1
+	db "@"
 
 ViridianForestEndBattleText1:
-	text_far _ViridianForestEndBattleText1
-	text_end
+	TX_FAR _ViridianForestEndBattleText1
+	db "@"
 
 ViridianForestAfterBattleText1:
-	text_far _ViridianFrstAfterBattleText1
-	text_end
+	TX_FAR _ViridianFrstAfterBattleText1
+	db "@"
 
 ViridianForestBattleText2:
-	text_far _ViridianForestBattleText2
-	text_end
+	TX_FAR _ViridianForestBattleText2
+	db "@"
 
 ViridianForestEndBattleText2:
-	text_far _ViridianForestEndBattleText2
-	text_end
+	TX_FAR _ViridianForestEndBattleText2
+	db "@"
 
 ViridianForestAfterBattleText2:
-	text_far _ViridianFrstAfterBattleText2
-	text_end
+	TX_FAR _ViridianFrstAfterBattleText2
+	db "@"
 
 ViridianForestBattleText3:
-	text_far _ViridianForestBattleText3
-	text_end
+	TX_FAR _ViridianForestBattleText3
+	db "@"
 
 ViridianForestEndBattleText3:
-	text_far _ViridianForestEndBattleText3
-	text_end
+	TX_FAR _ViridianForestEndBattleText3
+	db "@"
 
 ViridianForestAfterBattleText3:
-	text_far _ViridianFrstAfterBattleText3
-	text_end
+	TX_FAR _ViridianFrstAfterBattleText3
+	db "@"
 
 ViridianForestText8:
-	text_far _ViridianForestText8
-	text_end
+	TX_FAR _ViridianForestText8
+	db "@"
 
 ViridianForestText9:
-	text_far _ViridianForestText9
-	text_end
+	TX_FAR _ViridianForestText9
+	db "@"
 
 ViridianForestText10:
-	text_far _ViridianForestText10
-	text_end
+	TX_FAR _ViridianForestText10
+	db "@"
 
 ViridianForestText11:
-	text_far _ViridianForestText11
-	text_end
+	TX_FAR _ViridianForestText11
+	db "@"
 
 ViridianForestText12:
-	text_far _ViridianForestText12
-	text_end
+	TX_FAR _ViridianForestText12
+	db "@"
 
 ViridianForestText13:
-	text_far _ViridianForestText13
-	text_end
+	TX_FAR _ViridianForestText13
+	db "@"
 
 ViridianForestText14:
-	text_far _ViridianForestText14
-	text_end
+	TX_FAR _ViridianForestText14
+	db "@"

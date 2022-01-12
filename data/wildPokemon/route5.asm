@@ -1,0 +1,13 @@
+Route5Mons:
+	db $0F
+		db 13,LILLIPUP
+		db 13,LILLIPUP
+		db 15,PIDOVE
+		db 10,PANSEAR
+		db 12,PANSEAR
+		db 15,MINCCINO
+		db 16,MINCCINO
+		db 16,PIDOVE
+		db 14,AUDINO
+		db 16,AUDINO
+	db $00

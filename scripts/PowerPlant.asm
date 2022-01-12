@@ -1,18 +1,18 @@
-PowerPlant_Script:
+PowerPlantScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, PowerPlantTrainerHeaders
-	ld de, PowerPlant_ScriptPointers
+	ld hl, Voltorb0TrainerHeader
+	ld de, .ScriptPointers
 	ld a, [wPowerPlantCurScript]
 	call ExecuteCurMapScriptInTable
 	ld [wPowerPlantCurScript], a
 	ret
 
-PowerPlant_ScriptPointers:
+.ScriptPointers
 	dw CheckFightingMapTrainers
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
 
-PowerPlant_TextPointers:
+PowerPlantTextPointers:
 	dw Voltorb0Text
 	dw Voltorb1Text
 	dw Voltorb2Text
@@ -28,27 +28,88 @@ PowerPlant_TextPointers:
 	dw PickUpItemText
 	dw PickUpItemText
 
-PowerPlantTrainerHeaders:
-	def_trainers
 Voltorb0TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_0, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_0
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_0
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb1TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_1, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_1
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_1
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb2TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_2, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_2
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_2
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb3TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_3, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_3
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_3
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb4TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_4, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_4
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_4
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb5TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_5, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_5
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_5
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb6TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_6, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_6
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_6
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 Voltorb7TrainerHeader:
-	trainer EVENT_BEAT_POWER_PLANT_VOLTORB_7, 0, VoltorbBattleText, VoltorbBattleText, VoltorbBattleText
+	dbEventFlagBit EVENT_BEAT_POWER_PLANT_VOLTORB_7, 1
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_POWER_PLANT_VOLTORB_7, 1
+	dw VoltorbBattleText ; TextBeforeBattle
+	dw VoltorbBattleText ; TextAfterBattle
+	dw VoltorbBattleText ; TextEndBattle
+	dw VoltorbBattleText ; TextEndBattle
+
 ZapdosTrainerHeader:
-	trainer EVENT_BEAT_ZAPDOS, 0, ZapdosBattleText, ZapdosBattleText, ZapdosBattleText
-	db -1 ; end
+	dbEventFlagBit EVENT_BEAT_ZAPDOS, 1
+	db 0 ; view range
+	dwEventFlagAddress EVENT_BEAT_ZAPDOS, 1
+	dw ZapdosBattleText ; TextBeforeBattle
+	dw ZapdosBattleText ; TextAfterBattle
+	dw ZapdosBattleText ; TextEndBattle
+	dw ZapdosBattleText ; TextEndBattle
+
+	db $ff
 
 InitVoltorbBattle:
 	call TalkToTrainer
@@ -57,58 +118,58 @@ InitVoltorbBattle:
 	jp TextScriptEnd
 
 Voltorb0Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb0TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb1Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb1TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb2Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb2TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb3Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb3TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb4Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb4TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb5Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb5TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb6Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb6TrainerHeader
 	jr InitVoltorbBattle
 
 Voltorb7Text:
-	text_asm
+	TX_ASM
 	ld hl, Voltorb7TrainerHeader
 	jr InitVoltorbBattle
 
 ZapdosText:
-	text_asm
+	TX_ASM
 	ld hl, ZapdosTrainerHeader
 	jr InitVoltorbBattle
 
 VoltorbBattleText:
-	text_far _VoltorbBattleText
-	text_end
+	TX_FAR _VoltorbBattleText
+	db "@"
 
 ZapdosBattleText:
-	text_far _ZapdosBattleText
-	text_asm
-	ld a, ZAPDOS
+	TX_FAR _ZapdosBattleText
+	TX_ASM
+	ld a, ZEKROM
 	call PlayCry
 	call WaitForSoundToFinish
 	jp TextScriptEnd

@@ -1,0 +1,13 @@
+Route4Mons:
+	db $14
+		db 10,LILLIPUP
+		db 10,PIDOVE
+		db 8,LILLIPUP
+		db 6,PANSAGE
+		db 8,PURRLOIN
+		db 10,DRILBUR
+		db 12,PIDOVE
+		db 12,PURRLOIN
+		db 8,DRILBUR
+		db 12,PANSAGE
+	db $00

@@ -1,12 +1,12 @@
-ShakeElevator::
+ShakeElevator:
 	ld de, -$20
 	call ShakeElevatorRedrawRow
 	ld de, SCREEN_HEIGHT * $20
 	call ShakeElevatorRedrawRow
 	call Delay3
-	ld a, SFX_STOP_ALL_MUSIC
+	ld a, $ff
 	call PlaySound
-	ldh a, [hSCY]
+	ld a, [hSCY]
 	ld d, a
 	ld e, $1
 	ld b, 100
@@ -15,7 +15,7 @@ ShakeElevator::
 	xor $fe
 	ld e, a
 	add d
-	ldh [hSCY], a
+	ld [hSCY], a
 	push bc
 	ld c, BANK(SFX_Collision_1)
 	ld a, SFX_COLLISION
@@ -26,14 +26,14 @@ ShakeElevator::
 	dec b
 	jr nz, .shakeLoop
 	ld a, d
-	ldh [hSCY], a
-	ld a, SFX_STOP_ALL_MUSIC
+	ld [hSCY], a
+	ld a, $ff
 	call PlaySound
 	ld c, BANK(SFX_Safari_Zone_PA)
 	ld a, SFX_SAFARI_ZONE_PA
 	call PlayMusic
 .musicLoop
-	ld a, [wChannelSoundIDs + Ch5]
+	ld a, [wChannelSoundIDs + Ch4]
 	cp SFX_SAFARI_ZONE_PA
 	jr z, .musicLoop
 	call UpdateSprites
@@ -56,7 +56,7 @@ ShakeElevatorRedrawRow:
 	add hl, de
 	ld a, h
 	and $3
-	or HIGH(vBGMap0)
+	or vBGMap0 / $100
 	ld d, a
 	ld a, l
 	pop hl

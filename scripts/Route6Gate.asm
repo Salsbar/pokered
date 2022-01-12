@@ -1,11 +1,11 @@
-Route6Gate_Script:
+Route6GateScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, Route6Gate_ScriptPointers
+	ld hl, Route6GateScriptPointers
 	ld a, [wRoute6GateCurScript]
 	call CallFunctionInTable
 	ret
 
-Route6Gate_ScriptPointers:
+Route6GateScriptPointers:
 	dw Route6GateScript0
 	dw Route6GateScript1
 
@@ -19,13 +19,13 @@ Route6GateScript0:
 	ld a, PLAYER_DIR_RIGHT
 	ld [wPlayerMovingDirection], a
 	xor a
-	ldh [hJoyHeld], a
-	farcall RemoveGuardDrink
-	ldh a, [hItemToRemoveID]
+	ld [hJoyHeld], a
+	callba RemoveGuardDrink
+	ld a, [$ffdb]
 	and a
 	jr nz, .asm_1e080
 	ld a, $2
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	call Route6GateScript_1e0a1
 	ld a, $1
@@ -35,13 +35,12 @@ Route6GateScript0:
 	ld hl, wd728
 	set 6, [hl]
 	ld a, $3
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	jp DisplayTextID
 
 CoordsData_1e08c:
-	dbmapcoord  3,  2
-	dbmapcoord  4,  2
-	db -1 ; end
+	db $02,$03
+	db $02,$04,$FF
 
 Route6GateScript1:
 	ld a, [wSimulatedJoypadStatesIndex]
@@ -61,11 +60,11 @@ Route6GateScript_1e0a1:
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
 	xor a
-	ld [wSpritePlayerStateData2MovementByte1], a
+	ld [wSpriteStateData2 + $06], a
 	ld [wOverrideSimulatedJoypadStatesMask], a
 	ret
 
-Route6Gate_TextPointers:
+Route6GateTextPointers:
 	dw Route6GateText1
 	dw Route6GateText2
 	dw Route6GateText3

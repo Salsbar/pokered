@@ -1,0 +1,13 @@
+TowerMons3:
+	db $0A
+	db 20,YAMASK
+	db 21,YAMASK
+	db 22,YAMASK
+	db 23,YAMASK
+	db 19,YAMASK
+	db 18,YAMASK
+	db 24,YAMASK
+	db 20,ELGYEM
+	db 22,ELGYEM
+	db 25,LITWICK
+	db $00

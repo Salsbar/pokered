@@ -1,22 +1,22 @@
-CopycatsHouse1F_Script:
+CopycatsHouse1FScript:
 	jp EnableAutoTextBoxDrawing
 
-CopycatsHouse1F_TextPointers:
+CopycatsHouse1FTextPointers:
 	dw CopycatsHouse1FText1
 	dw CopycatsHouse1FText2
 	dw CopycatsHouse1FText3
 
 CopycatsHouse1FText1:
-	text_far _CopycatsHouse1FText1
-	text_end
+	TX_FAR _CopycatsHouse1FText1
+	db "@"
 
 CopycatsHouse1FText2:
-	text_far _CopycatsHouse1FText2
-	text_end
+	TX_FAR _CopycatsHouse1FText2
+	db "@"
 
 CopycatsHouse1FText3:
-	text_far _CopycatsHouse1FText3
-	text_asm
-	ld a, CHANSEY
+	TX_FAR _CopycatsHouse1FText3
+	TX_ASM
+	ld a, AUDINO
 	call PlayCry
 	jp TextScriptEnd

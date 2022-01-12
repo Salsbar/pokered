@@ -1,0 +1,13 @@
+Route12Mons:
+	db $0F
+		db 24,COTTONEE
+		db 25,PETILIL
+		db 23,DUCKLETT
+		db 24,PETILIL
+		db 22,DUCKLETT
+		db 26,FERROSEED
+		db 26,MARACTUS
+		db 27,FERROSEED
+		db 28,GOLETT
+		db 30,ZORUA
+	db $00

@@ -1,23 +1,23 @@
-VermilionPokecenter_Script:
+VermilionPokecenterScript:
 	call Serial_TryEstablishingExternallyClockedConnection
 	jp EnableAutoTextBoxDrawing
 
-VermilionPokecenter_TextPointers:
+VermilionPokecenterTextPointers:
 	dw VermilionHealNurseText
 	dw VermilionPokecenterText2
 	dw VermilionPokecenterText3
 	dw VermilionTradeNurseText
 
 VermilionHealNurseText:
-	script_pokecenter_nurse
+	TX_POKECENTER_NURSE
 
 VermilionPokecenterText2:
-	text_far _VermilionPokecenterText2
-	text_end
+	TX_FAR _VermilionPokecenterText2
+	db "@"
 
 VermilionPokecenterText3:
-	text_far _VermilionPokecenterText3
-	text_end
+	TX_FAR _VermilionPokecenterText3
+	db "@"
 
 VermilionTradeNurseText:
-	script_cable_club_receptionist
+	TX_CABLE_CLUB_RECEPTIONIST

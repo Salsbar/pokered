@@ -1,10 +1,10 @@
-Route5Gate_Script:
+Route5GateScript:
 	call EnableAutoTextBoxDrawing
 	ld a, [wRoute5GateCurScript]
-	ld hl, Route5Gate_ScriptPointers
+	ld hl, Route5GateScriptPointers
 	jp CallFunctionInTable
 
-Route5Gate_ScriptPointers:
+Route5GateScriptPointers:
 	dw Route5GateScript0
 	dw Route5GateScript1
 
@@ -25,13 +25,13 @@ Route5GateScript0:
 	ld a, PLAYER_DIR_LEFT
 	ld [wPlayerMovingDirection], a
 	xor a
-	ldh [hJoyHeld], a
-	farcall RemoveGuardDrink
-	ldh a, [hItemToRemoveID]
+	ld [hJoyHeld], a
+	callba RemoveGuardDrink
+	ld a, [$ffdb]
 	and a
 	jr nz, .asm_1df82
 	ld a, $2
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	call Route5GateScript_1df43
 	ld a, $1
@@ -39,16 +39,16 @@ Route5GateScript0:
 	ret
 .asm_1df82
 	ld a, $3
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	ld hl, wd728
 	set 6, [hl]
 	ret
 
 CoordsData_1df8f:
-	dbmapcoord  3,  3
-	dbmapcoord  4,  3
-	db -1 ; end
+	db 3,3
+	db 3,4
+	db $ff
 
 Route5GateScript1:
 	ld a, [wSimulatedJoypadStatesIndex]
@@ -60,7 +60,7 @@ Route5GateScript1:
 	ld [wRoute5GateCurScript], a
 	ret
 
-Route5Gate_TextPointers:
+Route5GateTextPointers:
 	dw Route5GateText1
 	dw Route5GateText2
 	dw Route5GateText3
@@ -69,12 +69,12 @@ Route8GateText1:
 Route7GateText1:
 Route6GateText1:
 Route5GateText1:
-	text_asm
+	TX_ASM
 	ld a, [wd728]
 	bit 6, a
 	jr nz, .asm_88856
-	farcall RemoveGuardDrink
-	ldh a, [hItemToRemoveID]
+	callba RemoveGuardDrink
+	ld a, [$ffdb]
 	and a
 	jr nz, .asm_768a2
 	ld hl, Route5GateText2
@@ -98,18 +98,20 @@ Route8GateText2:
 Route7GateText2:
 Route6GateText2:
 Route5GateText2:
-	text_far _SaffronGateText_1dfe7
-	text_end
+	TX_FAR _SaffronGateText_1dfe7
+	db "@"
 
 Route8GateText3:
 Route7GateText3:
 Route6GateText3:
 Route5GateText3:
-	text_far _SaffronGateText_8aaa9
-	sound_get_key_item
-	text_far _SaffronGateText_1dff1
-	text_end
+	TX_FAR _SaffronGateText_8aaa9
+	TX_SFX_KEY_ITEM
+	TX_FAR _SaffronGateText_1dff1
+	db "@"
 
 SaffronGateText_1dff6:
-	text_far _SaffronGateText_1dff6
-	text_end
+	TX_FAR _SaffronGateText_1dff6
+	db "@"
+
+

@@ -1,0 +1,13 @@
+Route16Mons:
+	db $19
+	db 20,SOLOSIS
+	db 22,TRUBBISH
+	db 18,FOONGUS
+	db 20,DEERLING
+	db 20,SOLOSIS
+	db 18,DEERLING
+	db 22,VULLABY
+	db 22,RUFFLET
+	db 23,RUFFLET
+	db 25,VULLABY
+	db $00

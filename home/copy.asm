@@ -1,14 +1,14 @@
 FarCopyData::
 ; Copy bc bytes from a:hl to de.
 	ld [wBuffer], a
-	ldh a, [hLoadedROMBank]
+	ld a, [H_LOADEDROMBANK]
 	push af
 	ld a, [wBuffer]
-	ldh [hLoadedROMBank], a
+	ld [H_LOADEDROMBANK], a
 	ld [MBC1RomBank], a
 	call CopyData
 	pop af
-	ldh [hLoadedROMBank], a
+	ld [H_LOADEDROMBANK], a
 	ld [MBC1RomBank], a
 	ret
 

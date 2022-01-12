@@ -1,0 +1,13 @@
+Route9Mons:
+	db $0F
+		db 16,PIDOVE
+		db 16,BLITZLE
+		db 14,BLITZLE
+		db 11,DWEBBLE
+		db 13,TIMBURR
+		db 15,BLITZLE
+		db 17,PIDOVE
+		db 17,TIMBURR
+		db 13,DWEBBLE
+		db 17,MARACTUS
+	db $00

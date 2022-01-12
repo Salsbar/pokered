@@ -1,15 +1,15 @@
-RedsHouse1F_Script:
+RedsHouse1FScript:
 	jp EnableAutoTextBoxDrawing
 
-RedsHouse1F_TextPointers:
-	dw RedsHouse1FMomText
-	dw RedsHouse1FTVText
+RedsHouse1FTextPointers:
+	dw RedsHouse1FText1
+	dw RedsHouse1FText2
 
-RedsHouse1FMomText:
-	text_asm
+RedsHouse1FText1: ; Mom
+	TX_ASM
 	ld a, [wd72e]
-	bit 3, a ; received a Pokémon from Oak?
-	jr nz, .heal
+	bit 3, a
+	jr nz, .heal ; if player has received a Pokémon from Oak, heal team
 	ld hl, MomWakeUpText
 	call PrintText
 	jr .done
@@ -19,8 +19,8 @@ RedsHouse1FMomText:
 	jp TextScriptEnd
 
 MomWakeUpText:
-	text_far _MomWakeUpText
-	text_end
+	TX_FAR _MomWakeUpText
+	db "@"
 
 MomHealPokemon:
 	ld hl, MomHealText1
@@ -43,27 +43,27 @@ MomHealPokemon:
 	jp PrintText
 
 MomHealText1:
-	text_far _MomHealText1
-	text_end
+	TX_FAR _MomHealText1
+	db "@"
 MomHealText2:
-	text_far _MomHealText2
-	text_end
+	TX_FAR _MomHealText2
+	db "@"
 
-RedsHouse1FTVText:
-	text_asm
-	ld a, [wSpritePlayerStateData1FacingDirection]
+RedsHouse1FText2: ; TV
+	TX_ASM
+	ld a,[wSpriteStateData1 + 9]
 	cp SPRITE_FACING_UP
-	ld hl, TVWrongSideText
-	jr nz, .got_text
-	ld hl, StandByMeText
-.got_text
+	ld hl,TVWrongSideText
+	jr nz,.notUp
+	ld hl,StandByMeText
+.notUp
 	call PrintText
 	jp TextScriptEnd
 
 StandByMeText:
-	text_far _StandByMeText
-	text_end
+	TX_FAR _StandByMeText
+	db "@"
 
 TVWrongSideText:
-	text_far _TVWrongSideText
-	text_end
+	TX_FAR _TVWrongSideText
+	db "@"

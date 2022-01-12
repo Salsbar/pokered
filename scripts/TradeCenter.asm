@@ -1,38 +1,38 @@
-TradeCenter_Script:
+TradeCenterScript:
 	call EnableAutoTextBoxDrawing
-	ldh a, [hSerialConnectionStatus]
+	ld a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	ld a, SPRITE_FACING_LEFT
 	jr z, .next
 	ld a, SPRITE_FACING_RIGHT
 .next
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	call SetSpriteFacingDirection
 	ld hl, wd72d
 	bit 0, [hl]
 	set 0, [hl]
 	ret nz
-	ld hl, wSprite01StateData2MapY
-	ld a, 8 ; y
+	ld hl, wSpriteStateData2 + $14
+	ld a, $8
 	ld [hli], a
-	ld a, 10 ; x
+	ld a, $a
 	ld [hl], a
 	ld a, SPRITE_FACING_LEFT
-	ld [wSprite01StateData1FacingDirection], a
-	ldh a, [hSerialConnectionStatus]
+	ld [wSpriteStateData1 + $19], a
+	ld a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	ret z
-	ld a, 7 ; x
-	ld [wSprite01StateData2MapX], a
+	ld a, $7
+	ld [wSpriteStateData2 + $15], a
 	ld a, SPRITE_FACING_RIGHT
-	ld [wSprite01StateData1FacingDirection], a
+	ld [wSpriteStateData1 + $19], a
 	ret
 
-TradeCenter_TextPointers:
+TradeCenterTextPointers:
 	dw TradeCenterText1
 
 TradeCenterText1:
-	text_far _TradeCenterText1
-	text_end
+	TX_FAR _TradeCenterText1
+	db "@"

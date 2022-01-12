@@ -1,7 +1,7 @@
-LavenderTown_Script:
+LavenderTownScript:
 	jp EnableAutoTextBoxDrawing
 
-LavenderTown_TextPointers:
+LavenderTownTextPointers:
 	dw LavenderTownText1
 	dw LavenderTownText2
 	dw LavenderTownText3
@@ -13,51 +13,51 @@ LavenderTown_TextPointers:
 	dw LavenderTownText9
 
 LavenderTownText1:
-	text_asm
+	TX_ASM
 	ld hl, LavenderTownText_4413c
 	call PrintText
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
 	ld hl, LavenderTownText_44146
-	jr nz, .got_text
+	jr nz, .asm_40831
 	ld hl, LavenderTownText_44141
-.got_text
+.asm_40831
 	call PrintText
 	jp TextScriptEnd
 
 LavenderTownText_4413c:
-	text_far _LavenderTownText_4413c
-	text_end
+	TX_FAR _LavenderTownText_4413c
+	db "@"
 
 LavenderTownText_44141:
-	text_far _LavenderTownText_44141
-	text_end
+	TX_FAR _LavenderTownText_44141
+	db "@"
 
 LavenderTownText_44146:
-	text_far _LavenderTownText_44146
-	text_end
+	TX_FAR _LavenderTownText_44146
+	db "@"
 
 LavenderTownText2:
-	text_far _LavenderTownText2
-	text_end
+	TX_FAR _LavenderTownText2
+	db "@"
 
 LavenderTownText3:
-	text_far _LavenderTownText3
-	text_end
+	TX_FAR _LavenderTownText3
+	db "@"
 
 LavenderTownText4:
-	text_far _LavenderTownText4
-	text_end
+	TX_FAR _LavenderTownText4
+	db "@"
 
 LavenderTownText5:
-	text_far _LavenderTownText5
-	text_end
+	TX_FAR _LavenderTownText5
+	db "@"
 
 LavenderTownText8:
-	text_far _LavenderTownText8
-	text_end
+	TX_FAR _LavenderTownText8
+	db "@"
 
 LavenderTownText9:
-	text_far _LavenderTownText9
-	text_end
+	TX_FAR _LavenderTownText9
+	db "@"

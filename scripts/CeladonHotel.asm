@@ -1,19 +1,19 @@
-CeladonHotel_Script:
+CeladonHotelScript:
 	jp EnableAutoTextBoxDrawing
 
-CeladonHotel_TextPointers:
+CeladonHotelTextPointers:
 	dw CeladonHotelText1
 	dw CeladonHotelText2
 	dw CeladonHotelText3
 
 CeladonHotelText1:
-	text_far _CeladonHotelText1
-	text_end
+	TX_FAR _CeladonHotelText1
+	db "@"
 
 CeladonHotelText2:
-	text_far _CeladonHotelText2
-	text_end
+	TX_FAR _CeladonHotelText2
+	db "@"
 
 CeladonHotelText3:
-	text_far _CeladonHotelText3
-	text_end
+	TX_FAR _CeladonHotelText3
+	db "@"

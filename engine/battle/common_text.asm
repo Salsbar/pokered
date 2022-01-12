@@ -3,9 +3,9 @@ PrintBeginningBattleText:
 	dec a
 	jr nz, .trainerBattle
 	ld a, [wCurMap]
-	cp POKEMON_TOWER_3F
+	cp POKEMONTOWER_3
 	jr c, .notPokemonTower
-	cp POKEMON_TOWER_7F + 1
+	cp LAVENDER_HOUSE_1
 	jr c, .pokemonTower
 .notPokemonTower
 	ld a, [wEnemyMonSpecies2]
@@ -24,7 +24,7 @@ PrintBeginningBattleText:
 	ld hl, TrainerWantsToFightText
 .wildBattle
 	push hl
-	callfar DrawAllPokeballs
+	callab DrawAllPokeballs
 	pop hl
 	call PrintText
 	jr .done
@@ -33,12 +33,12 @@ PrintBeginningBattleText:
 	call IsItemInBag
 	ld a, [wEnemyMonSpecies2]
 	ld [wcf91], a
-	cp RESTLESS_SOUL
+	cp COFAGRIGUS
 	jr z, .isMarowak
 	ld a, b
 	and a
 	jr z, .noSilphScope
-	callfar LoadEnemyMonData
+	callab LoadEnemyMonData
 	jr .notPokemonTower
 .noSilphScope
 	ld hl, EnemyAppearedText
@@ -54,8 +54,8 @@ PrintBeginningBattleText:
 	call PrintText
 	ld hl, UnveiledGhostText
 	call PrintText
-	callfar LoadEnemyMonData
-	callfar MarowakAnim
+	callab LoadEnemyMonData
+	callab MarowakAnim
 	ld hl, WildMonAppearedText
 	call PrintText
 
@@ -71,28 +71,28 @@ PrintBeginningBattleText:
 	ret
 
 WildMonAppearedText:
-	text_far _WildMonAppearedText
-	text_end
+	TX_FAR _WildMonAppearedText
+	db "@"
 
 HookedMonAttackedText:
-	text_far _HookedMonAttackedText
-	text_end
+	TX_FAR _HookedMonAttackedText
+	db "@"
 
 EnemyAppearedText:
-	text_far _EnemyAppearedText
-	text_end
+	TX_FAR _EnemyAppearedText
+	db "@"
 
 TrainerWantsToFightText:
-	text_far _TrainerWantsToFightText
-	text_end
+	TX_FAR _TrainerWantsToFightText
+	db "@"
 
 UnveiledGhostText:
-	text_far _UnveiledGhostText
-	text_end
+	TX_FAR _UnveiledGhostText
+	db "@"
 
 GhostCantBeIDdText:
-	text_far _GhostCantBeIDdText
-	text_end
+	TX_FAR _GhostCantBeIDdText
+	db "@"
 
 PrintSendOutMonMessage:
 	ld hl, wEnemyMonHP
@@ -101,16 +101,16 @@ PrintSendOutMonMessage:
 	ld hl, GoText
 	jr z, .printText
 	xor a
-	ldh [hMultiplicand], a
+	ld [H_MULTIPLICAND], a
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	ld [wLastSwitchInEnemyMonHP], a
-	ldh [hMultiplicand + 1], a
+	ld [H_MULTIPLICAND + 1], a
 	ld a, [hl]
 	ld [wLastSwitchInEnemyMonHP + 1], a
-	ldh [hMultiplicand + 2], a
+	ld [H_MULTIPLICAND + 2], a
 	ld a, 25
-	ldh [hMultiplier], a
+	ld [H_MULTIPLIER], a
 	call Multiply
 	ld hl, wEnemyMonMaxHP
 	ld a, [hli]
@@ -121,9 +121,9 @@ PrintSendOutMonMessage:
 	rr b
 	ld a, b
 	ld b, 4
-	ldh [hDivisor], a ; enemy mon max HP divided by 4
+	ld [H_DIVISOR], a ; enemy mon max HP divided by 4
 	call Divide
-	ldh a, [hQuotient + 3] ; a = (enemy mon current HP * 25) / (enemy max HP / 4); this approximates the current percentage of max HP
+	ld a, [H_QUOTIENT + 3] ; a = (enemy mon current HP * 25) / (enemy max HP / 4); this approximates the current percentage of max HP
 	ld hl, GoText ; 70% or greater
 	cp 70
 	jr nc, .printText
@@ -138,39 +138,39 @@ PrintSendOutMonMessage:
 	jp PrintText
 
 GoText:
-	text_far _GoText
-	text_asm
+	TX_FAR _GoText
+	TX_ASM
 	jr PrintPlayerMon1Text
 
 DoItText:
-	text_far _DoItText
-	text_asm
+	TX_FAR _DoItText
+	TX_ASM
 	jr PrintPlayerMon1Text
 
 GetmText:
-	text_far _GetmText
-	text_asm
+	TX_FAR _GetmText
+	TX_ASM
 	jr PrintPlayerMon1Text
 
 EnemysWeakText:
-	text_far _EnemysWeakText
-	text_asm
+	TX_FAR _EnemysWeakText
+	TX_ASM
 
 PrintPlayerMon1Text:
 	ld hl, PlayerMon1Text
 	ret
 
 PlayerMon1Text:
-	text_far _PlayerMon1Text
-	text_end
+	TX_FAR _PlayerMon1Text
+	db "@"
 
 RetreatMon:
 	ld hl, PlayerMon2Text
 	jp PrintText
 
 PlayerMon2Text:
-	text_far _PlayerMon2Text
-	text_asm
+	TX_FAR _PlayerMon2Text
+	TX_ASM
 	push de
 	push bc
 	ld hl, wEnemyMonHP + 1
@@ -179,14 +179,14 @@ PlayerMon2Text:
 	dec hl
 	ld a, [de]
 	sub b
-	ldh [hMultiplicand + 2], a
+	ld [H_MULTIPLICAND + 2], a
 	dec de
 	ld b, [hl]
 	ld a, [de]
 	sbc b
-	ldh [hMultiplicand + 1], a
+	ld [H_MULTIPLICAND + 1], a
 	ld a, 25
-	ldh [hMultiplier], a
+	ld [H_MULTIPLIER], a
 	call Multiply
 	ld hl, wEnemyMonMaxHP
 	ld a, [hli]
@@ -197,11 +197,11 @@ PlayerMon2Text:
 	rr b
 	ld a, b
 	ld b, 4
-	ldh [hDivisor], a
+	ld [H_DIVISOR], a
 	call Divide
 	pop bc
 	pop de
-	ldh a, [hQuotient + 3] ; a = ((LastSwitchInEnemyMonHP - CurrentEnemyMonHP) / 25) / (EnemyMonMaxHP / 4)
+	ld a, [H_QUOTIENT + 3] ; a = ((LastSwitchInEnemyMonHP - CurrentEnemyMonHP) / 25) / (EnemyMonMaxHP / 4)
 ; Assuming that the enemy mon hasn't gained HP since the last switch in,
 ; a approximates the percentage that the enemy mon's total HP has decreased
 ; since the last switch in.
@@ -220,18 +220,18 @@ PlayerMon2Text:
 	ret
 
 EnoughText:
-	text_far _EnoughText
-	text_asm
+	TX_FAR _EnoughText
+	TX_ASM
 	jr PrintComeBackText
 
 OKExclamationText:
-	text_far _OKExclamationText
-	text_asm
+	TX_FAR _OKExclamationText
+	TX_ASM
 	jr PrintComeBackText
 
 GoodText:
-	text_far _GoodText
-	text_asm
+	TX_FAR _GoodText
+	TX_ASM
 	jr PrintComeBackText
 
 PrintComeBackText:
@@ -239,5 +239,5 @@ PrintComeBackText:
 	ret
 
 ComeBackText:
-	text_far _ComeBackText
-	text_end
+	TX_FAR _ComeBackText
+	db "@"

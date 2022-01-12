@@ -1,7 +1,7 @@
-SafariZoneNorth_Script:
+SafariZoneNorthScript:
 	jp EnableAutoTextBoxDrawing
 
-SafariZoneNorth_TextPointers:
+SafariZoneNorthTextPointers:
 	dw PickUpItemText
 	dw PickUpItemText
 	dw SafariZoneNorthText3
@@ -11,21 +11,21 @@ SafariZoneNorth_TextPointers:
 	dw SafariZoneNorthText7
 
 SafariZoneNorthText3:
-	text_far _SafariZoneNorthText3
-	text_end
+	TX_FAR _SafariZoneNorthText3
+	db "@"
 
 SafariZoneNorthText4:
-	text_far _SafariZoneNorthText4
-	text_end
+	TX_FAR _SafariZoneNorthText4
+	db "@"
 
 SafariZoneNorthText5:
-	text_far _SafariZoneNorthText5
-	text_end
+	TX_FAR _SafariZoneNorthText5
+	db "@"
 
 SafariZoneNorthText6:
-	text_far _SafariZoneNorthText6
-	text_end
+	TX_FAR _SafariZoneNorthText6
+	db "@"
 
 SafariZoneNorthText7:
-	text_far _SafariZoneNorthText7
-	text_end
+	TX_FAR _SafariZoneNorthText7
+	db "@"

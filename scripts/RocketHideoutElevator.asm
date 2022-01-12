@@ -1,4 +1,4 @@
-RocketHideoutElevator_Script:
+RocketHideoutElevatorScript:
 	ld hl, wCurrentMapScriptFlags
 	bit 5, [hl]
 	res 5, [hl]
@@ -41,30 +41,31 @@ RocketHideoutElevatorScript_45741:
 	ret
 
 RocketHideoutElavatorFloors:
-	db 3 ; #
+	db $03 ; num elements in list
 	db FLOOR_B1F
 	db FLOOR_B2F
 	db FLOOR_B4F
-	db -1 ; end
+	db $FF ; terminator
 
-; These specify where the player goes after getting out of the elevator.
 RocketHideoutElevatorWarpMaps:
-	; warp number, map id
-	db 4, ROCKET_HIDEOUT_B1F
-	db 4, ROCKET_HIDEOUT_B2F
-	db 2, ROCKET_HIDEOUT_B4F
+; first byte is warp number
+; second byte is map number
+; These specify where the player goes after getting out of the elevator.
+	db $04, ROCKET_HIDEOUT_1
+	db $04, ROCKET_HIDEOUT_2
+	db $02, ROCKET_HIDEOUT_4
 RocketHideoutElevatorWarpMapsEnd:
 
 RocketHideoutElevatorScript_4575f:
 	call Delay3
-	farcall ShakeElevator
+	callba ShakeElevator
 	ret
 
-RocketHideoutElevator_TextPointers:
+RocketHideoutElevatorTextPointers:
 	dw RocketHideoutElevatorText1
 
 RocketHideoutElevatorText1:
-	text_asm
+	TX_ASM
 	ld b, LIFT_KEY
 	call IsItemInBag
 	jr z, .asm_45782
@@ -79,6 +80,6 @@ RocketHideoutElevatorText1:
 	jp TextScriptEnd
 
 RocketHideoutElevatorText_4578b:
-	text_far _RocketElevatorText_4578b
-	text_waitbutton
-	text_end
+	TX_FAR _RocketElevatorText_4578b
+	TX_WAIT
+	db "@"

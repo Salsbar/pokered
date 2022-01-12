@@ -1,0 +1,13 @@
+TunnelMonsB1:
+	db $0F
+	db 16,WOOBAT
+	db 17,ROGGENROLA
+	db 17,TIMBURR
+	db 15,DWEBBLE
+	db 16,DRILBUR
+	db 18,SANDILE
+	db 15,WOOBAT
+	db 17,SCRAGGY
+	db 13,DWEBBLE
+	db 15,SCRAGGY
+	db $00

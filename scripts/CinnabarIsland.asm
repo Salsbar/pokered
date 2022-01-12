@@ -1,14 +1,14 @@
-CinnabarIsland_Script:
+CinnabarIslandScript:
 	call EnableAutoTextBoxDrawing
 	ld hl, wCurrentMapScriptFlags
 	set 5, [hl]
 	ResetEvent EVENT_MANSION_SWITCH_ON
 	ResetEvent EVENT_LAB_STILL_REVIVING_FOSSIL
-	ld hl, CinnabarIsland_ScriptPointers
+	ld hl, CinnabarIslandScriptPointers
 	ld a, [wCinnabarIslandCurScript]
 	jp CallFunctionInTable
 
-CinnabarIsland_ScriptPointers:
+CinnabarIslandScriptPointers:
 	dw CinnabarIslandScript0
 	dw CinnabarIslandScript1
 
@@ -17,25 +17,25 @@ CinnabarIslandScript0:
 	call IsItemInBag
 	ret nz
 	ld a, [wYCoord]
-	cp 4
+	cp $4
 	ret nz
 	ld a, [wXCoord]
-	cp 18
+	cp $12
 	ret nz
 	ld a, PLAYER_DIR_UP
 	ld [wPlayerMovingDirection], a
 	ld a, $8
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
 	ld a, D_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
 	call StartSimulatingJoypadStates
 	xor a
-	ld [wSpritePlayerStateData1FacingDirection], a
+	ld [wSpriteStateData1 + 9], a
 	ld [wJoyIgnore], a
 	ld a, $1
 	ld [wCinnabarIslandCurScript], a
@@ -50,7 +50,7 @@ CinnabarIslandScript1:
 	ld [wCinnabarIslandCurScript], a
 	ret
 
-CinnabarIsland_TextPointers:
+CinnabarIslandTextPointers:
 	dw CinnabarIslandText1
 	dw CinnabarIslandText2
 	dw CinnabarIslandText3
@@ -61,25 +61,25 @@ CinnabarIsland_TextPointers:
 	dw CinnabarIslandText8
 
 CinnabarIslandText8:
-	text_far _CinnabarIslandText8
-	text_end
+	TX_FAR _CinnabarIslandText8
+	db "@"
 
 CinnabarIslandText1:
-	text_far _CinnabarIslandText1
-	text_end
+	TX_FAR _CinnabarIslandText1
+	db "@"
 
 CinnabarIslandText2:
-	text_far _CinnabarIslandText2
-	text_end
+	TX_FAR _CinnabarIslandText2
+	db "@"
 
 CinnabarIslandText3:
-	text_far _CinnabarIslandText3
-	text_end
+	TX_FAR _CinnabarIslandText3
+	db "@"
 
 CinnabarIslandText6:
-	text_far _CinnabarIslandText6
-	text_end
+	TX_FAR _CinnabarIslandText6
+	db "@"
 
 CinnabarIslandText7:
-	text_far _CinnabarIslandText7
-	text_end
+	TX_FAR _CinnabarIslandText7
+	db "@"

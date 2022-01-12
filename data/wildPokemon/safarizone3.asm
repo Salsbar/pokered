@@ -1,0 +1,13 @@
+ZoneMons3:
+	db $1E
+		db 25,KARRABLAST
+		db 26,SHELMET
+		db 23,CUBCHOO
+		db 24,GOLETT
+		db 33,PAWNIARD
+		db 26,AXEW
+		db 25,DRUDDIGON
+		db 31,HEATMOR
+		db 26,DURANT
+		db 28,DEINO
+	db $00

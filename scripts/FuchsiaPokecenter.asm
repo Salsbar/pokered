@@ -1,23 +1,23 @@
-FuchsiaPokecenter_Script:
+FuchsiaPokecenterScript:
 	call Serial_TryEstablishingExternallyClockedConnection
 	jp EnableAutoTextBoxDrawing
 
-FuchsiaPokecenter_TextPointers:
+FuchsiaPokecenterTextPointers:
 	dw FuchsiaHealNurseText
 	dw FuchsiaPokecenterText2
 	dw FuchsiaPokecenterText3
 	dw FuchsiaTradeNurseText
 
 FuchsiaHealNurseText:
-	script_pokecenter_nurse
+	TX_POKECENTER_NURSE
 
 FuchsiaPokecenterText2:
-	text_far _FuchsiaPokecenterText1
-	text_end
+	TX_FAR _FuchsiaPokecenterText1
+	db "@"
 
 FuchsiaPokecenterText3:
-	text_far _FuchsiaPokecenterText3
-	text_end
+	TX_FAR _FuchsiaPokecenterText3
+	db "@"
 
 FuchsiaTradeNurseText:
-	script_cable_club_receptionist
+	TX_CABLE_CLUB_RECEPTIONIST

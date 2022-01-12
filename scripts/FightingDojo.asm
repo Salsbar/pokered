@@ -1,7 +1,7 @@
-FightingDojo_Script:
+FightingDojoScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, FightingDojoTrainerHeaders
-	ld de, FightingDojo_ScriptPointers
+	ld hl, FightingDojoTrainerHeader0
+	ld de, FightingDojoScriptPointers
 	ld a, [wFightingDojoCurScript]
 	call ExecuteCurMapScriptInTable
 	ld [wFightingDojoCurScript], a
@@ -14,7 +14,7 @@ FightingDojoScript_5cd70:
 	ld [wCurMapScript], a
 	ret
 
-FightingDojo_ScriptPointers:
+FightingDojoScriptPointers:
 	dw FightingDojoScript1
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
@@ -30,25 +30,25 @@ FightingDojoScript1:
 	CheckEvent EVENT_BEAT_KARATE_MASTER
 	ret nz
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld [wcf0d], a
 	ld a, [wYCoord]
-	cp 3
+	cp $3
 	ret nz
 	ld a, [wXCoord]
-	cp 4
+	cp $4
 	ret nz
 	ld a, $1
 	ld [wcf0d], a
 	ld a, PLAYER_DIR_RIGHT
 	ld [wPlayerMovingDirection], a
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	ld a, SPRITE_FACING_LEFT
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
 	ld a, $1
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	ret
 
@@ -62,9 +62,9 @@ FightingDojoScript3:
 	ld a, PLAYER_DIR_RIGHT
 	ld [wPlayerMovingDirection], a
 	ld a, $1
-	ldh [hSpriteIndex], a
+	ld [H_SPRITEINDEX], a
 	ld a, SPRITE_FACING_LEFT
-	ldh [hSpriteFacingDirection], a
+	ld [hSpriteFacingDirection], a
 	call SetSpriteFacingDirectionAndDelay
 
 .asm_5cde4
@@ -72,7 +72,7 @@ FightingDojoScript3:
 	ld [wJoyIgnore], a
 	SetEventRange EVENT_BEAT_KARATE_MASTER, EVENT_BEAT_FIGHTING_DOJO_TRAINER_3
 	ld a, $8
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	xor a
 	ld [wJoyIgnore], a
@@ -80,7 +80,7 @@ FightingDojoScript3:
 	ld [wCurMapScript], a
 	ret
 
-FightingDojo_TextPointers:
+FightingDojoTextPointers:
 	dw FightingDojoText1
 	dw FightingDojoText2
 	dw FightingDojoText3
@@ -90,20 +90,46 @@ FightingDojo_TextPointers:
 	dw FightingDojoText7
 	dw FightingDojoText8
 
-FightingDojoTrainerHeaders:
-	def_trainers 2
 FightingDojoTrainerHeader0:
-	trainer EVENT_BEAT_FIGHTING_DOJO_TRAINER_0, 4, FightingDojoBattleText1, FightingDojoEndBattleText1, FightingDojoAfterBattleText1
+	dbEventFlagBit EVENT_BEAT_FIGHTING_DOJO_TRAINER_0
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_FIGHTING_DOJO_TRAINER_0
+	dw FightingDojoBattleText1 ; TextBeforeBattle
+	dw FightingDojoAfterBattleText1 ; TextAfterBattle
+	dw FightingDojoEndBattleText1 ; TextEndBattle
+	dw FightingDojoEndBattleText1 ; TextEndBattle
+
 FightingDojoTrainerHeader1:
-	trainer EVENT_BEAT_FIGHTING_DOJO_TRAINER_1, 4, FightingDojoBattleText2, FightingDojoEndBattleText2, FightingDojoAfterBattleText2
+	dbEventFlagBit EVENT_BEAT_FIGHTING_DOJO_TRAINER_1
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_FIGHTING_DOJO_TRAINER_1
+	dw FightingDojoBattleText2 ; TextBeforeBattle
+	dw FightingDojoAfterBattleText2 ; TextAfterBattle
+	dw FightingDojoEndBattleText2 ; TextEndBattle
+	dw FightingDojoEndBattleText2 ; TextEndBattle
+
 FightingDojoTrainerHeader2:
-	trainer EVENT_BEAT_FIGHTING_DOJO_TRAINER_2, 3, FightingDojoBattleText3, FightingDojoEndBattleText3, FightingDojoAfterBattleText3
+	dbEventFlagBit EVENT_BEAT_FIGHTING_DOJO_TRAINER_2
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_FIGHTING_DOJO_TRAINER_2
+	dw FightingDojoBattleText3 ; TextBeforeBattle
+	dw FightingDojoAfterBattleText3 ; TextAfterBattle
+	dw FightingDojoEndBattleText3 ; TextEndBattle
+	dw FightingDojoEndBattleText3 ; TextEndBattle
+
 FightingDojoTrainerHeader3:
-	trainer EVENT_BEAT_FIGHTING_DOJO_TRAINER_3, 3, FightingDojoBattleText4, FightingDojoEndBattleText4, FightingDojoAfterBattleText4
-	db -1 ; end
+	dbEventFlagBit EVENT_BEAT_FIGHTING_DOJO_TRAINER_3
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_FIGHTING_DOJO_TRAINER_3
+	dw FightingDojoBattleText4 ; TextBeforeBattle
+	dw FightingDojoAfterBattleText4 ; TextAfterBattle
+	dw FightingDojoEndBattleText4 ; TextEndBattle
+	dw FightingDojoEndBattleText4 ; TextEndBattle
+
+	db $ff
 
 FightingDojoText1:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_DEFEATED_FIGHTING_DOJO
 	jp nz, .continue1
 	CheckEventReuseA EVENT_BEAT_KARATE_MASTER
@@ -116,7 +142,7 @@ FightingDojoText1:
 	ld hl, FightingDojoText_5ce93
 	ld de, FightingDojoText_5ce93
 	call SaveEndBattleTextPointers
-	ldh a, [hSpriteIndexOrTextID]
+	ld a, [hSpriteIndexOrTextID]
 	ld [wSpriteIndex], a
 	call EngageMapTrainer
 	call InitBattleEnemyParameters
@@ -135,103 +161,103 @@ FightingDojoText1:
 	jp TextScriptEnd
 
 FightingDojoText_5ce8e:
-	text_far _FightingDojoText_5ce8e
-	text_end
+	TX_FAR _FightingDojoText_5ce8e
+	db "@"
 
 FightingDojoText_5ce93:
-	text_far _FightingDojoText_5ce93
-	text_end
+	TX_FAR _FightingDojoText_5ce93
+	db "@"
 
 FightingDojoText8:
-	text_far _FightingDojoText_5ce98
-	text_end
+	TX_FAR _FightingDojoText_5ce98
+	db "@"
 
 FightingDojoText_5ce9d:
-	text_far _FightingDojoText_5ce9d
-	text_end
+	TX_FAR _FightingDojoText_5ce9d
+	db "@"
 
 FightingDojoText2:
-	text_asm
+	TX_ASM
 	ld hl, FightingDojoTrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
 
 FightingDojoBattleText1:
-	text_far _FightingDojoBattleText1
-	text_end
+	TX_FAR _FightingDojoBattleText1
+	db "@"
 
 FightingDojoEndBattleText1:
-	text_far _FightingDojoEndBattleText1
-	text_end
+	TX_FAR _FightingDojoEndBattleText1
+	db "@"
 
 FightingDojoAfterBattleText1:
-	text_far _FightingDojoAfterBattleText1
-	text_end
+	TX_FAR _FightingDojoAfterBattleText1
+	db "@"
 
 FightingDojoText3:
-	text_asm
+	TX_ASM
 	ld hl, FightingDojoTrainerHeader1
 	call TalkToTrainer
 	jp TextScriptEnd
 
 FightingDojoBattleText2:
-	text_far _FightingDojoBattleText2
-	text_end
+	TX_FAR _FightingDojoBattleText2
+	db "@"
 
 FightingDojoEndBattleText2:
-	text_far _FightingDojoEndBattleText2
-	text_end
+	TX_FAR _FightingDojoEndBattleText2
+	db "@"
 
 FightingDojoAfterBattleText2:
-	text_far _FightingDojoAfterBattleText2
-	text_end
+	TX_FAR _FightingDojoAfterBattleText2
+	db "@"
 
 FightingDojoText4:
-	text_asm
+	TX_ASM
 	ld hl, FightingDojoTrainerHeader2
 	call TalkToTrainer
 	jp TextScriptEnd
 
 FightingDojoBattleText3:
-	text_far _FightingDojoBattleText3
-	text_end
+	TX_FAR _FightingDojoBattleText3
+	db "@"
 
 FightingDojoEndBattleText3:
-	text_far _FightingDojoEndBattleText3
-	text_end
+	TX_FAR _FightingDojoEndBattleText3
+	db "@"
 
 FightingDojoAfterBattleText3:
-	text_far _FightingDojoAfterBattleText3
-	text_end
+	TX_FAR _FightingDojoAfterBattleText3
+	db "@"
 
 FightingDojoText5:
-	text_asm
+	TX_ASM
 	ld hl, FightingDojoTrainerHeader3
 	call TalkToTrainer
 	jp TextScriptEnd
 
 FightingDojoBattleText4:
-	text_far _FightingDojoBattleText4
-	text_end
+	TX_FAR _FightingDojoBattleText4
+	db "@"
 
 FightingDojoEndBattleText4:
-	text_far _FightingDojoEndBattleText4
-	text_end
+	TX_FAR _FightingDojoEndBattleText4
+	db "@"
 
 FightingDojoAfterBattleText4:
-	text_far _FightingDojoAfterBattleText4
-	text_end
+	TX_FAR _FightingDojoAfterBattleText4
+	db "@"
 
 FightingDojoText6:
 ; Hitmonlee Poké Ball
-	text_asm
+	TX_ASM
 	CheckEitherEventSet EVENT_GOT_HITMONLEE, EVENT_GOT_HITMONCHAN
 	jr z, .GetMon
 	ld hl, OtherHitmonText
 	call PrintText
 	jr .done
 .GetMon
-	ld a, HITMONLEE
+	ld a, THROH
 	call DisplayPokedex
 	ld hl, WantHitmonleeText
 	call PrintText
@@ -254,19 +280,19 @@ FightingDojoText6:
 	jp TextScriptEnd
 
 WantHitmonleeText:
-	text_far _WantHitmonleeText
-	text_end
+	TX_FAR _WantHitmonleeText
+	db "@"
 
 FightingDojoText7:
 ; Hitmonchan Poké Ball
-	text_asm
+	TX_ASM
 	CheckEitherEventSet EVENT_GOT_HITMONLEE, EVENT_GOT_HITMONCHAN
 	jr z, .GetMon
 	ld hl, OtherHitmonText
 	call PrintText
 	jr .done
 .GetMon
-	ld a, HITMONCHAN
+	ld a, SAWK
 	call DisplayPokedex
 	ld hl, WantHitmonchanText
 	call PrintText
@@ -276,7 +302,7 @@ FightingDojoText7:
 	jr nz, .done
 	ld a, [wcf91]
 	ld b, a
-	ld c, 30
+	ld c,30
 	call GivePokemon
 	jr nc, .done
 	SetEvents EVENT_GOT_HITMONCHAN, EVENT_DEFEATED_FIGHTING_DOJO
@@ -289,9 +315,9 @@ FightingDojoText7:
 	jp TextScriptEnd
 
 WantHitmonchanText:
-	text_far _WantHitmonchanText
-	text_end
+	TX_FAR _WantHitmonchanText
+	db "@"
 
 OtherHitmonText:
-	text_far _OtherHitmonText
-	text_end
+	TX_FAR _OtherHitmonText
+	db "@"

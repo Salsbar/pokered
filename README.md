@@ -1,41 +1,19 @@
-# Pokémon Red and Blue [![Build Status][ci-badge]][ci]
+# Pokémon Red and Blue
 
 This is a disassembly of Pokémon Red and Blue.
 
-It builds the following ROMs:
+It builds the following roms:
 
-- Pokemon Red (UE) [S][!].gb `sha1: ea9bcae617fdf159b045185467ae58b2e4a48b9a`
-- Pokemon Blue (UE) [S][!].gb `sha1: d7037c83e1ae5b39bde3c30787637ba1d4c48ce2`
-- BLUEMONS.GB (debug build) `sha1: 5b1456177671b79b263c614ea0e7cc9ac542e9c4`
+* Pokemon Red (UE) [S][!].gb  `md5: 3d45c1ee9abd5738df46d2bdda8b57dc`
+* Pokemon Blue (UE) [S][!].gb `md5: 50927e843568814f7ed45ec4f944bd8b`
 
 To set up the repository, see [**INSTALL.md**](INSTALL.md).
 
 
 ## See also
 
-- **Discord:** [pret][discord]
-- **IRC:** [libera#pret][irc]
+* Disassembly of [**Pokémon Crystal**][pokecrystal]
+* irc: **irc.freenode.net** [**#pret**][irc]
 
-Other disassembly projects:
-
-- [**Pokémon Yellow**][pokeyellow]
-- [**Pokémon Gold/Silver**][pokegold]
-- [**Pokémon Crystal**][pokecrystal]
-- [**Pokémon Pinball**][pokepinball]
-- [**Pokémon TCG**][poketcg]
-- [**Pokémon Ruby**][pokeruby]
-- [**Pokémon FireRed**][pokefirered]
-- [**Pokémon Emerald**][pokeemerald]
-
-[pokeyellow]: https://github.com/pret/pokeyellow
-[pokegold]: https://github.com/pret/pokegold
-[pokecrystal]: https://github.com/pret/pokecrystal
-[pokepinball]: https://github.com/pret/pokepinball
-[poketcg]: https://github.com/pret/poketcg
-[pokeruby]: https://github.com/pret/pokeruby
-[pokefirered]: https://github.com/pret/pokefirered
-[pokeemerald]: https://github.com/pret/pokeemerald
-[discord]: https://discord.gg/d5dubZ3
-[irc]: https://web.libera.chat/?#pret
-[ci]: https://github.com/pret/pokered/actions
-[ci-badge]: https://github.com/pret/pokered/actions/workflows/main.yml/badge.svg
+[pokecrystal]: https://github.com/kanzure/pokecrystal
+[irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret

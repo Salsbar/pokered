@@ -1,0 +1,35 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: submodules-init
+    # You may pin to the exact commit or the version.
+    # uses: snickerbockers/submodules-init@74927a8bb0fe1bb0f1f1e4d102384a8e69f19171
+      uses: snickerbockers/submodules-init@v4
+    
+    - name: before_build
+      run:  wget https://github.com/rednex/rgbds/archive/v0.2.5.tar.gz -O rgbds.tar.gz && 
+            tar xf rgbds.tar.gz && 
+            cd rgbds-0.2.5 && 
+            sudo make install;
+            sudo apt-get install virtualenv
+            
+    - name: build
+      run: virtualenv venv -p python27 && source venv/bin/activate && 
+           make
+    - uses: actions/upload-artifact@v2
+      with:
+        name: unovared
+        path: |
+          unovared/*.gbc
+          *.gbc
+          *.gb

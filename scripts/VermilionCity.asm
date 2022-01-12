@@ -1,26 +1,26 @@
-VermilionCity_Script:
+VermilionCityScript:
 	call EnableAutoTextBoxDrawing
 	ld hl, wCurrentMapScriptFlags
 	bit 6, [hl]
 	res 6, [hl]
 	push hl
-	call nz, .initCityScript
+	call nz, VermilionCityScript_197cb
 	pop hl
 	bit 5, [hl]
 	res 5, [hl]
-	call nz, .setFirstLockTrashCanIndex
-	ld hl, VermilionCity_ScriptPointers
+	call nz, VermilionCityScript_197c0
+	ld hl, VermilionCityScriptPointers
 	ld a, [wVermilionCityCurScript]
 	jp CallFunctionInTable
 
-.setFirstLockTrashCanIndex
+VermilionCityScript_197c0:
 	call Random
-	ldh a, [hRandomSub]
+	ld a, [$ffd4]
 	and $e
 	ld [wFirstLockTrashCanIndex], a
 	ret
 
-.initCityScript
+VermilionCityScript_197cb:
 	CheckEventHL EVENT_SS_ANNE_LEFT
 	ret z
 	CheckEventReuseHL EVENT_WALKED_PAST_GUARD_AFTER_SS_ANNE_LEFT
@@ -30,7 +30,7 @@ VermilionCity_Script:
 	ld [wVermilionCityCurScript], a
 	ret
 
-VermilionCity_ScriptPointers:
+VermilionCityScriptPointers:
 	dw VermilionCityScript0
 	dw VermilionCityScript1
 	dw VermilionCityScript2
@@ -38,26 +38,26 @@ VermilionCity_ScriptPointers:
 	dw VermilionCityScript4
 
 VermilionCityScript0:
-	ld a, [wSpritePlayerStateData1FacingDirection]
+	ld a, [wSpriteStateData1 + 9]
 	and a ; cp SPRITE_FACING_DOWN
 	ret nz
-	ld hl, SSAnneTicketCheckCoords
+	ld hl, CoordsData_19823
 	call ArePlayerCoordsInArray
 	ret nc
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld [wcf0d], a
 	ld a, $3
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .shipHasDeparted
+	jr nz, .asm_19810
 	ld b, S_S_TICKET
 	predef GetQuantityOfItemInBag
 	ld a, b
 	and a
 	ret nz
-.shipHasDeparted
+.asm_19810
 	ld a, D_UP
 	ld [wSimulatedJoypadStatesEnd], a
 	ld a, $1
@@ -67,12 +67,12 @@ VermilionCityScript0:
 	ld [wVermilionCityCurScript], a
 	ret
 
-SSAnneTicketCheckCoords:
-	dbmapcoord 18, 30
-	db -1 ; end
+CoordsData_19823:
+	db $1e,$12
+	db $ff
 
 VermilionCityScript4:
-	ld hl, SSAnneTicketCheckCoords
+	ld hl, CoordsData_19823
 	call ArePlayerCoordsInArray
 	ret c
 	ld a, $0
@@ -98,7 +98,7 @@ VermilionCityScript3:
 	ret nz
 	xor a
 	ld [wJoyIgnore], a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	ld a, $0
 	ld [wVermilionCityCurScript], a
 	ret
@@ -113,13 +113,14 @@ VermilionCityScript1:
 	ld [wVermilionCityCurScript], a
 	ret
 
-VermilionCity_TextPointers:
+VermilionCityTextPointers:
 	dw VermilionCityText1
 	dw VermilionCityText2
 	dw VermilionCityText3
 	dw VermilionCityText4
 	dw VermilionCityText5
 	dw VermilionCityText6
+	dw VermilionCityTextNew
 	dw VermilionCityText7
 	dw VermilionCityText8
 	dw MartSignText
@@ -129,129 +130,204 @@ VermilionCity_TextPointers:
 	dw VermilionCityText13
 
 VermilionCityText1:
-	text_far _VermilionCityText1
-	text_end
+	TX_FAR _VermilionCityText1
+	db "@"
 
 VermilionCityText2:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .shipHasDeparted
-	ld hl, VermilionCityTextDidYouSee
+	jr nz, .asm_1989e
+	ld hl, VermilionCityText_198a7
 	call PrintText
-	jr .end
-.shipHasDeparted
-	ld hl, VermilionCityTextSSAnneDeparted
+	jr .asm_198a4
+.asm_1989e
+	ld hl, VermilionCityText_198ac
 	call PrintText
-.end
+.asm_198a4
 	jp TextScriptEnd
 
-VermilionCityTextDidYouSee:
-	text_far _VermilionCityTextDidYouSee
-	text_end
+VermilionCityText_198a7:
+	TX_FAR _VermilionCityText_198a7
+	db "@"
 
-VermilionCityTextSSAnneDeparted:
-	text_far _VermilionCityTextSSAnneDeparted
-	text_end
+VermilionCityText_198ac:
+	TX_FAR _VermilionCityText_198ac
+	db "@"
 
 VermilionCityText3:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_SS_ANNE_LEFT
-	jr nz, .shipHasDeparted
-	ld a, [wSpritePlayerStateData1FacingDirection]
+	jr nz, .asm_198f6
+	ld a, [wSpriteStateData1 + 9]
 	cp SPRITE_FACING_RIGHT
-	jr z, .greetPlayer
-	ld hl, .inFrontOfOrBehindGuardCoords
+	jr z, .asm_198c8
+	ld hl, VermilionCityCoords1
 	call ArePlayerCoordsInArray
-	jr nc, .greetPlayerAndCheckTicket
-.greetPlayer
+	jr nc, .asm_198d0
+.asm_198c8
 	ld hl, SSAnneWelcomeText4
 	call PrintText
-	jr .end
-.greetPlayerAndCheckTicket
+	jr .asm_198fc
+.asm_198d0
 	ld hl, SSAnneWelcomeText9
 	call PrintText
 	ld b, S_S_TICKET
 	predef GetQuantityOfItemInBag
 	ld a, b
 	and a
-	jr nz, .playerHasTicket
+	jr nz, .asm_198e9
 	ld hl, SSAnneNoTicketText
 	call PrintText
-	jr .end
-.playerHasTicket
+	jr .asm_198fc
+.asm_198e9
 	ld hl, SSAnneFlashedTicketText
 	call PrintText
 	ld a, $4
 	ld [wVermilionCityCurScript], a
-	jr .end
-.shipHasDeparted
+	jr .asm_198fc
+.asm_198f6
 	ld hl, SSAnneNotHereText
 	call PrintText
-.end
+.asm_198fc
 	jp TextScriptEnd
 
-.inFrontOfOrBehindGuardCoords
-	dbmapcoord 19, 29 ; in front of guard
-	dbmapcoord 19, 31 ; behind guard
-	db -1 ; end
+VermilionCityCoords1:
+	db $1d,$13
+	db $1f,$13
+	db $ff
 
 SSAnneWelcomeText4:
-	text_far _SSAnneWelcomeText4
-	text_end
+	TX_FAR _SSAnneWelcomeText4
+	db "@"
 
 SSAnneWelcomeText9:
-	text_far _SSAnneWelcomeText9
-	text_end
+	TX_FAR _SSAnneWelcomeText9
+	db "@"
 
 SSAnneFlashedTicketText:
-	text_far _SSAnneFlashedTicketText
-	text_end
+	TX_FAR _SSAnneFlashedTicketText
+	db "@"
 
 SSAnneNoTicketText:
-	text_far _SSAnneNoTicketText
-	text_end
+	TX_FAR _SSAnneNoTicketText
+	db "@"
 
 SSAnneNotHereText:
-	text_far _SSAnneNotHereText
-	text_end
+	TX_FAR _SSAnneNotHereText
+	db "@"
 
 VermilionCityText4:
-	text_far _VermilionCityText4
-	text_end
+	TX_FAR _VermilionCityText4
+	db "@"
 
 VermilionCityText5:
-	text_far _VermilionCityText5
-	text_asm
-	ld a, MACHOP
+	TX_FAR _VermilionCityText5
+	TX_ASM
+	ld a, TIMBURR
 	call PlayCry
 	call WaitForSoundToFinish
 	ld hl, VermilionCityText14
 	ret
 
 VermilionCityText14:
-	text_far _VermilionCityText14
-	text_end
+	TX_FAR _VermilionCityText14
+	db "@"
 
 VermilionCityText6:
-	text_far _VermilionCityText6
-	text_end
+	TX_FAR _VermilionCityText6
+	db "@"
 
 VermilionCityText7:
-	text_far _VermilionCityText7
-	text_end
+	TX_FAR _VermilionCityText7
+	db "@"
 
 VermilionCityText8:
-	text_far _VermilionCityText8
-	text_end
+	TX_FAR _VermilionCityText8
+	db "@"
 
 VermilionCityText11:
-	text_far _VermilionCityText11
-	text_end
+	TX_FAR _VermilionCityText11
+	db "@"
 
 VermilionCityText12:
-	text_far _VermilionCityText12
-	text_end
+	TX_FAR _VermilionCityText12
+	db "@"
 
 VermilionCityText13:
-	text_far _VermilionCityText13
-	text_end
+	TX_FAR _VermilionCityText13
+	db "@"
+	
+VermilionCityTextNew:
+	TX_ASM
+	CheckEvent EVENT_GOT_VERMILION_STARTER
+	jr nz, .gotStarter
+	ld a, [wBeatGymFlags]
+	bit 2, a ; THUNDERBADGE
+	jr nz, .haveBadge
+	ld hl, OfficerNoBadgeText
+	call PrintText
+	jr .done
+.haveBadge
+	ld hl, OfficerHaveBadgeText
+	call PrintText
+	call YesNoChoice
+	ld a, [wCurrentMenuItem]
+	and a
+	jr nz, .chooseNo
+	ld a, [wPlayerStarter]
+	cp STARTER2
+	jr nz, .NotStarter2
+	lb bc, SNIVY, 10
+	call GivePokemon
+	jr nc, .done
+	jr .ReceivedPoke
+.NotStarter2
+	cp STARTER3
+	jr nz, .NotStarter3
+	lb bc, TEPIG, 10
+	call GivePokemon
+	jr nc, .done
+	jr .ReceivedPoke
+.NotStarter3
+	lb bc, OSHAWOTT, 10
+	call GivePokemon
+	jr nc, .done
+.ReceivedPoke
+	ld a, [wAddedToParty]
+	and a
+	call z, WaitForTextScrollButtonPress
+	ld a, $1
+	ld [wDoNotWaitForButtonPressAfterDisplayingText], a
+	ld hl, OfficerGaveText
+	call PrintText
+	SetEvent EVENT_GOT_VERMILION_STARTER
+	jr .done
+.chooseNo
+	ld hl, OfficerNoText
+	call PrintText
+	jr .done
+.gotStarter
+	ld hl, OfficerHaveText
+	call PrintText
+.done
+	jp TextScriptEnd
+
+OfficerNoBadgeText:
+	TX_FAR _OfficerNoBadgeText
+	db "@"
+	
+OfficerHaveBadgeText:
+	TX_FAR _OfficerHaveBadgeText
+	db "@"
+	
+OfficerGaveText:
+	TX_FAR _OfficerGaveText
+	db "@"
+	
+OfficerNoText:
+	TX_FAR _OfficerNoText
+	db "@"
+	
+OfficerHaveText:
+	TX_FAR _OfficerHaveText
+	db "@"

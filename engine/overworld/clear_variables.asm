@@ -1,14 +1,14 @@
-ClearVariablesOnEnterMap::
-	ld a, SCREEN_HEIGHT_PX
-	ldh [hWY], a
-	ldh [rWY], a
+ClearVariablesOnEnterMap:
+	ld a, SCREEN_HEIGHT_PIXELS
+	ld [hWY], a
+	ld [rWY], a
 	xor a
-	ldh [hAutoBGTransferEnabled], a
+	ld [H_AUTOBGTRANSFERENABLED], a
 	ld [wStepCounter], a
 	ld [wLoneAttackNo], a
-	ldh [hJoyPressed], a
-	ldh [hJoyReleased], a
-	ldh [hJoyHeld], a
+	ld [hJoyPressed], a
+	ld [hJoyReleased], a
+	ld [hJoyHeld], a
 	ld [wActionResultOrTookBattleTurn], a
 	ld [wUnusedD5A3], a
 	ld hl, wCardKeyDoorY

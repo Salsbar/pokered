@@ -1,18 +1,18 @@
-Route3_Script:
+Route3Script:
 	call EnableAutoTextBoxDrawing
-	ld hl, Route3TrainerHeaders
-	ld de, Route3_ScriptPointers
+	ld hl, Route3TrainerHeader0
+	ld de, Route3ScriptPointers
 	ld a, [wRoute3CurScript]
 	call ExecuteCurMapScriptInTable
 	ld [wRoute3CurScript], a
 	ret
 
-Route3_ScriptPointers:
+Route3ScriptPointers:
 	dw CheckFightingMapTrainers
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
 
-Route3_TextPointers:
+Route3TextPointers:
 	dw Route3Text1
 	dw Route3Text2
 	dw Route3Text3
@@ -24,174 +24,228 @@ Route3_TextPointers:
 	dw Route3Text9
 	dw Route3Text10
 
-Route3TrainerHeaders:
-	def_trainers 2
 Route3TrainerHeader0:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_0, 2, Route3BattleText1, Route3EndBattleText1, Route3AfterBattleText1
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_0
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_0
+	dw Route3BattleText1 ; TextBeforeBattle
+	dw Route3AfterBattleText1 ; TextAfterBattle
+	dw Route3EndBattleText1 ; TextEndBattle
+	dw Route3EndBattleText1 ; TextEndBattle
+
 Route3TrainerHeader1:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_1, 3, Route3BattleText2, Route3EndBattleText2, Route3AfterBattleText2
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_1
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_1
+	dw Route3BattleText2 ; TextBeforeBattle
+	dw Route3AfterBattleText2 ; TextAfterBattle
+	dw Route3EndBattleText2 ; TextEndBattle
+	dw Route3EndBattleText2 ; TextEndBattle
+
 Route3TrainerHeader2:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_2, 2, Route3BattleText3, Route3EndBattleText3, Route3AfterBattleText3
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_2
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_2
+	dw Route3BattleText3 ; TextBeforeBattle
+	dw Route3AfterBattleText3 ; TextAfterBattle
+	dw Route3EndBattleText3 ; TextEndBattle
+	dw Route3EndBattleText3 ; TextEndBattle
+
 Route3TrainerHeader3:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_3, 1, Route3BattleText4, Route3EndBattleText4, Route3AfterBattleText4
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_3
+	db ($1 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_3
+	dw Route3BattleText4 ; TextBeforeBattle
+	dw Route3AfterBattleText4 ; TextAfterBattle
+	dw Route3EndBattleText4 ; TextEndBattle
+	dw Route3EndBattleText4 ; TextEndBattle
+
 Route3TrainerHeader4:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_4, 4, Route3BattleText5, Route3EndBattleText5, Route3AfterBattleText5
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_4
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_4
+	dw Route3BattleText5 ; TextBeforeBattle
+	dw Route3AfterBattleText5 ; TextAfterBattle
+	dw Route3EndBattleText5 ; TextEndBattle
+	dw Route3EndBattleText5 ; TextEndBattle
+
 Route3TrainerHeader5:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_5, 3, Route3BattleText6, Route3EndBattleText6, Route3AfterBattleText6
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_5
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_5
+	dw Route3BattleText6 ; TextBeforeBattle
+	dw Route3AfterBattleText6 ; TextAfterBattle
+	dw Route3EndBattleText6 ; TextEndBattle
+	dw Route3EndBattleText6 ; TextEndBattle
+
 Route3TrainerHeader6:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_6, 3, Route3BattleText7, Route3EndBattleText7, Route3AfterBattleText7
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_6, 1
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_6, 1
+	dw Route3BattleText7 ; TextBeforeBattle
+	dw Route3AfterBattleText7 ; TextAfterBattle
+	dw Route3EndBattleText7 ; TextEndBattle
+	dw Route3EndBattleText7 ; TextEndBattle
+
 Route3TrainerHeader7:
-	trainer EVENT_BEAT_ROUTE_3_TRAINER_7, 2, Route3BattleText8, Route3EndBattleText8, Route3AfterBattleText8
-	db -1 ; end
+	dbEventFlagBit EVENT_BEAT_ROUTE_3_TRAINER_7, 1
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_3_TRAINER_7, 1
+	dw Route3BattleText8 ; TextBeforeBattle
+	dw Route3AfterBattleText8 ; TextAfterBattle
+	dw Route3EndBattleText8 ; TextEndBattle
+	dw Route3EndBattleText8 ; TextEndBattle
+
+	db $ff
 
 Route3Text1:
-	text_far _Route3Text1
-	text_end
+	TX_FAR _Route3Text1
+	db "@"
 
 Route3Text2:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText1:
-	text_far _Route3BattleText1
-	text_end
+	TX_FAR _Route3BattleText1
+	db "@"
 
 Route3EndBattleText1:
-	text_far _Route3EndBattleText1
-	text_end
+	TX_FAR _Route3EndBattleText1
+	db "@"
 
 Route3AfterBattleText1:
-	text_far _Route3AfterBattleText1
-	text_end
+	TX_FAR _Route3AfterBattleText1
+	db "@"
 
 Route3Text3:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader1
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText2:
-	text_far _Route3BattleText2
-	text_end
+	TX_FAR _Route3BattleText2
+	db "@"
 
 Route3EndBattleText2:
-	text_far _Route3EndBattleText2
-	text_end
+	TX_FAR _Route3EndBattleText2
+	db "@"
 
 Route3AfterBattleText2:
-	text_far _Route3AfterBattleText2
-	text_end
+	TX_FAR _Route3AfterBattleText2
+	db "@"
 
 Route3Text4:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader2
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText3:
-	text_far _Route3BattleText3
-	text_end
+	TX_FAR _Route3BattleText3
+	db "@"
 
 Route3EndBattleText3:
-	text_far _Route3EndBattleText3
-	text_end
+	TX_FAR _Route3EndBattleText3
+	db "@"
 
 Route3AfterBattleText3:
-	text_far _Route3AfterBattleText3
-	text_end
+	TX_FAR _Route3AfterBattleText3
+	db "@"
 
 Route3Text5:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader3
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText4:
-	text_far _Route3BattleText4
-	text_end
+	TX_FAR _Route3BattleText4
+	db "@"
 
 Route3EndBattleText4:
-	text_far _Route3EndBattleText4
-	text_end
+	TX_FAR _Route3EndBattleText4
+	db "@"
 
 Route3AfterBattleText4:
-	text_far _Route3AfterBattleText4
-	text_end
+	TX_FAR _Route3AfterBattleText4
+	db "@"
 
 Route3Text6:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader4
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText5:
-	text_far _Route3BattleText5
-	text_end
+	TX_FAR _Route3BattleText5
+	db "@"
 
 Route3EndBattleText5:
-	text_far _Route3EndBattleText5
-	text_end
+	TX_FAR _Route3EndBattleText5
+	db "@"
 
 Route3AfterBattleText5:
-	text_far _Route3AfterBattleText5
-	text_end
+	TX_FAR _Route3AfterBattleText5
+	db "@"
 
 Route3Text7:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader5
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText6:
-	text_far _Route3BattleText6
-	text_end
+	TX_FAR _Route3BattleText6
+	db "@"
 
 Route3EndBattleText6:
-	text_far _Route3EndBattleText6
-	text_end
+	TX_FAR _Route3EndBattleText6
+	db "@"
 
 Route3AfterBattleText6:
-	text_far _Route3AfterBattleText6
-	text_end
+	TX_FAR _Route3AfterBattleText6
+	db "@"
 
 Route3Text8:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader6
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText7:
-	text_far _Route3BattleText7
-	text_end
+	TX_FAR _Route3BattleText7
+	db "@"
 
 Route3EndBattleText7:
-	text_far _Route3EndBattleText7
-	text_end
+	TX_FAR _Route3EndBattleText7
+	db "@"
 
 Route3AfterBattleText7:
-	text_far _Route3AfterBattleText7
-	text_end
+	TX_FAR _Route3AfterBattleText7
+	db "@"
 
 Route3Text9:
-	text_asm
+	TX_ASM
 	ld hl, Route3TrainerHeader7
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route3BattleText8:
-	text_far _Route3BattleText8
-	text_end
+	TX_FAR _Route3BattleText8
+	db "@"
 
 Route3EndBattleText8:
-	text_far _Route3EndBattleText8
-	text_end
+	TX_FAR _Route3EndBattleText8
+	db "@"
 
 Route3AfterBattleText8:
-	text_far _Route3AfterBattleText8
-	text_end
+	TX_FAR _Route3AfterBattleText8
+	db "@"
 
 Route3Text10:
-	text_far _Route3Text10
-	text_end
+	TX_FAR _Route3Text10
+	db "@"

@@ -1,10 +1,10 @@
-ViridianCity_Script:
+ViridianCityScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, ViridianCity_ScriptPointers
+	ld hl, ViridianCityScriptPointers
 	ld a, [wViridianCityCurScript]
 	jp CallFunctionInTable
 
-ViridianCity_ScriptPointers:
+ViridianCityScriptPointers:
 	dw ViridianCityScript0
 	dw ViridianCityScript1
 	dw ViridianCityScript2
@@ -18,22 +18,22 @@ ViridianCityScript_1900b:
 	CheckEvent EVENT_VIRIDIAN_GYM_OPEN
 	ret nz
 	ld a, [wObtainedBadges]
-	cp ~(1 << BIT_EARTHBADGE)
-	jr nz, .gym_closed
+	cp %01111111
+	jr nz, .asm_1901e
 	SetEvent EVENT_VIRIDIAN_GYM_OPEN
 	ret
-.gym_closed
+.asm_1901e
 	ld a, [wYCoord]
-	cp 8
+	cp $8
 	ret nz
 	ld a, [wXCoord]
-	cp 32
+	cp $20
 	ret nz
 	ld a, $e
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	call ViridianCityScript_190cf
 	ld a, $3
 	ld [wViridianCityCurScript], a
@@ -43,30 +43,30 @@ ViridianCityScript_1903d:
 	CheckEvent EVENT_GOT_POKEDEX
 	ret nz
 	ld a, [wYCoord]
-	cp 9
+	cp $9
 	ret nz
 	ld a, [wXCoord]
-	cp 19
+	cp $13
 	ret nz
 	ld a, $5
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	xor a
-	ldh [hJoyHeld], a
+	ld [hJoyHeld], a
 	call ViridianCityScript_190cf
 	ld a, $3
 	ld [wViridianCityCurScript], a
 	ret
 
 ViridianCityScript1:
-	ld a, [wSprite03StateData1YPixels]
-	ldh [hSpriteScreenYCoord], a
-	ld a, [wSprite03StateData1XPixels]
-	ldh [hSpriteScreenXCoord], a
-	ld a, [wSprite03StateData2MapY]
-	ldh [hSpriteMapYCoord], a
-	ld a, [wSprite03StateData2MapX]
-	ldh [hSpriteMapXCoord], a
+	ld a, [wSpriteStateData1 + $34]
+	ld [$ffeb], a
+	ld a, [wSpriteStateData1 + $36]
+	ld [$ffec], a
+	ld a, [wSpriteStateData2 + $34]
+	ld [$ffed], a
+	ld a, [wSpriteStateData2 + $35]
+	ld [$ffee], a
 	xor a
 	ld [wListScrollOffset], a
 
@@ -75,27 +75,27 @@ ViridianCityScript1:
 	ld [wBattleType], a
 	ld a, 5
 	ld [wCurEnemyLVL], a
-	ld a, WEEDLE
+	ld a, VENIPEDE
 	ld [wCurOpponent], a
 	ld a, $2
 	ld [wViridianCityCurScript], a
 	ret
 
 ViridianCityScript2:
-	ldh a, [hSpriteScreenYCoord]
-	ld [wSprite03StateData1YPixels], a
-	ldh a, [hSpriteScreenXCoord]
-	ld [wSprite03StateData1XPixels], a
-	ldh a, [hSpriteMapYCoord]
-	ld [wSprite03StateData2MapY], a
-	ldh a, [hSpriteMapXCoord]
-	ld [wSprite03StateData2MapX], a
+	ld a, [$ffeb]
+	ld [wSpriteStateData1 + $34], a
+	ld a, [$ffec]
+	ld [wSpriteStateData1 + $36], a
+	ld a, [$ffed]
+	ld [wSpriteStateData2 + $34], a
+	ld a, [$ffee]
+	ld [wSpriteStateData2 + $35], a
 	call UpdateSprites
 	call Delay3
 	xor a
 	ld [wJoyIgnore], a
 	ld a, $f
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	xor a
 	ld [wBattleType], a
@@ -120,11 +120,11 @@ ViridianCityScript_190cf:
 	ld a, D_DOWN
 	ld [wSimulatedJoypadStatesEnd], a
 	xor a
-	ld [wSpritePlayerStateData1FacingDirection], a
+	ld [wSpriteStateData1 + 9], a
 	ld [wJoyIgnore], a
 	ret
 
-ViridianCity_TextPointers:
+ViridianCityTextPointers:
 	dw ViridianCityText1
 	dw ViridianCityText2
 	dw ViridianCityText3
@@ -142,82 +142,82 @@ ViridianCity_TextPointers:
 	dw ViridianCityText15
 
 ViridianCityText1:
-	text_far _ViridianCityText1
-	text_end
+	TX_FAR _ViridianCityText1
+	db "@"
 
 ViridianCityText2:
-	text_asm
+	TX_ASM
 	ld a, [wObtainedBadges]
-	cp ~(1 << BIT_EARTHBADGE)
+	cp %01111111
 	ld hl, ViridianCityText_19127
-	jr z, .done
+	jr z, .asm_ae9fe
 	CheckEvent EVENT_BEAT_VIRIDIAN_GYM_GIOVANNI
-	jr nz, .done
+	jr nz, .asm_ae9fe
 	ld hl, ViridianCityText_19122
-.done
+.asm_ae9fe
 	call PrintText
 	jp TextScriptEnd
 
 ViridianCityText_19122:
-	text_far _ViridianCityText_19122
-	text_end
+	TX_FAR _ViridianCityText_19122
+	db "@"
 
 ViridianCityText_19127:
-	text_far _ViridianCityText_19127
-	text_end
+	TX_FAR _ViridianCityText_19127
+	db "@"
 
 ViridianCityText3:
-	text_asm
+	TX_ASM
 	ld hl, ViridianCityText_1914d
 	call PrintText
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
-	jr nz, .no
+	jr nz, .asm_6dfea
 	ld hl, ViridianCityText_19157
 	call PrintText
-	jr .done
-.no
+	jr .asm_d611f
+.asm_6dfea
 	ld hl, ViridianCityText_19152
 	call PrintText
-.done
+.asm_d611f
 	jp TextScriptEnd
 
 ViridianCityText_1914d:
-	text_far _ViridianCityText_1914d
-	text_end
+	TX_FAR _ViridianCityText_1914d
+	db "@"
 
 ViridianCityText_19152:
-	text_far _ViridianCityText_19152
-	text_end
+	TX_FAR _ViridianCityText_19152
+	db "@"
 
 ViridianCityText_19157:
-	text_far _ViridianCityText_19157
-	text_end
+	TX_FAR _ViridianCityText_19157
+	db "@"
 
 ViridianCityText4:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_POKEDEX
-	jr nz, .gotPokedex
+	jr nz, .asm_83894
 	ld hl, ViridianCityText_19175
 	call PrintText
-	jr .done
-.gotPokedex
+	jr .asm_700a6
+.asm_83894
 	ld hl, ViridianCityText_1917a
 	call PrintText
-.done
+.asm_700a6
 	jp TextScriptEnd
 
 ViridianCityText_19175:
-	text_far _ViridianCityText_19175
-	text_end
+	TX_FAR _ViridianCityText_19175
+	db "@"
 
 ViridianCityText_1917a:
-	text_far _ViridianCityText_1917a
-	text_end
+	TX_FAR _ViridianCityText_1917a
+	db "@"
 
 ViridianCityText5:
-	text_asm
+	TX_ASM
 	ld hl, ViridianCityText_19191
 	call PrintText
 	call ViridianCityScript_190cf
@@ -226,51 +226,51 @@ ViridianCityText5:
 	jp TextScriptEnd
 
 ViridianCityText_19191:
-	text_far _ViridianCityText_19191
-	text_end
+	TX_FAR _ViridianCityText_19191
+	db "@"
 
 ViridianCityText6:
-	text_asm
+	TX_ASM
 	CheckEvent EVENT_GOT_TM42
-	jr nz, .got_item
+	jr nz, .asm_4e5a0
 	ld hl, ViridianCityText_191ca
 	call PrintText
-	lb bc, TM_DREAM_EATER, 1
+	lb bc, TM_42, 1
 	call GiveItem
-	jr nc, .bag_full
+	jr nc, .BagFull
 	ld hl, ReceivedTM42Text
 	call PrintText
 	SetEvent EVENT_GOT_TM42
-	jr .done
-.bag_full
+	jr .asm_3c73c
+.BagFull
 	ld hl, TM42NoRoomText
 	call PrintText
-	jr .done
-.got_item
+	jr .asm_3c73c
+.asm_4e5a0
 	ld hl, TM42Explanation
 	call PrintText
-.done
+.asm_3c73c
 	jp TextScriptEnd
 
 ViridianCityText_191ca:
-	text_far _ViridianCityText_191ca
-	text_end
+	TX_FAR _ViridianCityText_191ca
+	db "@"
 
 ReceivedTM42Text:
-	text_far _ReceivedTM42Text
-	sound_get_item_2
-	text_end
+	TX_FAR _ReceivedTM42Text
+	TX_SFX_ITEM_2
+	db "@"
 
 TM42Explanation:
-	text_far _TM42Explanation
-	text_end
+	TX_FAR _TM42Explanation
+	db "@"
 
 TM42NoRoomText:
-	text_far _TM42NoRoomText
-	text_end
+	TX_FAR _TM42NoRoomText
+	db "@"
 
 ViridianCityText7:
-	text_asm
+	TX_ASM
 	ld hl, ViridianCityText_1920a
 	call PrintText
 	ld c, 2
@@ -278,50 +278,50 @@ ViridianCityText7:
 	call YesNoChoice
 	ld a, [wCurrentMenuItem]
 	and a
-	jr z, .refused
+	jr z, .asm_42f68
 	ld hl, ViridianCityText_1920f
 	call PrintText
 	ld a, $1
 	ld [wViridianCityCurScript], a
-	jr .done
-.refused
+	jr .asm_2413a
+.asm_42f68
 	ld hl, ViridianCityText_19214
 	call PrintText
-.done
+.asm_2413a
 	jp TextScriptEnd
 
 ViridianCityText_1920a:
-	text_far _ViridianCityText_1920a
-	text_end
+	TX_FAR _ViridianCityText_1920a
+	db "@"
 
 ViridianCityText_1920f:
-	text_far _ViridianCityText_1920f
-	text_end
+	TX_FAR _ViridianCityText_1920f
+	db "@"
 
 ViridianCityText_19214:
-	text_far _ViridianCityText_19214
-	text_end
+	TX_FAR _ViridianCityText_19214
+	db "@"
 
 ViridianCityText15:
-	text_far _ViridianCityText_19219
-	text_end
+	TX_FAR _ViridianCityText_19219
+	db "@"
 
 ViridianCityText8:
-	text_far _ViridianCityText8
-	text_end
+	TX_FAR _ViridianCityText8
+	db "@"
 
 ViridianCityText9:
-	text_far _ViridianCityText9
-	text_end
+	TX_FAR _ViridianCityText9
+	db "@"
 
 ViridianCityText10:
-	text_far _ViridianCityText10
-	text_end
+	TX_FAR _ViridianCityText10
+	db "@"
 
 ViridianCityText13:
-	text_far _ViridianCityText13
-	text_end
+	TX_FAR _ViridianCityText13
+	db "@"
 
 ViridianCityText14:
-	text_far _ViridianCityText14
-	text_end
+	TX_FAR _ViridianCityText14
+	db "@"

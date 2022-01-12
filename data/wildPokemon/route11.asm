@@ -1,0 +1,13 @@
+Route11Mons:
+	db $0F
+		db 14,PATRAT
+		db 15,PANSAGE
+		db 12,PANSEAR
+		db 9,TYMPOLE
+		db 13,PANPOUR
+		db 13,SOLOSIS
+		db 15,PATRAT
+		db 17,TYMPOLE
+		db 11,SOLOSIS
+		db 15,SOLOSIS
+	db $00

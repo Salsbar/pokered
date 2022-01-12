@@ -1,87 +1,89 @@
-BluesHouse_Script:
+BluesHouseScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, BluesHouse_ScriptPointers
+	ld hl, BluesHouseScriptPointers
 	ld a, [wBluesHouseCurScript]
 	jp CallFunctionInTable
 
-BluesHouse_ScriptPointers:
+BluesHouseScriptPointers:
 	dw BluesHouseScript0
 	dw BluesHouseScript1
 
 BluesHouseScript0:
 	SetEvent EVENT_ENTERED_BLUES_HOUSE
-	ld a, $1
+
+	; trigger the next script
+	ld a, 1
 	ld [wBluesHouseCurScript], a
 	ret
 
 BluesHouseScript1:
 	ret
 
-BluesHouse_TextPointers:
-	dw BluesHouseDaisySittingText
-	dw BluesHouseDaisyWalkingText
-	dw BluesHouseTownMapText
+BluesHouseTextPointers:
+	dw BluesHouseText1
+	dw BluesHouseText2
+	dw BluesHouseText3
 
-BluesHouseDaisySittingText:
-	text_asm
+BluesHouseText1:
+	TX_ASM
 	CheckEvent EVENT_GOT_TOWN_MAP
-	jr nz, .got_town_map
+	jr nz, .GotMap
 	CheckEvent EVENT_GOT_POKEDEX
-	jr nz, .give_town_map
+	jr nz, .GiveMap
 	ld hl, DaisyInitialText
 	call PrintText
 	jr .done
 
-.give_town_map
+.GiveMap
 	ld hl, DaisyOfferMapText
 	call PrintText
 	lb bc, TOWN_MAP, 1
 	call GiveItem
-	jr nc, .bag_full
+	jr nc, .BagFull
 	ld a, HS_TOWN_MAP
 	ld [wMissableObjectIndex], a
-	predef HideObject
+	predef HideObject ; hide table map object
 	ld hl, GotMapText
 	call PrintText
 	SetEvent EVENT_GOT_TOWN_MAP
 	jr .done
 
-.got_town_map
+.GotMap
 	ld hl, DaisyUseMapText
 	call PrintText
 	jr .done
 
-.bag_full
+.BagFull
 	ld hl, DaisyBagFullText
 	call PrintText
 .done
 	jp TextScriptEnd
 
 DaisyInitialText:
-	text_far _DaisyInitialText
-	text_end
+	TX_FAR _DaisyInitialText
+	db "@"
 
 DaisyOfferMapText:
-	text_far _DaisyOfferMapText
-	text_end
+	TX_FAR _DaisyOfferMapText
+	db "@"
 
 GotMapText:
-	text_far _GotMapText
-	sound_get_key_item
-	text_end
+	TX_FAR _GotMapText
+	TX_SFX_KEY_ITEM
+	db "@"
 
 DaisyBagFullText:
-	text_far _DaisyBagFullText
-	text_end
+	TX_FAR _DaisyBagFullText
+	db "@"
 
 DaisyUseMapText:
-	text_far _DaisyUseMapText
-	text_end
+	TX_FAR _DaisyUseMapText
+	db "@"
 
-BluesHouseDaisyWalkingText:
-	text_far _BluesHouseDaisyWalkingText
-	text_end
+BluesHouseText2: ; Daisy, walking around
+	TX_FAR _BluesHouseText2
+	db "@"
 
-BluesHouseTownMapText:
-	text_far _BluesHouseTownMapText
-	text_end
+BluesHouseText3: ; map on table
+	TX_FAR _BluesHouseText3
+	db "@"

@@ -1,8 +1,8 @@
-Route25_Script:
+Route25Script:
 	call Route25Script_515e1
 	call EnableAutoTextBoxDrawing
-	ld hl, Route25TrainerHeaders
-	ld de, Route25_ScriptPointers
+	ld hl, Route25TrainerHeader0
+	ld de, Route25ScriptPointers
 	ld a, [wRoute25CurScript]
 	call ExecuteCurMapScriptInTable
 	ld [wRoute25CurScript], a
@@ -35,12 +35,12 @@ Route25Script_515e1:
 	ld [wMissableObjectIndex], a
 	predef_jump ShowObject
 
-Route25_ScriptPointers:
+Route25ScriptPointers:
 	dw CheckFightingMapTrainers
 	dw DisplayEnemyTrainerTextAndStartBattle
 	dw EndTrainerBattle
 
-Route25_TextPointers:
+Route25TextPointers:
 	dw Route25Text1
 	dw Route25Text2
 	dw Route25Text3
@@ -53,190 +53,251 @@ Route25_TextPointers:
 	dw PickUpItemText
 	dw Route25Text11
 
-Route25TrainerHeaders:
-	def_trainers
 Route25TrainerHeader0:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_0, 2, Route25BattleText1, Route25EndBattleText1, Route25AfterBattleText1
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_0
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_0
+	dw Route25BattleText1 ; TextBeforeBattle
+	dw Route25AfterBattleText1 ; TextAfterBattle
+	dw Route25EndBattleText1 ; TextEndBattle
+	dw Route25EndBattleText1 ; TextEndBattle
+
 Route25TrainerHeader1:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_1, 3, Route25BattleText2, Route25EndBattleText2, Route25AfterBattleText2
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_1
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_1
+	dw Route25BattleText2 ; TextBeforeBattle
+	dw Route25AfterBattleText2 ; TextAfterBattle
+	dw Route25EndBattleText2 ; TextEndBattle
+	dw Route25EndBattleText2 ; TextEndBattle
+
 Route25TrainerHeader2:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_2, 3, Route25BattleText3, Route25EndBattleText3, Route25AfterBattleText3
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_2
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_2
+	dw Route25BattleText3 ; TextBeforeBattle
+	dw Route25AfterBattleText3 ; TextAfterBattle
+	dw Route25EndBattleText3 ; TextEndBattle
+	dw Route25EndBattleText3 ; TextEndBattle
+
 Route25TrainerHeader3:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_3, 2, Route25BattleText4, Route25EndBattleText4, Route25AfterBattleText4
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_3
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_3
+	dw Route25BattleText4 ; TextBeforeBattle
+	dw Route25AfterBattleText4 ; TextAfterBattle
+	dw Route25EndBattleText4 ; TextEndBattle
+	dw Route25EndBattleText4 ; TextEndBattle
+
 Route25TrainerHeader4:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_4, 4, Route25BattleText5, Route25EndBattleText5, Route25AfterBattleText5
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_4
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_4
+	dw Route25BattleText5 ; TextBeforeBattle
+	dw Route25AfterBattleText5 ; TextAfterBattle
+	dw Route25EndBattleText5 ; TextEndBattle
+	dw Route25EndBattleText5 ; TextEndBattle
+
 Route25TrainerHeader5:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_5, 4, Route25BattleText6, Route25EndBattleText6, Route25AfterBattleText6
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_5
+	db ($4 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_5
+	dw Route25BattleText6 ; TextBeforeBattle
+	dw Route25AfterBattleText6 ; TextAfterBattle
+	dw Route25EndBattleText6 ; TextEndBattle
+	dw Route25EndBattleText6 ; TextEndBattle
+
 Route25TrainerHeader6:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_6, 3, Route25BattleText7, Route25EndBattleText7, Route25AfterBattleText7
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_6
+	db ($3 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_6
+	dw Route25BattleText7 ; TextBeforeBattle
+	dw Route25AfterBattleText7 ; TextAfterBattle
+	dw Route25EndBattleText7 ; TextEndBattle
+	dw Route25EndBattleText7 ; TextEndBattle
+
 Route25TrainerHeader7:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_7, 2, Route25BattleText8, Route25EndBattleText8, Route25AfterBattleText8
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_7, 1
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_7, 1
+	dw Route25BattleText8 ; TextBeforeBattle
+	dw Route25AfterBattleText8 ; TextAfterBattle
+	dw Route25EndBattleText8 ; TextEndBattle
+	dw Route25EndBattleText8 ; TextEndBattle
+
 Route25TrainerHeader8:
-	trainer EVENT_BEAT_ROUTE_25_TRAINER_8, 2, Route25BattleText9, Route25EndBattleText9, Route25AfterBattleText9
-	db -1 ; end
+	dbEventFlagBit EVENT_BEAT_ROUTE_25_TRAINER_8, 1
+	db ($2 << 4) ; trainer's view range
+	dwEventFlagAddress EVENT_BEAT_ROUTE_25_TRAINER_8, 1
+	dw Route25BattleText9 ; TextBeforeBattle
+	dw Route25AfterBattleText9 ; TextAfterBattle
+	dw Route25EndBattleText9 ; TextEndBattle
+	dw Route25EndBattleText9 ; TextEndBattle
+
+	db $ff
 
 Route25Text1:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text2:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader1
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text3:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader2
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text4:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader3
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text5:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader4
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text6:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader5
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text7:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader6
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text8:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader7
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25Text9:
-	text_asm
+	TX_ASM
 	ld hl, Route25TrainerHeader8
 	call TalkToTrainer
 	jp TextScriptEnd
 
 Route25BattleText1:
-	text_far _Route25BattleText1
-	text_end
+	TX_FAR _Route25BattleText1
+	db "@"
 
 Route25EndBattleText1:
-	text_far _Route25EndBattleText1
-	text_end
+	TX_FAR _Route25EndBattleText1
+	db "@"
 
 Route25AfterBattleText1:
-	text_far _Route25AfterBattleText1
-	text_end
+	TX_FAR _Route25AfterBattleText1
+	db "@"
 
 Route25BattleText2:
-	text_far _Route25BattleText2
-	text_end
+	TX_FAR _Route25BattleText2
+	db "@"
 
 Route25EndBattleText2:
-	text_far _Route25EndBattleText2
-	text_end
+	TX_FAR _Route25EndBattleText2
+	db "@"
 
 Route25AfterBattleText2:
-	text_far _Route25AfterBattleText2
-	text_end
+	TX_FAR _Route25AfterBattleText2
+	db "@"
 
 Route25BattleText3:
-	text_far _Route25BattleText3
-	text_end
+	TX_FAR _Route25BattleText3
+	db "@"
 
 Route25EndBattleText3:
-	text_far _Route25EndBattleText3
-	text_end
+	TX_FAR _Route25EndBattleText3
+	db "@"
 
 Route25AfterBattleText3:
-	text_far _Route25AfterBattleText3
-	text_end
+	TX_FAR _Route25AfterBattleText3
+	db "@"
 
 Route25BattleText4:
-	text_far _Route25BattleText4
-	text_end
+	TX_FAR _Route25BattleText4
+	db "@"
 
 Route25EndBattleText4:
-	text_far _Route25EndBattleText4
-	text_end
+	TX_FAR _Route25EndBattleText4
+	db "@"
 
 Route25AfterBattleText4:
-	text_far _Route25AfterBattleText4
-	text_end
+	TX_FAR _Route25AfterBattleText4
+	db "@"
 
 Route25BattleText5:
-	text_far _Route25BattleText5
-	text_end
+	TX_FAR _Route25BattleText5
+	db "@"
 
 Route25EndBattleText5:
-	text_far _Route25EndBattleText5
-	text_end
+	TX_FAR _Route25EndBattleText5
+	db "@"
 
 Route25AfterBattleText5:
-	text_far _Route25AfterBattleText5
-	text_end
+	TX_FAR _Route25AfterBattleText5
+	db "@"
 
 Route25BattleText6:
-	text_far _Route25BattleText6
-	text_end
+	TX_FAR _Route25BattleText6
+	db "@"
 
 Route25EndBattleText6:
-	text_far _Route25EndBattleText6
-	text_end
+	TX_FAR _Route25EndBattleText6
+	db "@"
 
 Route25AfterBattleText6:
-	text_far _Route25AfterBattleText6
-	text_end
+	TX_FAR _Route25AfterBattleText6
+	db "@"
 
 Route25BattleText7:
-	text_far _Route25BattleText7
-	text_end
+	TX_FAR _Route25BattleText7
+	db "@"
 
 Route25EndBattleText7:
-	text_far _Route25EndBattleText7
-	text_end
+	TX_FAR _Route25EndBattleText7
+	db "@"
 
 Route25AfterBattleText7:
-	text_far _Route25AfterBattleText7
-	text_end
+	TX_FAR _Route25AfterBattleText7
+	db "@"
 
 Route25BattleText8:
-	text_far _Route25BattleText8
-	text_end
+	TX_FAR _Route25BattleText8
+	db "@"
 
 Route25EndBattleText8:
-	text_far _Route25EndBattleText8
-	text_end
+	TX_FAR _Route25EndBattleText8
+	db "@"
 
 Route25AfterBattleText8:
-	text_far _Route25AfterBattleText8
-	text_end
+	TX_FAR _Route25AfterBattleText8
+	db "@"
 
 Route25BattleText9:
-	text_far _Route25BattleText9
-	text_end
+	TX_FAR _Route25BattleText9
+	db "@"
 
 Route25EndBattleText9:
-	text_far _Route25EndBattleText9
-	text_end
+	TX_FAR _Route25EndBattleText9
+	db "@"
 
 Route25AfterBattleText9:
-	text_far _Route25AfterBattleText9
-	text_end
+	TX_FAR _Route25AfterBattleText9
+	db "@"
 
 Route25Text11:
-	text_far _Route25Text11
-	text_end
+	TX_FAR _Route25Text11
+	db "@"

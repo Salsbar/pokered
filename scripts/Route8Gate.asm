@@ -1,10 +1,10 @@
-Route8Gate_Script:
+Route8GateScript:
 	call EnableAutoTextBoxDrawing
-	ld hl, Route8Gate_ScriptPointers
+	ld hl, Route8GateScriptPointers
 	ld a, [wRoute8GateCurScript]
 	jp CallFunctionInTable
 
-Route8Gate_ScriptPointers:
+Route8GateScriptPointers:
 	dw Route8GateScript0
 	dw Route8GateScript1
 
@@ -16,7 +16,7 @@ Route8GateScript_1e1d7:
 	ld a, $1
 	ld [wSimulatedJoypadStatesIndex], a
 	xor a
-	ld [wSpritePlayerStateData2MovementByte1], a
+	ld [wSpriteStateData2 + $06], a
 	ld [wOverrideSimulatedJoypadStatesMask], a
 	ret
 
@@ -30,13 +30,13 @@ Route8GateScript0:
 	ld a, PLAYER_DIR_LEFT
 	ld [wPlayerMovingDirection], a
 	xor a
-	ldh [hJoyHeld], a
-	farcall RemoveGuardDrink
-	ldh a, [hItemToRemoveID]
+	ld [hJoyHeld], a
+	callba RemoveGuardDrink
+	ld a, [$ffdb]
 	and a
 	jr nz, .asm_1e220
 	ld a, $2
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	call DisplayTextID
 	call Route8GateScript_1e1d7
 	ld a, $1
@@ -46,13 +46,13 @@ Route8GateScript0:
 	ld hl, wd728
 	set 6, [hl]
 	ld a, $3
-	ldh [hSpriteIndexOrTextID], a
+	ld [hSpriteIndexOrTextID], a
 	jp DisplayTextID
 
 CoordsData_1e22c:
-	dbmapcoord  2,  3
-	dbmapcoord  2,  4
-	db -1 ; end
+	db 3,2
+	db 4,2
+	db $ff
 
 Route8GateScript1:
 	ld a, [wSimulatedJoypadStatesIndex]
@@ -64,7 +64,7 @@ Route8GateScript1:
 	ld [wRoute8GateCurScript], a
 	ret
 
-Route8Gate_TextPointers:
+Route8GateTextPointers:
 	dw Route8GateText1
 	dw Route8GateText2
 	dw Route8GateText3

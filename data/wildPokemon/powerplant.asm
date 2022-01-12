@@ -1,0 +1,13 @@
+PowerPlantMons:
+	db $0A
+	db 21,BLITZLE
+	db 21,JOLTIK
+	db 20,KLINK
+	db 24,JOLTIK
+	db 23,BLITZLE
+	db 23,TYNAMO
+	db 32,EMOLGA
+	db 35,TYNAMO
+	db 33,ZEBSTRIKA
+	db 36,GALVANTULA
+	db $00

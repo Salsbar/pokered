@@ -1,36 +1,36 @@
+SFX_Save_3_Ch4:
+	duty 2
+IF DEF(_RED)
+	unknownsfx0x20 4, 244, 0, 7
+	unknownsfx0x20 3, 228, 128, 6
+	unknownsfx0x20 3, 228, 192, 6
+	unknownsfx0x20 3, 228, 0, 7
+	unknownsfx0x20 2, 228, 160, 7
+ELSE
+	unknownsfx0x20 3, 228, 0, 6
+	unknownsfx0x20 3, 228, 128, 6
+	unknownsfx0x20 3, 228, 192, 6
+	unknownsfx0x20 3, 228, 0, 7
+	unknownsfx0x20 15, 242, 224, 7
+ENDC
+	endchannel
+
+
 SFX_Save_3_Ch5:
-	duty_cycle 2
+	duty 2
 IF DEF(_RED)
-	square_note 4, 15, 4, 1792
-	square_note 3, 14, 4, 1664
-	square_note 3, 14, 4, 1728
-	square_note 3, 14, 4, 1792
-	square_note 2, 14, 4, 1952
+	unknownsfx0x20 4, 8, 0, 0
+	unknownsfx0x20 3, 212, 1, 7
+	unknownsfx0x20 3, 196, 129, 6
+	unknownsfx0x20 3, 196, 193, 6
+	unknownsfx0x20 3, 196, 1, 7
+	unknownsfx0x20 2, 196, 161, 7
 ELSE
-	square_note 3, 14, 4, 1536
-	square_note 3, 14, 4, 1664
-	square_note 3, 14, 4, 1728
-	square_note 3, 14, 4, 1792
-	square_note 15, 15, 2, 2016
+	unknownsfx0x20 3, 8, 0, 0
+	unknownsfx0x20 3, 196, 1, 6
+	unknownsfx0x20 3, 196, 129, 6
+	unknownsfx0x20 3, 196, 193, 6
+	unknownsfx0x20 3, 196, 1, 7
+	unknownsfx0x20 15, 210, 225, 7
 ENDC
-	sound_ret
-
-
-SFX_Save_3_Ch6:
-	duty_cycle 2
-IF DEF(_RED)
-	square_note 4, 0, 8, 0
-	square_note 3, 13, 4, 1793
-	square_note 3, 12, 4, 1665
-	square_note 3, 12, 4, 1729
-	square_note 3, 12, 4, 1793
-	square_note 2, 12, 4, 1953
-ELSE
-	square_note 3, 0, 8, 0
-	square_note 3, 12, 4, 1537
-	square_note 3, 12, 4, 1665
-	square_note 3, 12, 4, 1729
-	square_note 3, 12, 4, 1793
-	square_note 15, 13, 2, 2017
-ENDC
-	sound_ret
+	endchannel

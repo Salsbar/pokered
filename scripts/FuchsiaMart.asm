@@ -1,15 +1,15 @@
-FuchsiaMart_Script:
+FuchsiaMartScript:
 	jp EnableAutoTextBoxDrawing
 
-FuchsiaMart_TextPointers:
+FuchsiaMartTextPointers:
 	dw FuchsiaCashierText
 	dw FuchsiaMartText2
 	dw FuchsiaMartText3
 
 FuchsiaMartText2:
-	text_far _FuchsiaMartText2
-	text_end
+	TX_FAR _FuchsiaMartText2
+	db "@"
 
 FuchsiaMartText3:
-	text_far _FuchsiaMartText3
-	text_end
+	TX_FAR _FuchsiaMartText3
+	db "@"
